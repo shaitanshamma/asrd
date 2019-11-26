@@ -110,12 +110,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.1</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/asrd?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</url>
-                    <user>geek</user>
-                    <password>geek</password>
-                    <schemas>
-                        <schema>asrd</schema>
-                    </schemas>
+                    <configFile>src/main/resources/flyway.conf</configFile>
                 </configuration>
             </plugin>
         </plugins>
