@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Каталог систем</title>
+
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(System)}"></div>
+
+<div class="container">
+    <br>
+    <h1>Каталог систем</h1>
+    <span th:if="${systems.size() == 0}" th:text="'Систем нет'" ></span>
+
+    <table th:unless="${systems.size() == 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Дата изготовления</th>
+            <th>Название системы</th>
+            <th>Номер</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="system : ${systems}" th:attr="sys_id=${system.id}">
+            <td th:text="${system.vintage}"/>
+            <td th:text="${system.title.getTitle()}"/>
+            <td th:text="${system.number}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Каталог накладных</title>
+
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(System)}"></div>
+
+<div class="container">
+    <br>
+    <h1>Каталог накладных</h1>
+    <span th:if="${invoices.size() == 0}" th:text="'Систем нет'" ></span>
+
+    <table th:unless="${invoices.size() == 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Номер</th>
+            <th>Дата</th>
+            <th>Путь к файлу</th>
+            <th>Отправитель</th>
+            <th>Получатель</th>
+            <th>Описание</th>
+            <th>Статус</th>
+            <th>Дата добавления</th>
+            <th>Дата обновления</th>
+            <th>Пользователь</th>
+            <th>Дополнительно</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="invoice : ${invoices}" th:attr="sys_id=${invoice.id}">
+            <td th:text="${invoice.id}"/>
+            <td th:text="${invoice.number}"/>
+            <td th:text="${invoice.date}"/>
+            <td th:text="${invoice.path}"/>
+            <td th:text="${invoice.from.getTitle()}"/>
+            <td th:text="${invoice.destination.getTitle()}"/>
+            <td th:text="${invoice.description}"/>
+            <td th:text="${invoice.entityStatus}"/>
+            <td th:text="${invoice.createdAt}"/>
+            <td th:text="${invoice.updatedAt}"/>
+            <td th:text="${invoice.user.getUserName()}"/>
+            <td>
+                <a th:href="@{'invoice/' + ${invoice.id}}" class="btn btn-primary">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

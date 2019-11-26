@@ -1,0 +1,13 @@
+package com.kropotov.asrd.repositories;
+
+import com.kropotov.asrd.entities.ControlSystem;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
+
+// При сборке сервиса создаст имлементацию интерфейса с соответствующими полями, которые будут содержать стандартную реализацию обращений к БД
+// Можно дописывать свои методы
+@Repository
+public interface SystemRepository extends PagingAndSortingRepository<ControlSystem, Long> {
+    ControlSystem findOneByTitle(Long title_id);
+}

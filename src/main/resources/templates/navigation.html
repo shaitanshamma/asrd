@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="fluid-container" th:fragment="navi(activeTab)">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary ">
+        <a class="navbar-brand" href="#">АСРД</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item" th:classappend="${activeTab == 'Home' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/}">Главная<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" th:classappend="${activeTab == 'System' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/system/all}">Системы<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" th:classappend="${activeTab == 'Invoice' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/invoice/}">Накладные<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" th:classappend="${activeTab == 'Company' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/company/}">Компании<span class="sr-only">(current)</span></a>
+                </li>
+                <div sec:authorize="isAuthenticated()">
+                    <li class="nav-item">
+                        <form th:action="@{/logout}" method="POST">
+                            <input type="submit" class="btn btn-danger" value="Logout"/>
+                        </form>
+                    </li>
+                </div>
+                <!--<div sec:authorize="isAnonymous()">-->
+            </ul>
+        </div>
+    </nav>
+    <div class="visible-md" style="height:80px;"></div>
+</div>
+
+</body>
+</html>
