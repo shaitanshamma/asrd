@@ -23,7 +23,7 @@ public class CompanyController {
 
     @GetMapping("")
     public String showCompany(Model model) {
-        List<Company> companies = companyService.getAllCompany();
+        List<Company> companies = companyService.findAll();
         model.addAttribute("companies", companies);
         return "company-page";
     }

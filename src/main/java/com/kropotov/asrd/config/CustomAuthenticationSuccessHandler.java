@@ -34,7 +34,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		HttpSession session = request.getSession(); // запрос сессии
 		session.setAttribute("user", theUser);
 		if (!request.getHeader("referer").contains("login")) {
-			response.sendRedirect(request.getHeader("referer"));
+			response.sendRedirect(request.getHeader("referer")); // refer возвращает туда откуда пришел пользователь
 		} else {
 			response.sendRedirect(request.getContextPath() + "/");
 		}

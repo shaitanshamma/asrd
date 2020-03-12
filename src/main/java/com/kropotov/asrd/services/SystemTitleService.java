@@ -16,7 +16,7 @@ public class SystemTitleService {
         this.systemTitleRepository = systemTitleRepository;
     }
 
-    public List<SystemTitle> getAllTitles(){
+    public List<SystemTitle> getAll(){
         return (List<SystemTitle>) systemTitleRepository.findAll();
     }
 }

@@ -16,12 +16,12 @@
 
 <body>
 
-<div th:replace="~{navigation :: navi(System)}"></div>
+<div th:replace="~{navigation :: navi(Invoice)}"></div>
 
 <div class="container">
     <br>
     <h1>Каталог накладных</h1>
-    <span th:if="${invoices.size() == 0}" th:text="'Систем нет'" ></span>
+    <span th:if="${invoices.size() == 0}" th:text="'Накладных нет'" ></span>
 
     <table th:unless="${invoices.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
@@ -54,7 +54,7 @@
             <td th:text="${invoice.updatedAt}"/>
             <td th:text="${invoice.user.getUserName()}"/>
             <td>
-                <a th:href="@{'invoice/' + ${invoice.id}}" class="btn btn-primary">Изменить</a>
+                <a th:href="@{${invoice.id}}" class="btn btn-primary">Изменить</a>
             </td>
         </tr>
         </tbody>

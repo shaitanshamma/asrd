@@ -23,7 +23,7 @@ public class SystemControllerTest {
 
 
     @RequestMapping(value = "/systemTest/all", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
-    public List<ControlSystem> getAllSystems() {
-        return systemService.getAllControlSystems();
+    public List<ControlSystem> getAll() {
+        return systemService.getAll();
     }
 }

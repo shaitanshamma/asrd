@@ -20,16 +20,16 @@ public class SystemService {
         this.systemRepository = systemRepository;
     }
 
-    public List<ControlSystem> getAllControlSystems() {
+    public List<ControlSystem> getAll() {
         log.info("Get all systems");
         return (List<ControlSystem>)(systemRepository.findAll());
     }
 
-    public ControlSystem findByTitle(SystemTitle title) {
-        return systemRepository.findOneByTitle(title.getId());
+    public ControlSystem getByTitle(SystemTitle title) {
+        return systemRepository.findOneByTitle(title);
     }
 
-    public ControlSystem findById(Long id) {
+    public ControlSystem getById(Long id) {
         return systemRepository.findById(id).orElse(null);
     }
 

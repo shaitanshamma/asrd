@@ -1,20 +1,25 @@
 package com.kropotov.asrd.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "systems")
 public class ControlSystem {
 
@@ -25,8 +30,9 @@ public class ControlSystem {
 
         Status (String entity_status) {this.entity_status = entity_status;}
     }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // генерируем данное значение как последовательность
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // генерируем данное значение как primary key auto-increment из БД
     @Column(name = "id")
     private Long id;
 
@@ -48,14 +54,14 @@ public class ControlSystem {
     @Column(name = "vintage")
     private LocalDate vintage;
 
-    @Column(name = "vp")
-    private int vp;
+    @Column(name = "vp_number")
+    private int vpNumber;
 
-    @Column(name = "accept_otk")
-    private LocalDate acceptOTK;
+    @Column(name = "accept_otk_date")
+    private LocalDate otkDate;
 
-    @Column(name = "accept_vp")
-    private LocalDate acceptVP;
+    @Column(name = "accept_vp_date")
+    private LocalDate vpDate;
 
     @Column(name = "entity_status")
     private String entityStatus;
@@ -100,9 +106,9 @@ public class ControlSystem {
                 ", purpose='" + purpose + '\'' +
                 ", purposePassport='" + purposePassport + '\'' +
                 ", vintage=" + vintage +
-                ", vp=" + vp +
-                ", acceptOTK=" + acceptOTK +
-                ", acceptVP=" + acceptVP +
+                ", vp=" + vpNumber +
+                ", acceptOTK=" + otkDate +
+                ", acceptVP=" + vpDate +
                 ", entityStatus='" + entityStatus + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

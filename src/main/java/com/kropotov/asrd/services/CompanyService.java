@@ -16,7 +16,7 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> getAllCompany() {
+    public List<Company> findAll() {
         return (List<Company>) companyRepository.findAll();
     }
 

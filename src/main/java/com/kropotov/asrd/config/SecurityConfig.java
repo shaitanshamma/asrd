@@ -46,19 +46,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // authenticateTheUser - адрес куда отправялюсят данные пользователя при входе в систему
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+        http
+                .authorizeRequests()
+                    //.antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers( "/", "/**", "/static").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/authenticateTheUser")
-                .successHandler(customAuthenticationSuccessHandler)
-                .permitAll()
+                    .formLogin()
+//                    .loginPage("/login")
+//                    .loginProcessingUrl("/authenticateTheUser")
+//                    .successHandler(customAuthenticationSuccessHandler)
+                    .permitAll()
                 .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .permitAll();
+                    .logout()
+                    .logoutSuccessUrl("/")
+                    .permitAll();
     }
 
     // шифрование паролей BCrypt

@@ -190,13 +190,13 @@ CREATE TABLE systems
     purpose          VARCHAR(64)          DEFAULT NULL,
     purpose_passport VARCHAR(64)          DEFAULT NULL,
     vintage          DATE                 DEFAULT NULL,
-    vp               INT(11)              DEFAULT NULL,
-    accept_otk       DATE                 DEFAULT NULL,
-    accept_vp        DATE                 DEFAULT NULL,
+    vp_number        INT(11)              DEFAULT NULL,
+    accept_otk_date  DATE                 DEFAULT NULL,
+    accept_vp_date   DATE                 DEFAULT NULL,
     entity_status    VARCHAR(16)          DEFAULT 'active',
-    created_at       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    user_id          INT(11)     NOT NULL,
+    created_at       DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    updated_at       DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    user_id          INT(11)     ,
     PRIMARY KEY (id),
     CONSTRAINT FK_TITLE_SYSTEM_ID_02 FOREIGN KEY (title_system_id)
         REFERENCES system_titles (id)
@@ -771,7 +771,7 @@ VALUES ('тест 1'),
 
 
 
-INSERT INTO systems (title_system_id, number, purpose, purpose_passport, vintage, vp, accept_otk, accept_vp, user_id)
-VALUES ('1', '0354552', 'Испытания', 'не падать', '2000-1-1', 45, '2000-1-1', '200-1-1', '1');
+INSERT INTO systems (title_system_id, number, purpose, purpose_passport, vintage, vp_number, accept_otk_date, accept_vp_date, user_id)
+VALUES ('1', '0354552', 'Испытания', 'не падать', '2000-1-1', 45, '2000-1-1', '2000-1-1', '1');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -1,5 +1,6 @@
 package com.kropotov.asrd.services;
 
+import com.kropotov.asrd.entities.Company;
 import com.kropotov.asrd.entities.Invoice;
 import com.kropotov.asrd.repositories.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,17 @@ public class InvoiceService {
         this.invoiceRepository = invoiceRepository;
     }
 
-    public List<Invoice> getAllInvoices() {
+    public List<Invoice> findAll() {
         return (List<Invoice>) (invoiceRepository.findAll());
+    }
+
+    public Invoice findById(Long id) { return invoiceRepository.findById(id).orElse(null); }
+
+    public boolean isInvoiceWithNumberExists(String number) {
+        return invoiceRepository.findOneByNumber(number) != null;
+    }
+
+    public Invoice saveOrUpdate(Invoice invoice) {
+        return invoiceRepository.save(invoice);
     }
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Systems)"></nav>
+
+<div class="container">
+    <br>
+    <h1>Каталог систем</h1>
+    <hr>
+
+    <a th:href="@{/systems/0}"
+       class="btn btn-primary btn-sm mb-3">
+        Добавить
+    </a>
+
+    <span th:if="${systems.size() == 0}" th:text="'Систем нет'" ></span>
+
+    <table th:unless="${systems.size() == 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Дата изготовления</th>
+            <th>Название системы</th>
+            <th>Номер</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="system, i : ${systems}" th:attr="sys_id=${system.id}">
+            <td th:text="${i.count}"/>
+            <td th:text="${system.vintage}"/>
+            <td th:text="${system.title.getTitle()}"/>
+            <td th:text="${system.number}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
