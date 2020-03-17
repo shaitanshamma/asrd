@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Companies)"></nav>
+
+<div class="container">
+    <br>
+    <h1>Каталог предприятий</h1>
+    <hr>
+    <div>
+        <a th:href="@{companies/0}"
+           class="btn btn-primary btn-sm mb-3">
+            Добавить
+        </a>
+    </div>
+    <span th:if="${companies.size() == 0}" th:text="'Компаний нет'"></span>
+
+    <table th:unless="${companies.size() == 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Доп. информация(TODO)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="company : ${companies}" th:attr="sys_id=${company.id}"
+            th:onclick="'window.location.href=\'companies/' + ${company.id} + '\'; return false'">
+            <td th:text="${company.id}"/>
+            <td th:text="${company.title}"/>
+            <td>
+                <a th:href="@{'/info/' + ${company.id}}">"Информация"</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

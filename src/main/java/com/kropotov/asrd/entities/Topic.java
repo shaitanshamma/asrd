@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "topic_titles")
 @Data
 @NoArgsConstructor
-public class TopicTitle {
+public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,7 +22,7 @@ public class TopicTitle {
     @Column(name = "path")
     private String path;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "topic_titles_system_titles",
             joinColumns = @JoinColumn(name = "topic_titles_id"),

@@ -1,5 +1,7 @@
 package com.kropotov.asrd.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +31,7 @@ public class SystemTitle {
     private String path;
 
     @OneToMany(mappedBy = "title"/*, fetch = FetchType.LAZY*/) // fetch - доставать либо не доставать список со всеми зависимостями при запросе SystemTitle
+    @JsonIgnore
     private List<ControlSystem> systems;
 
     @ManyToMany
@@ -37,7 +40,8 @@ public class SystemTitle {
             joinColumns = @JoinColumn(name = "system_titles_id"),
             inverseJoinColumns = @JoinColumn(name = "topic_titles_id")
     )
-    private List<TopicTitle> systemTitles;
+    @JsonBackReference
+    private List<Topic> topics;
 
     @ManyToMany
     @JoinTable(

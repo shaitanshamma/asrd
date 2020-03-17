@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html>
 
 <head th:fragment="header">
     <!-- Required meta tags -->
@@ -18,7 +18,7 @@
 
 
 <nav th:fragment = "navbar(activeTab)" class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark ">
-    <a class="navbar-brand" href="@{/}">АСРД</a>
+    <a class="navbar-brand" th:href="@{/}">АСРД</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

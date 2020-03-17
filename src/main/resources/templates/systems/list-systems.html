@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="layouts :: header"></head>
 
@@ -17,7 +17,7 @@
         Добавить
     </a>
 
-    <span th:if="${systems.size() == 0}" th:text="'Систем нет'" ></span>
+    <span th:if="${systems.size() == 0}" th:text="'Систем нет'"></span>
 
     <table th:unless="${systems.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
@@ -26,11 +26,11 @@
             <th>Дата изготовления</th>
             <th>Название системы</th>
             <th>Номер</th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="system, i : ${systems}" th:attr="sys_id=${system.id}">
+        <tr th:each="system, i : ${systems}" th:attr="sys_id=${system.id}"
+            th:onclick="'window.location.href=\'systems/' + ${system.id} + '\'; return false'">
             <td th:text="${i.count}"/>
             <td th:text="${system.vintage}"/>
             <td th:text="${system.title.getTitle()}"/>
@@ -39,6 +39,6 @@
         </tbody>
     </table>
 </div>
-
+<div th:replace="layouts :: footer"></div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.kropotov.asrd.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,11 +27,16 @@ public class DeviceTitle {
     @Column(name = "path")
     private String path;
 
+    @OneToMany(mappedBy = "title", fetch = FetchType.LAZY) // fetch - доставать либо не доставать список со всеми зависимостями при запросе SystemTitle
+    @JsonIgnore
+    private List<Device> devices;
+
     @ManyToMany
     @JoinTable(
             name = "system_titles_device_titles",
             joinColumns = @JoinColumn(name = "device_titles_id"),
             inverseJoinColumns = @JoinColumn(name = "system_titles_id")
     )
+    @JsonIgnore
     private List<SystemTitle> systemTitles;
 }

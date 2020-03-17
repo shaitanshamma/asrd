@@ -745,6 +745,13 @@ INSERT INTO system_titles (title, path)
 VALUES ('К-001Р', 'k-001r/'),
        ('БСУ-506', 'bsu-506/');
 
+INSERT INTO topic_titles_system_titles
+VALUES (1, 1),
+       (2, 2);
+
+
+
+
 INSERT INTO system_components_titles (title, path)
 VALUES ('МБП-001', 'mbp-001/');
 
@@ -757,6 +764,16 @@ VALUES ('Ц-009Р', 'c-009r/'),
        ('ТПС-715', 'tps-715/'),
        ('ОЭС-715', 'oes-715/'),
        ('СИБ-506', 'sib-506/');
+
+INSERT INTO system_titles_device_titles
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5),
+       (2, 6),
+       (2, 7),
+       (2, 8);
 
 INSERT INTO device_components_titles (title, title_device_id)
 VALUES ('СИВД-Р', 1),

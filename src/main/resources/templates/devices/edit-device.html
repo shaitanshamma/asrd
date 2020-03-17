@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Devices)"></nav>
+<div class="container">
+    <div class="form-group">
+        <div class="col-xs-15">
+            <div th:if="${systemCreationError != null}">
+                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    <span th:text="${systemCreationError}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <form class="form-horizontal" th:action="@{/systems/edit}" th:object="${system}" method="post">
+        <input type="hidden" th:field="*{id}" class="form-control" id="systemId">
+
+        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+
+        <div class="col-auto">
+            <label for="productTitle-id">Название</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-rocket" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <select class="custom-select" id="productTitle-id" th:field="*{title}">
+                    <option th:each="t : ${systemTitles}"
+                            th:value="${t.id}"
+                            th:text="${t.title}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
+
+        <div class="col-auto">
+            <label for="number-id">Номер</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <input th:field="*{number}" type="text" class="form-control" id="number-id"
+                       placeholder="Введите номер системы">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="strVintage-id">Дата изготовления</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <input type="text" class="form-date" name="strVintage"
+                       id="strVintage-id" th:value="${strVintage}" placeholder="дд.мм.гггг">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="strOtkDate-id">Дата приемки отк</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <input type="text" class="form-date" name="strOtkDate" id="strOtkDate-id" th:value="${strOtkDate}"
+                       placeholder="дд.мм.гггг">
+            </div>
+        </div>
+        <div class="col-auto">
+            <label for="strVpDate-id">Дата приемки ВП</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+                <input type="text" class="form-date" name="strVpDate" id="strVpDate-id" th:value="${strVpDate}"
+                       placeholder="дд.мм.гггг">
+            </div>
+        </div>
+        <div class="col-auto">
+            <label for="vpNumber-id">Военное представительство</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <input type="text" class="form-control" name="strVpDate" id="vpNumber-id" th:field="*{vpNumber}">
+            </div>
+        </div>
+        <div class="col-auto">
+            <label for="purpose-id">Назначение</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-archive" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <input type="text" class="form-control" name="strVpDate" id="purpose-id" th:field="*{purpose}">
+            </div>
+        </div>
+        <div class="col-auto">
+            <label for="purposePassport-id">Назначение по паспорту</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-archive" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <input type="text" class="form-control" name="strVpDate" id="purposePassport-id" th:field="*{purposePassport}">
+            </div>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+
+<div th:replace="layouts :: footer"></div>
+<div th:replace="layouts :: date"></div>
+</body>
+</html>

@@ -1,11 +1,11 @@
 package com.kropotov.asrd.controllers;
 
 import com.kropotov.asrd.entities.Invoice;
-import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.Topic;
 import com.kropotov.asrd.services.CompanyService;
 import com.kropotov.asrd.services.InvoiceService;
+import com.kropotov.asrd.services.TopicService;
 import com.kropotov.asrd.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,37 +13,29 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
 @RequestMapping("/invoices")
 public class InvoiceController {
-    private InvoiceService invoiceService;
-    private CompanyService companyService;
-    private UserService userService;
+    private final InvoiceService invoiceService;
+    private final CompanyService companyService;
+    private final UserService userService;
+    private final TopicService topicService;
 
-    @Autowired
-    public void setInvoiceService(InvoiceService invoiceService) {
+    public InvoiceController(InvoiceService invoiceService, CompanyService companyService, UserService userService, TopicService topicService) {
         this.invoiceService = invoiceService;
-    }
-
-    @Autowired
-    public void setCompanyService(CompanyService companyService) {
         this.companyService = companyService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
         this.userService = userService;
+        this.topicService = topicService;
     }
 
     @GetMapping
     public String invoicePage(Model model) {
         List<Invoice> invoices = invoiceService.findAll();
         model.addAttribute("invoices", invoices);
-        return "invoice-page";
+        return "invoices/list-invoices";
     }
 
     @GetMapping("/{id}")
@@ -56,13 +48,25 @@ public class InvoiceController {
             invoice = new Invoice();
             invoice.setId(0L);
         }
+        if (invoice.getDate() != null) {
+            model.addAttribute("strInvoiceDate", invoice.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        }
+
+        Iterable<Topic> topicTitleList = topicService.getAll();
+        model.addAttribute("topicTitleList", topicTitleList);
+        model.addAttribute("itemNumber", new String());
         model.addAttribute("invoice", invoice);
         model.addAttribute("companies", companyService.findAll());
-        return "edit-invoice";
+        return "invoices/edit-invoice";
     }
 
     @PostMapping("")
-    public String saveModifiedInvoice(@Valid @ModelAttribute("invoice") Invoice invoice, BindingResult bindingResult, Model model, Principal principal) {
+    public String saveModifiedInvoice(@Valid @ModelAttribute("invoice") Invoice invoice,
+                                      @RequestParam("itemNumber") String itemNumber,
+                                      @RequestParam("strInvoiceDate") String strInvoiceDate,
+                                      BindingResult bindingResult,
+                                      Model model,
+                                      Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }
@@ -71,7 +75,7 @@ public class InvoiceController {
             model.addAttribute("invoice", invoice);
             model.addAttribute("invoiceCreationError", "Накладная с таким номером уже существует");
             model.addAttribute("companies", companyService.findAll());
-            return "edit-invoice";
+            return "invoices/edit-invoice";
         }
 
         if (bindingResult.hasErrors()) {
@@ -87,6 +91,6 @@ public class InvoiceController {
         invoice.setPath("/path");
         invoice.setEntityStatus("active");
         invoiceService.saveOrUpdate(invoice);
-        return "redirect:/invoice/";
+        return "redirect:/invoices";
     }
 }
