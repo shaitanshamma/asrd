@@ -4,6 +4,9 @@
 /build/www/**
 /src/test/javascript/coverage/
 /src/test/javascript/PhantomJS*/
+/src/main/resources/flyway.conf
+/src/main/resources/private.properties
+
 
 ######################
 # Node
@@ -52,8 +55,8 @@ local.properties
 ######################
 # Intellij
 ######################
-.idea/
-*.iml
+#.idea/
+#*.iml
 *.iws
 *.ipr
 *.ids
