@@ -16,4 +16,8 @@ public class DeviceTitleService {
     public Iterable<DeviceTitle> getAll() {
         return deviceTitleRepository.findAll();
     }
+
+    public DeviceTitle getById(Long id) {
+        return deviceTitleRepository.findById(id).get();
+    }
 }

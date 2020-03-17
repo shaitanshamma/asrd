@@ -26,7 +26,7 @@ public class Invoice {
     private String number;
 
     @Column (name = "invoice_date")
-    @NotNull(message = "is required")
+    //@NotNull(message = "is required")
     // TODO формат даты @Size(min = 1, message = "Date length must have format '2001-3-15'")
     private LocalDate date; // TODO
 
@@ -69,5 +69,14 @@ public class Invoice {
     )
     @JsonBackReference
     private List<ControlSystem> systems;
+
+    @ManyToMany
+    @JoinTable (
+            name = "invoice_id_device_id",
+            joinColumns = @JoinColumn(name = "invoice_id"),
+            inverseJoinColumns = @JoinColumn(name = "device_id")
+    )
+    @JsonBackReference
+    private List<Device> devices;
 
 }

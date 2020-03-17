@@ -388,7 +388,7 @@ CREATE TABLE invoices
     path            VARCHAR(255) NOT NULL,
     from_company_id INT(11)      NOT NULL,
     destination_id  INT(11)      NOT NULL,
-    description     VARCHAR(255) NOT NULL,
+    description     VARCHAR(255) ,
     entity_status   VARCHAR(16)           DEFAULT 'active',
     created_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,

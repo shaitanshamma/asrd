@@ -1,6 +1,7 @@
 package com.kropotov.asrd.services;
 
 import com.kropotov.asrd.entities.Device;
+import com.kropotov.asrd.entities.DeviceTitle;
 import com.kropotov.asrd.repositories.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,9 @@ public class DeviceService {
 
     public Device saveOrUpdate(Device device) {
         return deviceRepository.save(device);
+    }
+
+    public Device getByNumberAndTitle(String number, DeviceTitle title) {
+        return deviceRepository.findByNumberAndTitle(number, title);
     }
 }

@@ -1,6 +1,7 @@
 package com.kropotov.asrd.services;
 
 import com.kropotov.asrd.entities.ControlSystem;
+import com.kropotov.asrd.entities.SystemTitle;
 import com.kropotov.asrd.repositories.SystemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,9 @@ public class SystemService {
 
     public ControlSystem saveOrUpdate(ControlSystem system) {
         return systemRepository.save(system);
+    }
+
+    public ControlSystem getByNumberAndTitle(String number, SystemTitle title) {
+        return systemRepository.findByNumberAndTitle(number, title);
     }
 }

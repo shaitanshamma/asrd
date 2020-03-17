@@ -5,22 +5,15 @@ import com.kropotov.asrd.entities.SystemTitle;
 import com.kropotov.asrd.services.SystemService;
 import com.kropotov.asrd.services.SystemTitleService;
 import com.kropotov.asrd.services.UserService;
-
-import com.kropotov.asrd.utils.DateConversion;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.security.Principal;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.List;
 
 
@@ -75,7 +68,7 @@ public class SystemController {
                              @RequestParam("strVintage") String strVintage,
                              @RequestParam("strOtkDate") String strOtkDate,
                              @RequestParam("strVpDate") String strVpDate,
-                             Principal principal) throws ParseException {
+                             Principal principal) {
         if (principal == null) {
             model.addAttribute("systemTitles", systemTitleService.getAll());
             model.addAttribute("systemCreationError", "Необходима авторизация");
@@ -92,10 +85,7 @@ public class SystemController {
             return "systems/edit-system";
         }*/
 
-        /*SimpleDateFormat formatVintage = new SimpleDateFormat("dd.MM.yyyy");
-        Date vintage = formatVintage.parse(str_vintage);
-        system.setVintage(vintage);*/
-        SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd.MM.yyyy");
+
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         try {

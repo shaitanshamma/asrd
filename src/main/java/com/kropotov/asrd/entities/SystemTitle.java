@@ -2,21 +2,19 @@ package com.kropotov.asrd.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-/*CREATE TABLE system_titles
-(
-    id        INT(11)      NOT NULL AUTO_INCREMENT,
-    title     VARCHAR(50)  NOT NULL,
-    path VARCHAR(128) NOT NULL,*/
+
 
 @Entity
 @Table(name = "system_titles")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class SystemTitle {
     @Id

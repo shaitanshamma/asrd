@@ -2,7 +2,6 @@ package com.kropotov.asrd.repositories;
 
 import com.kropotov.asrd.entities.ControlSystem;
 import com.kropotov.asrd.entities.SystemTitle;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +9,5 @@ import org.springframework.stereotype.Repository;
 // Можно дописывать свои методы
 @Repository
 public interface SystemRepository extends PagingAndSortingRepository<ControlSystem, Long> {
-
+    ControlSystem findByNumberAndTitle(String number, SystemTitle title);
 }
