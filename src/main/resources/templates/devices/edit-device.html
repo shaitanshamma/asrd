@@ -10,40 +10,28 @@
 <div class="container">
     <div class="form-group">
         <div class="col-xs-15">
-            <div th:if="${systemCreationError != null}">
+            <div th:if="${deviceCreationError != null}">
                 <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                    <span th:text="${systemCreationError}"></span>
+                    <span th:text="${deviceCreationError}"></span>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <form class="form-horizontal" th:action="@{/systems/edit}" th:object="${system}" method="post">
-        <input type="hidden" th:field="*{id}" class="form-control" id="systemId">
+    <form class="form-horizontal" th:action="@{/devices/edit}" th:object="${device}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{title}">
 
-        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        <!--        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>-->
+        <!--        <input type="hidden" th:field="*{id}" class="form-control" id="deviceId">-->
+        <h2 th:text="*{title.title}"></h2>
+        <hr>
 
-        <div class="col-auto">
-            <label for="productTitle-id">Название</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="productTitle-id" th:field="*{title}">
-                    <option th:each="t : ${systemTitles}"
-                            th:value="${t.id}"
-                            th:text="${t.title}">
-                    </option>
-                </select>
-            </div>
-        </div>
 
         <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
 
-        <div class="col-auto">
+        <div class="col-4">
             <label for="number-id">Номер</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -52,7 +40,7 @@
                     </div>
                 </div>
                 <input th:field="*{number}" type="text" class="form-control" id="number-id"
-                       placeholder="Введите номер системы">
+                       placeholder="Введите номер прибора" required>
             </div>
         </div>
 
@@ -81,7 +69,7 @@
                        placeholder="дд.мм.гггг">
             </div>
         </div>
-        <div class="col-auto">
+        <div class="col-4">
             <label for="strVpDate-id">Дата приемки ВП</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -94,7 +82,7 @@
                        placeholder="дд.мм.гггг">
             </div>
         </div>
-        <div class="col-auto">
+        <div class="col-3">
             <label for="vpNumber-id">Военное представительство</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -105,7 +93,7 @@
                 <input type="text" class="form-control" name="strVpDate" id="vpNumber-id" th:field="*{vpNumber}">
             </div>
         </div>
-        <div class="col-auto">
+        <div class="col-3">
             <label for="purpose-id">Назначение</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -124,10 +112,47 @@
                         <i class="fa fa-archive" aria-hidden="true"></i>
                     </div>
                 </div>
-                <input type="text" class="form-control" name="strVpDate" id="purposePassport-id" th:field="*{purposePassport}">
+                <input type="text" class="form-control" name="strVpDate" id="purposePassport-id"
+                       th:field="*{purposePassport}">
             </div>
         </div>
-        <hr>
+        <div th:if="${not #lists.isEmpty(device.components)}" class="col-auto">
+            <h5>Составные части</h5>
+            <ul>
+                <li th:each="t, i : ${device.components}">
+                    <input type="hidden" th:field="*{components[__${i.index}__].title.id}">
+                    <input type="hidden" th:field="*{components[__${i.index}__].id}">
+                    <!--                    <input type="hidden" th:field="*{components[__${i.index}__].title.title}">-->
+                    <label th:text="*{components[__${i.index}__].title.title}"></label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                №
+                            </div>
+                        </div>
+                        <input type="text" th:field="*{components[__${i.index}__].number}">
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-4">
+            <label for="system-id">Входит в состав системы:</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-rocket" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <select class="custom-select" th:field="*{system}" id="system-id">
+                    <option th:each="system : ${systems}"
+                            th:value="${system.id}"
+                            th:text="${system.title.title} + ' ' + ${system.number}">
+                    </option>
+                </select>
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
 </div>

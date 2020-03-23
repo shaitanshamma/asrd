@@ -25,14 +25,14 @@
         <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
 
         <div class="col-auto">
-            <label for="productTitle-id">Название</label>
+            <label for="systemTitle-id">Название</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <i class="fa fa-rocket" aria-hidden="true"></i>
                     </div>
                 </div>
-                <select class="custom-select" id="productTitle-id" th:field="*{title}">
+                <select class="custom-select" id="systemTitle-id" th:field="*{title}">
                     <option th:each="t : ${systemTitles}"
                             th:value="${t.id}"
                             th:text="${t.title}">

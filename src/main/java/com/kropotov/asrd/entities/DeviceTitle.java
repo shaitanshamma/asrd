@@ -1,8 +1,11 @@
 package com.kropotov.asrd.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +16,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "device_titles")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class DeviceTitle {
     @Id
@@ -28,7 +32,7 @@ public class DeviceTitle {
     private String path;
 
     @OneToMany(mappedBy = "title", fetch = FetchType.LAZY) // fetch - доставать либо не доставать список со всеми зависимостями при запросе SystemTitle
-    @JsonIgnore
+    @JsonBackReference
     private List<Device> devices;
 
     @ManyToMany
@@ -39,4 +43,7 @@ public class DeviceTitle {
     )
     @JsonIgnore
     private List<SystemTitle> systemTitles;
+
+    @OneToMany(mappedBy = "deviceTitle", fetch = FetchType.LAZY)
+    private List<DeviceComponentTitle> componentTitles;
 }

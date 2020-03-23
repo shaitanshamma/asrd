@@ -96,6 +96,9 @@ public class ControlSystem {
     )
     @JsonBackReference
     private List<Invoice> invoices;
+    
+    @OneToMany(mappedBy = "system")
+    private List<Device> devices;
 
     @Override
     public String toString() {

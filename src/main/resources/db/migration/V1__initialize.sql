@@ -104,9 +104,9 @@ CREATE TABLE device_components_titles
 (
     id              INT(11)     NOT NULL AUTO_INCREMENT,
     title           VARCHAR(50) NOT NULL,
-    title_device_id INT(11)     NOT NULL,
+    device_title_id INT(11)     NOT NULL,
     PRIMARY KEY (id),
-    CONSTRAINT FK_TITLE_DEVICE_ID FOREIGN KEY (title_device_id)
+    CONSTRAINT FK_DEVICE_TITLE_ID FOREIGN KEY (device_title_id)
         REFERENCES device_titles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
@@ -247,10 +247,11 @@ CREATE TABLE devices
     number           VARCHAR(32) NOT NULL,
     purpose          VARCHAR(64)          DEFAULT NULL,
     purpose_passport VARCHAR(64)          DEFAULT NULL,
+    system_id        INT(11)              DeFAULT NULL,
     vintage          DATE                 DEFAULT NULL,
-    vp               INT(11)              DEFAULT NULL,
-    accept_otk       DATE                 DEFAULT NULL,
-    accept_vp        DATE                 DEFAULT NULL,
+    vp_number        INT(11)              DEFAULT NULL,
+    accept_otk_date  DATE                 DEFAULT NULL,
+    accept_vp_date   DATE                 DEFAULT NULL,
     entity_status    VARCHAR(16)          DEFAULT 'active',
     created_at       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at       TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -261,6 +262,9 @@ CREATE TABLE devices
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT FK_DEVICES_USER_ID_01 FOREIGN KEY (user_id)
         REFERENCES users (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT FK_DEVICES_SYSTEMS_ID_01 FOREIGN KEY (system_id)
+        REFERENCES systems (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -274,12 +278,7 @@ CREATE TABLE device_components
     id                        INT(11)     NOT NULL AUTO_INCREMENT,
     device_component_title_id INT(11)     NOT NULL,
     number                    VARCHAR(32) NOT NULL,
-    purpose                   VARCHAR(64)          DEFAULT NULL,
-    purpose_passport          VARCHAR(64)          DEFAULT NULL,
-    vintage                   DATE                 DEFAULT NULL,
-    vp                        INT(11)              DEFAULT NULL,
-    accept_otk                DATE                 DEFAULT NULL,
-    accept_vp                 DATE                 DEFAULT NULL,
+    device_id                 INT(11)     NOT NULL,
     entity_status             VARCHAR(16)          DEFAULT 'active',
     created_at                TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at                TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -290,6 +289,9 @@ CREATE TABLE device_components
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT FK_DEV_COM_USER_ID_01 FOREIGN KEY (user_id)
         REFERENCES users (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT FK_DEV_COM_DEVICE_ID_01 FOREIGN KEY (device_id)
+        REFERENCES devices (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -738,32 +740,31 @@ INSERT INTO invoices (number, invoice_date, path, from_company_id, destination_i
 VALUES ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 'active', '1');
 
 INSERT INTO topic_titles (title, path)
-VALUES ('К-001Р(СНАУ-Р)', 'k-001r/'),
-       ('БСУ-506', 'bsu-506/');
+VALUES ('Тема 1', 'тема_1'),
+       ('Тема 2', 'тема_2');
 
 INSERT INTO system_titles (title, path)
-VALUES ('К-001Р', 'k-001r/'),
-       ('БСУ-506', 'bsu-506/');
+VALUES ('Система 1', 'система_1'),
+       ('Система 2', 'система_2'),
+       ('Система 3', 'система_3');
 
 INSERT INTO topic_titles_system_titles
 VALUES (1, 1),
-       (2, 2);
-
-
-
+       (2, 2),
+       (2, 3);
 
 INSERT INTO system_components_titles (title, path)
-VALUES ('МБП-001', 'mbp-001/');
+VALUES ('Компонент Системы', 'компонент_системы/');
 
 INSERT INTO device_titles (title, path)
-VALUES ('Ц-009Р', 'c-009r/'),
-       ('МН-Р', 'mn-r/'),
-       ('СН-Р', 'sn-r/'),
-       ('ИНС-Р', 'ins-r/'),
-       ('А-080-05', 'a-080-05/'),
-       ('ТПС-715', 'tps-715/'),
-       ('ОЭС-715', 'oes-715/'),
-       ('СИБ-506', 'sib-506/');
+VALUES ('Прибор 1 1', 'device_1/'),
+       ('Прибор 2 1', 'device_2/'),
+       ('Прибор 3 1', 'device_3/'),
+       ('Прибор 4 1', 'device_4/'),
+       ('Прибор 5 1', 'device_5/'),
+       ('Прибор 1 2', 'device_6/'),
+       ('Прибор 2 2', 'device_7/'),
+       ('Прибор 3 2', 'device_8/');
 
 INSERT INTO system_titles_device_titles
 VALUES (1, 1),
@@ -775,12 +776,12 @@ VALUES (1, 1),
        (2, 7),
        (2, 8);
 
-INSERT INTO device_components_titles (title, title_device_id)
-VALUES ('СИВД-Р', 1),
-       ('П-103', 1),
-       ('ППД-6БР', 1),
-       ('ГБ МН-Р', 2),
-       ('БМЧЭ', 2);
+INSERT INTO device_components_titles (title, device_title_id)
+VALUES ('СЧ 1 1', 1),
+       ('СЧ 2 1', 1),
+       ('СЧ 3 1', 1),
+       ('СЧ 1 2', 2),
+       ('СЧ 2 2', 2);
 
 INSERT INTO companies (title)
 VALUES ('тест 1'),
