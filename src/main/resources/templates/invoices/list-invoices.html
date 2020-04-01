@@ -21,24 +21,27 @@
     <table th:unless="${invoices.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
+            <th>№ п/п</th>
             <th>Номер</th>
             <th>Дата</th>
-            <th>Путь к файлу</th>
+            <th>Файл</th>
             <th>Отправитель</th>
             <th>Получатель</th>
             <th>Описание</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="invoice : ${invoices}" th:attr="sys_id=${invoice.id}" th:onclick="'window.location.href=\'invoices/' + ${invoice.id} + '\'; return false'">
-            <td th:text="${invoice.id}"/>
-            <td th:text="${invoice.number}"/>
-            <td th:text="${invoice.date}"/>
-            <td th:text="${invoice.path}"/>
-            <td th:text="${invoice.from.getTitle()}"/>
-            <td th:text="${invoice.destination.getTitle()}"/>
-            <td th:text="${invoice.description}"/>
+<!--        th:onclick="'window.location.href=\'invoices/' + ${invoice.id} + '\'; return false'"-->
+        <tr th:each="invoice, iterator : ${invoices}" th:attr="sys_id=${invoice.id}">
+            <td th:text="${iterator.count}"></td>
+            <td th:text="${invoice.number}"></td>
+            <td th:text="${invoice.date}"></td>
+            <td>
+                <a th:href="@{'/invoices/files/' + ${invoice.id}}" th:text="${invoice.path}" target="_blank"></a>
+            </td>
+            <td th:text="${invoice.from.getTitle()}"></td>
+            <td th:text="${invoice.destination.getTitle()}"></td>
+            <td th:text="${invoice.description}"></td>
         </tr>
         </tbody>
     </table>

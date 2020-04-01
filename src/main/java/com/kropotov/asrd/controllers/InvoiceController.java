@@ -6,12 +6,22 @@ import com.kropotov.asrd.entities.Invoice;
 import com.kropotov.asrd.entities.Topic;
 import com.kropotov.asrd.services.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +41,7 @@ public class InvoiceController {
     private final SystemTitleService systemTitleService;
     private final DeviceService deviceService;
     private final SystemService systemService;
+    private final StorageService storageService;
 
     @GetMapping
     public String invoicePage(Model model) {
@@ -68,6 +79,7 @@ public class InvoiceController {
                                       @RequestParam("type") String type,
                                       @RequestParam("deviceTitle") Long deviceTitleId,
                                       @RequestParam("systemTitle") Long systemTitleId,
+                                      @RequestParam(value = "file", required = false) MultipartFile file, //TODO после тестов сделать поле обязательным
                                       BindingResult bindingResult,
                                       Model model,
                                       Principal principal) {
@@ -103,6 +115,7 @@ public class InvoiceController {
             return "systems/edit-system";
         }
 
+
         if (type.equals("device")) {
             Device device = deviceService.getByNumberAndTitle(itemNumber, deviceTitleService.getById(deviceTitleId));
             if (device == null) {
@@ -126,9 +139,72 @@ public class InvoiceController {
         }
 
 
-        invoice.setPath("/path");
+        //TODO сделать так, чтобы пути к файлас не были жестко зашиты в коде. Надо ли? Или сделать таблицу с индексацией имен?
+        //String extension = file.getOriginalFilename().lastIndexOf('.')
+        //String filename = "invoice_" + invoice.getNumber() + "_" + invoice.getDate() + "." + "pdf";
+        storageService.store("invoices", file.getOriginalFilename(), file);
+
+        invoice.setPath(file.getOriginalFilename());
         invoice.setEntityStatus("active");
         invoiceService.saveOrUpdate(invoice);
         return "redirect:/invoices";
     }
+
+    @GetMapping(value = "files/{id}")
+    public String redirectToGetFile(@PathVariable Long id) {
+        String result = "redirect:/invoices";
+        int index = invoiceService.findById(id).getPath().lastIndexOf('.');
+        String extension = invoiceService.findById(id).getPath().substring(index + 1);
+        switch (extension) {
+            case "pdf":
+                result = "redirect:/invoices/pdf/" + id;
+                break;
+            case "png":
+                result = "redirect:/invoices/png/" + id;
+                break;
+            case "jpg":
+                result = "redirect:/invoices/jpg/" + id;
+                break;
+            default:
+                result = "redirect:/invoices/download/" + id;
+        }
+        return result;
+    }
+
+    @GetMapping(value = "pdf/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public @ResponseBody byte[] getPDFById(@PathVariable Long id) {
+        try {
+            return Files.readAllBytes(storageService.load("invoices", invoiceService.findById(id).getPath()));
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @GetMapping(value = "png/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public @ResponseBody byte[] getPNGById(@PathVariable Long id) {
+        try {
+            return Files.readAllBytes(storageService.load("invoices", invoiceService.findById(id).getPath()));
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @GetMapping(value = "jpg/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getJPGById(@PathVariable Long id) {
+        try {
+            return Files.readAllBytes(storageService.load("invoices", invoiceService.findById(id).getPath()));
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @GetMapping(value = "download/{id}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable Long id) {
+
+        Resource file = storageService.loadAsResource("invoices", invoiceService.findById(id).getPath());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
 }
