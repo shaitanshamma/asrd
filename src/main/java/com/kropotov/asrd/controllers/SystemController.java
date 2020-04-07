@@ -1,7 +1,7 @@
 package com.kropotov.asrd.controllers;
 
-import com.kropotov.asrd.entities.ControlSystem;
-import com.kropotov.asrd.entities.SystemTitle;
+import com.kropotov.asrd.entities.items.ControlSystem;
+import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.services.SystemService;
 import com.kropotov.asrd.services.SystemTitleService;
 import com.kropotov.asrd.services.UserService;

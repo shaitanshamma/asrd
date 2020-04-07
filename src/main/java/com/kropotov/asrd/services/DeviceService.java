@@ -1,7 +1,7 @@
 package com.kropotov.asrd.services;
 
-import com.kropotov.asrd.entities.Device;
-import com.kropotov.asrd.entities.DeviceTitle;
+import com.kropotov.asrd.entities.items.Device;
+import com.kropotov.asrd.entities.titles.DeviceTitle;
 import com.kropotov.asrd.repositories.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

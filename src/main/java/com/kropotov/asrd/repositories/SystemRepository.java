@@ -1,7 +1,7 @@
 package com.kropotov.asrd.repositories;
 
-import com.kropotov.asrd.entities.ControlSystem;
-import com.kropotov.asrd.entities.SystemTitle;
+import com.kropotov.asrd.entities.items.ControlSystem;
+import com.kropotov.asrd.entities.titles.SystemTitle;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

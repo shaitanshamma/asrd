@@ -1,8 +1,9 @@
-package com.kropotov.asrd.entities;
+package com.kropotov.asrd.entities.titles;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.kropotov.asrd.entities.items.Device;
+import com.kropotov.asrd.entities.utils.TitleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,14 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DeviceTitle {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "title")
-    private String title;
+public class DeviceTitle extends TitleEntity {
 
     @Column(name = "path")
     private String path;

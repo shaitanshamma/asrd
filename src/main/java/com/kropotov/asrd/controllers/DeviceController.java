@@ -1,8 +1,12 @@
 package com.kropotov.asrd.controllers;
 
 
-import com.kropotov.asrd.entities.*;
-
+import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.items.ControlSystem;
+import com.kropotov.asrd.entities.items.Device;
+import com.kropotov.asrd.entities.items.DeviceComponent;
+import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
+import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

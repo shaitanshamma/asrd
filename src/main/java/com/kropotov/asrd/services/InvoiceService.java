@@ -1,7 +1,6 @@
 package com.kropotov.asrd.services;
 
-import com.kropotov.asrd.entities.Company;
-import com.kropotov.asrd.entities.Invoice;
+import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.repositories.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

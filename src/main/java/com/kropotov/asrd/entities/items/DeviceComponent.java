@@ -1,26 +1,24 @@
-package com.kropotov.asrd.entities;
+package com.kropotov.asrd.entities.items;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
+import com.kropotov.asrd.entities.utils.InfoEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 
 @Entity
 @Getter
 @Setter
 @Table(name = "device_components")
 @NoArgsConstructor
-public class DeviceComponent {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class DeviceComponent extends InfoEntity {
 
     @ManyToOne
     @JoinColumn(name = "device_component_title_id")
@@ -31,17 +29,6 @@ public class DeviceComponent {
     @ManyToOne
     @JoinColumn(name = "device_id")
     private Device device;
-
-    @Column(name = "entity_status")
-    private String entityStatus;
-
-    @Column(name = "created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

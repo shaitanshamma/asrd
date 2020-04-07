@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
 public class SystemUser {
+
     @NotNull(message = "not null check")
     @Size(min = 3, message = "username length must be greater than 2 symbols")
 //    @Pattern(regexp = "^[a-zA-Z0-9]{5}", message = "only 5 letters/digits")

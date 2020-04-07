@@ -1,14 +1,12 @@
 package com.kropotov.asrd.services;
 
-import com.kropotov.asrd.entities.DeviceComponent;
+import com.kropotov.asrd.entities.items.DeviceComponent;
 import com.kropotov.asrd.repositories.DeviceComponentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor

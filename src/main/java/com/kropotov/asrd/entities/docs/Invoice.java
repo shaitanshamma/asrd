@@ -1,24 +1,25 @@
-package com.kropotov.asrd.entities;
+package com.kropotov.asrd.entities.docs;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
+import com.kropotov.asrd.entities.Company;
+import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.items.ControlSystem;
+import com.kropotov.asrd.entities.items.Device;
+import com.kropotov.asrd.entities.utils.DocEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "invoices")
-@Data
-public class Invoice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+@Getter
+@Setter
+public class Invoice extends DocEntity {
 
     @Column(name = "number")
     @NotNull(message = "is required")
@@ -29,9 +30,6 @@ public class Invoice {
     //@NotNull(message = "is required")
     // TODO формат даты @Size(min = 1, message = "Date length must have format '2001-3-15'")
     private LocalDate date; // TODO
-
-    @Column(name = "path")
-    private String path;
 
     @ManyToOne
     @JoinColumn(name = "from_company_id")
@@ -45,17 +43,6 @@ public class Invoice {
 
     @Column(name = "description")
     private String description;
-
-    @Column(name = "entity_status")
-    private String entityStatus;
-
-    @Column(name = "created_at")
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    @CreationTimestamp
-    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

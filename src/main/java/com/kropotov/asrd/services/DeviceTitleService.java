@@ -1,6 +1,6 @@
 package com.kropotov.asrd.services;
 
-import com.kropotov.asrd.entities.DeviceTitle;
+import com.kropotov.asrd.entities.titles.DeviceTitle;
 import com.kropotov.asrd.repositories.titles.DeviceTitleRepository;
 import org.springframework.stereotype.Service;
 

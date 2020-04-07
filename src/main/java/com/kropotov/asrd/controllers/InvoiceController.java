@@ -1,9 +1,10 @@
 package com.kropotov.asrd.controllers;
 
-import com.kropotov.asrd.entities.ControlSystem;
-import com.kropotov.asrd.entities.Device;
-import com.kropotov.asrd.entities.Invoice;
-import com.kropotov.asrd.entities.Topic;
+import com.kropotov.asrd.entities.docs.Invoice;
+import com.kropotov.asrd.entities.items.ControlSystem;
+import com.kropotov.asrd.entities.items.Device;
+import com.kropotov.asrd.entities.titles.Topic;
+import com.kropotov.asrd.exceptions.StorageException;
 import com.kropotov.asrd.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -15,13 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -71,6 +69,8 @@ public class InvoiceController {
         model.addAttribute("companies", companyService.findAll());
         return "invoices/edit-invoice";
     }
+
+    //TODO создать DTO сущность
 
     @PostMapping("/edit")
     public String saveModifiedInvoice(@Valid @ModelAttribute("invoice") Invoice invoice,
@@ -142,7 +142,15 @@ public class InvoiceController {
         //TODO сделать так, чтобы пути к файлас не были жестко зашиты в коде. Надо ли? Или сделать таблицу с индексацией имен?
         //String extension = file.getOriginalFilename().lastIndexOf('.')
         //String filename = "invoice_" + invoice.getNumber() + "_" + invoice.getDate() + "." + "pdf";
-        storageService.store("invoices", file.getOriginalFilename(), file);
+        try {
+            storageService.store("invoices", file.getOriginalFilename(), file);
+        } catch (StorageException e) {
+            System.out.println(e.getMessage());
+            /*model.addAttribute("invoice", invoice);
+            model.addAttribute("invoiceCreationError", "Ошибка сохранения файла");
+            model.addAttribute("companies", companyService.findAll());
+            return "invoices/edit-invoice";*/
+        }
 
         invoice.setPath(file.getOriginalFilename());
         invoice.setEntityStatus("active");
@@ -152,7 +160,7 @@ public class InvoiceController {
 
     @GetMapping(value = "files/{id}")
     public String redirectToGetFile(@PathVariable Long id) {
-        String result = "redirect:/invoices";
+        String result;
         int index = invoiceService.findById(id).getPath().lastIndexOf('.');
         String extension = invoiceService.findById(id).getPath().substring(index + 1);
         switch (extension) {

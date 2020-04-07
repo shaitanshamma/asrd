@@ -1,7 +1,7 @@
 package com.kropotov.asrd.repositories;
 
-import com.kropotov.asrd.entities.Device;
-import com.kropotov.asrd.entities.DeviceTitle;
+import com.kropotov.asrd.entities.items.Device;
+import com.kropotov.asrd.entities.titles.DeviceTitle;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.kropotov.asrd.api.controllers;
 
-import com.kropotov.asrd.entities.SystemTitle;
-import com.kropotov.asrd.entities.Topic;
+import com.kropotov.asrd.entities.titles.SystemTitle;
+import com.kropotov.asrd.entities.titles.Topic;
 import com.kropotov.asrd.services.SystemTitleService;
 import com.kropotov.asrd.services.TopicService;
 import org.springframework.web.bind.annotation.GetMapping;

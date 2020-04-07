@@ -1,7 +1,7 @@
 package com.kropotov.asrd.services;
 
-import com.kropotov.asrd.entities.SystemTitle;
-import com.kropotov.asrd.entities.Topic;
+import com.kropotov.asrd.entities.titles.SystemTitle;
+import com.kropotov.asrd.entities.titles.Topic;
 import com.kropotov.asrd.repositories.titles.SystemTitleRepository;
 import org.springframework.stereotype.Service;
 

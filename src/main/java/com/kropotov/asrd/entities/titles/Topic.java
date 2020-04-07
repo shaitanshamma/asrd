@@ -1,5 +1,6 @@
-package com.kropotov.asrd.entities;
+package com.kropotov.asrd.entities.titles;
 
+import com.kropotov.asrd.entities.utils.TitleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,14 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Topic {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "title")
-    private String title;
+public class Topic extends TitleEntity {
 
     @Column(name = "path")
     private String path;

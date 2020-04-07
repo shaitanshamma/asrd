@@ -1,7 +1,8 @@
-package com.kropotov.asrd.entities;
+package com.kropotov.asrd.entities.titles;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kropotov.asrd.entities.items.DeviceComponent;
+import com.kropotov.asrd.entities.utils.TitleEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,12 +13,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "device_components_titles")
-public class DeviceComponentTitle {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String title;
+public class DeviceComponentTitle extends TitleEntity {
 
     @ManyToOne
     @JoinColumn(name = "device_title_id")
@@ -35,11 +31,11 @@ public class DeviceComponentTitle {
 
         DeviceComponentTitle that = (DeviceComponentTitle) o;
 
-        return title.equals(that.title);
+        return this.getTitle().equals(that.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return title.hashCode();
+        return this.getTitle().hashCode();
     }
 }

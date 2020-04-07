@@ -1,9 +1,9 @@
 package com.kropotov.asrd.api.controllers;
 
-import com.kropotov.asrd.entities.DeviceComponent;
-import com.kropotov.asrd.entities.DeviceComponentTitle;
-import com.kropotov.asrd.entities.DeviceTitle;
-import com.kropotov.asrd.entities.SystemTitle;
+import com.kropotov.asrd.entities.items.DeviceComponent;
+import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
+import com.kropotov.asrd.entities.titles.DeviceTitle;
+import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.services.DeviceTitleService;
 import com.kropotov.asrd.services.SystemTitleService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.kropotov.asrd.services;
 
-import com.kropotov.asrd.entities.ControlSystem;
-import com.kropotov.asrd.entities.SystemTitle;
+import com.kropotov.asrd.entities.items.ControlSystem;
+import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.repositories.SystemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

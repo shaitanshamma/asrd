@@ -1,18 +1,17 @@
 package com.kropotov.asrd.entities;
 
-import lombok.Data;
+import com.kropotov.asrd.entities.utils.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "users")
-public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
+public class User extends BaseEntity {
 
 	@Column(name = "username")
 	private String userName;
@@ -61,10 +60,4 @@ public class User {
 		this.roles = roles;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" + "id=" + id + ", userName='" + userName + '\'' + ", password='" + "*********" + '\''
-				+ ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", patronymic='" + patronymic + '\''
-				+ ", email='" + email + '\'' + ", roles=" + roles + '}';
-	}
 }

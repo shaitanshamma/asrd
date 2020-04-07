@@ -1,6 +1,6 @@
 package com.kropotov.asrd.repositories.titles;
 
-import com.kropotov.asrd.entities.SystemTitle;
+import com.kropotov.asrd.entities.titles.SystemTitle;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
