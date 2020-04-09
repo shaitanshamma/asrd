@@ -2,6 +2,7 @@ package com.kropotov.asrd.entities.items;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.entities.titles.DeviceTitle;
 import com.kropotov.asrd.entities.utils.ItemEntity;
@@ -29,7 +30,7 @@ public class Device extends ItemEntity {
     @OneToMany(mappedBy = "device")
     List<DeviceComponent> components;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable (
             name = "invoice_id_device_id",
             joinColumns = @JoinColumn(name = "device_id"),
@@ -37,6 +38,14 @@ public class Device extends ItemEntity {
     )
     @JsonBackReference
     private List<Invoice> invoices;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinTable(
+            name = "act_ic_id_device_id",
+            joinColumns = @JoinColumn(name = "device_id"),
+            inverseJoinColumns = @JoinColumn(name = "act_ic_id")
+    )
+    private List<ActInputControl> actsInputControl;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

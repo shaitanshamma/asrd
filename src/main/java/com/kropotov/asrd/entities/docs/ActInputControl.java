@@ -3,6 +3,7 @@ package com.kropotov.asrd.entities.docs;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.items.ControlSystem;
+import com.kropotov.asrd.entities.items.Device;
 import com.kropotov.asrd.entities.utils.DocEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,12 +40,13 @@ public class ActInputControl extends DocEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "acts_ic_systems",
-            joinColumns = @JoinColumn(name = "act_ic_id"),
-            inverseJoinColumns = @JoinColumn(name = "system_id")
-    )
+    @ManyToMany(mappedBy = "actsInputControl", fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JsonBackReference
     private List<ControlSystem> systems;
+
+    @ManyToMany(mappedBy = "actsInputControl", fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JsonBackReference
+    private List<Device> devices;
 }

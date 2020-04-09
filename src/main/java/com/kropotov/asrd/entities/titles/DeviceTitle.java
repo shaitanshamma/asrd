@@ -29,12 +29,7 @@ public class DeviceTitle extends TitleEntity {
     @JsonBackReference
     private List<Device> devices;
 
-    @ManyToMany
-    @JoinTable(
-            name = "system_titles_device_titles",
-            joinColumns = @JoinColumn(name = "device_titles_id"),
-            inverseJoinColumns = @JoinColumn(name = "system_titles_id")
-    )
+    @ManyToMany(mappedBy = "deviceTitles")
     @JsonIgnore
     private List<SystemTitle> systemTitles;
 

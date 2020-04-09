@@ -4,6 +4,7 @@ import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.items.Device;
 import com.kropotov.asrd.entities.titles.Topic;
+import com.kropotov.asrd.entities.utils.Status;
 import com.kropotov.asrd.exceptions.StorageException;
 import com.kropotov.asrd.services.*;
 import lombok.RequiredArgsConstructor;
@@ -153,7 +154,7 @@ public class InvoiceController {
         }
 
         invoice.setPath(file.getOriginalFilename());
-        invoice.setEntityStatus("active");
+        invoice.setEntityStatus(Status.ACTIVE);
         invoiceService.saveOrUpdate(invoice);
         return "redirect:/invoices";
     }

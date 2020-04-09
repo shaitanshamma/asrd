@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
@@ -14,7 +16,8 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class InfoEntity extends BaseEntity {
 
-    private String entityStatus;
+    @Enumerated(value = EnumType.ORDINAL)
+    private Status entityStatus;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

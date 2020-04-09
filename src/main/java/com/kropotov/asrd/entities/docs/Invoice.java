@@ -48,21 +48,13 @@ public class Invoice extends DocEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "systems_invoices",
-            joinColumns = @JoinColumn(name = "invoice_id"),
-            inverseJoinColumns = @JoinColumn(name = "system_id")
-    )
+    @ManyToMany(mappedBy = "invoices", fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JsonBackReference
     private List<ControlSystem> systems;
 
-    @ManyToMany
-    @JoinTable (
-            name = "invoice_id_device_id",
-            joinColumns = @JoinColumn(name = "invoice_id"),
-            inverseJoinColumns = @JoinColumn(name = "device_id")
-    )
+    @ManyToMany(mappedBy = "invoices", fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JsonBackReference
     private List<Device> devices;
 

@@ -30,7 +30,7 @@ public class ControlSystem extends ItemEntity {
     private User user;
 
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "acts_ic_systems",
             joinColumns = @JoinColumn(name = "system_id"),
@@ -38,7 +38,7 @@ public class ControlSystem extends ItemEntity {
     )
     private List<ActInputControl> actsInputControl;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "systems_invoices",
             joinColumns = @JoinColumn(name = "system_id"),

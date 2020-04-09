@@ -27,12 +27,7 @@ public class SystemTitle extends TitleEntity {
     @JsonIgnore
     private List<ControlSystem> systems;
 
-    @ManyToMany
-    @JoinTable(
-            name = "topic_titles_system_titles",
-            joinColumns = @JoinColumn(name = "system_titles_id"),
-            inverseJoinColumns = @JoinColumn(name = "topic_titles_id")
-    )
+    @ManyToMany(mappedBy = "systemTitles")
     @JsonBackReference
     private List<Topic> topics;
 
