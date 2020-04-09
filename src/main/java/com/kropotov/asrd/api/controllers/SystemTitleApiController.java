@@ -34,7 +34,7 @@ public class SystemTitleApiController {
         if (topicId == null) {
             return systemTitleService.getAll();
         }
-        Topic topic = topicService.getById(topicId);
+        Topic topic = topicService.getById(topicId).orElse(new Topic());
         return topic.getSystemTitles();
     }
 }

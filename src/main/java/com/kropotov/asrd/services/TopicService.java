@@ -4,6 +4,8 @@ import com.kropotov.asrd.entities.titles.Topic;
 import com.kropotov.asrd.repositories.titles.TopicRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TopicService {
 
@@ -14,10 +16,11 @@ public class TopicService {
     }
 
     public Iterable<Topic> getAll() {
+
         return topicRepository.findAll();
     }
 
-    public Topic getById(Long id) {
-        return topicRepository.findById(id).get();
+    public Optional<Topic> getById(Long id) {
+        return topicRepository.findById(id);
     }
 }

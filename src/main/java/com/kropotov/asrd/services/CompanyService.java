@@ -5,6 +5,7 @@ import com.kropotov.asrd.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +18,9 @@ public class CompanyService {
     }
 
     public List<Company> findAll() {
-        return (List<Company>) companyRepository.findAll();
+        List<Company> companyList = new ArrayList<>();
+        companyRepository.findAll().iterator().forEachRemaining(companyList::add);
+        return companyList;
     }
 
     public Company saveOrUpdate(Company company) {
