@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,15 +25,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException {
-		System.out.println("\n\nIn customAuthenticationSuccessHandler\n\n");
+			throws IOException {
 		String userName = authentication.getName(); // достается имя пользователя
-		System.out.println("userName=" + userName);
 		User theUser = userService.findByUserName(userName);
 		HttpSession session = request.getSession(); // запрос сессии
 		session.setAttribute("user", theUser);
-		if (!request.getHeader("referer").contains("login")) {
-			response.sendRedirect(request.getHeader("referer")); // refer возвращает туда откуда пришел пользователь
+		if (!request.getParameter("referer").contains("login")) {
+			response.sendRedirect(request.getParameter("referer")); // refer возвращает туда откуда пришел пользователь
 		} else {
 			response.sendRedirect(request.getContextPath() + "/");
 		}

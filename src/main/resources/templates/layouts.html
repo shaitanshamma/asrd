@@ -1,11 +1,11 @@
-<html xmlns:th="http://www.thymeleaf.org">
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ru">
+
 
 <head th:fragment="header">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <title>АСУП</title>
     <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
 
     <!-- Bootstrap CSS -->
@@ -40,14 +40,15 @@
             <li class="nav-item" th:classappend="${activeTab == 'Companies' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/companies}">Компании<span class="sr-only">(current)</span></a>
             </li>
-<!--            <div sec:authorize="isAuthenticated()">-->
-<!--                <li class="nav-item">-->
-<!--                    <form th:action="@{/logout}" method="POST">-->
-<!--                        <input type="submit" class="btn btn-danger" value="Выйти"/>-->
-<!--                    </form>-->
-<!--                </li>-->
-<!--            </div>-->
-            <!--<div sec:authorize="isAnonymous()">-->
+            <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${activeTab == 'Login' ? 'active' : ''}">
+                <a class="nav-link" th:href="@{/login}">Войти<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="Выйти"/>
+                </form>
+            </li>
+
         </ul>
     </div>
 </nav>

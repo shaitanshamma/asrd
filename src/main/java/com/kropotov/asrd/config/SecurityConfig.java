@@ -46,16 +46,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // authenticateTheUser - адрес куда отправялюсят данные пользователя при входе в систему
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
+                    .antMatchers("/devices/*").authenticated()
+                    .antMatchers("/systems/*").authenticated()
+                    .antMatchers("/invoices/*").authenticated()
+                    .antMatchers("/companies/*").authenticated()
                     //.antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers( "/", "/**", "/static").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
-//                    .loginPage("/login")
+                    .loginPage("/login")
 //                    .loginProcessingUrl("/authenticateTheUser")
-//                    .successHandler(customAuthenticationSuccessHandler)
+                    .successHandler(customAuthenticationSuccessHandler)
                     .permitAll()
                 .and()
                     .logout()
