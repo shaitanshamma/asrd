@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Acts)"></nav>
+
+<div class="container">
+    <!--<div class="form-group">
+        <div class="col-xs-15">
+            <div th:if="${invoiceCreationError != null}">
+                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    <span th:text="${invoiceCreationError}" ></span>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <header class="card-header">
+        <h4 class="card-title mt-2">
+            <span th:text="${act.number == null} ? 'Добавление акта входного контроля ' : 'Изменение '"></span>
+            <span th:if="${act.number != null}"
+                  th:text="'акта входного контроля №' + ${act.number} + ' от ' + ${act.date}"></span>
+        </h4>
+    </header>
+
+    <form th:action="@{/acts/edit}" th:object="${act}" enctype="multipart/form-data" method="post">
+        <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
+
+        <!--<div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>-->
+
+        <div class="col-auto">
+            <label for="invoiceNumber-id">Введите номер накладной:</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <input type="text" class="form-control" id="invoiceNumber-id" name="invoiceNumber" list="invoiceList"
+                       autocomplete="off">
+                <datalist id="invoiceList">
+
+                </datalist>
+            </div>
+            <div class="invoices">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" th:field="*{invoiceId}" th:value="*{invoiceId}" id="inlineRadio">
+                    <label class="form-check-label" for="inlineRadio" th:text="'Накладная'"></label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-auto">
+            <label for="actNumber-id">Введите номер акта вх. контроля:</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <input type="text" class="form-control" id="actNumber-id" th:field="*{number}" autocomplete="off">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="date-id">Дата входного контроля</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+                <input type="text" class="form-date" name="date" id="date-id"
+                       th:field="*{date}"
+                       placeholder="дд.мм.гггг">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="result-id">Выберите результат</span></label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <!--                /*@thymesVar id="resultValue" type="com.kropotov.asrd.entities.enums.Result"*/-->
+                <select class="custom-select" id="result-id" th:field="*{result}">
+                    <option th:each="resultValue : ${T(com.kropotov.asrd.entities.enums.Result).values()}"
+                            th:value="${resultValue.name()}"
+                            th:text="${resultValue.title}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="description-id">Введите описание</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <textarea type="text" class="form-control" rows="3" id="description-id" th:field="*{description}"></textarea>
+            </div>
+        </div>
+
+        <!--<div class="col-auto">
+            <label for="type-id">Выберите тип изделия</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-rocket" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <select class="custom-select" id="type-id" name="type" onchange="onChangeType(this)">
+                    &lt;!&ndash;<option th:each="t : ${topicTitleList}"
+                            th:value="${t.id}"
+                            th:text="${t.title}">
+                    </option>&ndash;&gt;
+                    <option value="system">Система</option>
+                    <option value="device" selected>Прибор</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="col-auto device">
+            <label for="deviceTitle-id">Выберите название прибора (опционально)</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-rocket" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <select class="custom-select" id="deviceTitle-id" name="deviceTitle"></select>
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="itemNumber-id">Введите номер <span id='deviceOrSystem'>прибора</span></label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <input type="text" class="form-control" id="itemNumber-id" name="itemNumber" th:value="${itemNumber}">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="invoiceNumber-id">Введите номер накладной</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <input type="text" class="form-control" id="invoiceNumber-id" th:field="*{number}">
+                <small class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"> </small>
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="strVpDate-id">Дата входного каонтроля</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+                <input type="text" class="form-date" name="strInvoiceDate" id="strVpDate-id"
+                       th:value="*{#temporals.format(date, 'dd.MM.yyyy')}"
+                       placeholder="дд.мм.гггг">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <label for="itemNumber-id">Введите номер <span id='deviceOrSystem'>прибора</span></label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                &lt;!&ndash;/*@thymesVar id="resultValue" type="com.kropotov.asrd.entities.enums.Result"*/&ndash;&gt;
+                <select class="custom-select" th:field="*{result}">
+                    <option th:each="resultValue : ${T(com.kropotov.asrd.entities.enums.Result).values()}"
+                            th:value="${resultValue.name()}"
+                            th:text="${resultValue.title}"></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Выберите файл акта вх. контроля</label>
+                <input name="file" type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+        </div>-->
+
+        <hr>
+        <div class="form-group">
+            <button type="submit" name="addInvoice" class="btn btn-primary">Сохранить</button>
+        </div>
+    </form>
+</div>
+<div th:replace="layouts :: footer"></div>
+<div th:replace="layouts :: date"></div>
+
+<script th:src="@{/js/ajaxes.js}"></script>
+<script>
+    $("#invoiceNumber-id").keyup(function (event) {
+        getInvoices();
+    });
+    $("#invoiceNumber-id").select(function (event) {
+        getInvoices();
+    });
+    $("#invoiceNumber-id").click(function (event) {
+        getInvoices();
+    });
+
+    function getInvoices() {
+        $(".invoices").empty();
+        $("#invoiceList").empty();
+        $.ajax({
+            url: "/asrd/api/invoices/like?invoiceNumber=" + $("#invoiceNumber-id").val(), // отткель
+            dataType: "json",         // формат
+            success: function (data) {
+                //alert(data[1].date);
+                for (var i = 0; i < data.length; i++) {
+                    $("#invoiceList").append("<option>" + data[i].number + "</option>")
+                    if ($("#invoiceNumber-id").val() === data[i].number) {
+                        var txt = "<div class=\"form-check form-check-inline\">\n" +
+                            "            <input class=\"form-check-input\" type=\"radio\" name=\"invoiceId\" id=\"inlineRadio" + i + "\" value=\"" + data[i].id + "\">\n" +
+                            "            <label class=\"form-check-label\" for=\"inlineRadio" + i + "\">" + data[i].date + "</label>\n" +
+                            "        </div>";
+                        $(".invoices").append(txt);
+                    }
+                }
+            }  // callback
+        });
+    }
+</script>
+</body>
+</html>

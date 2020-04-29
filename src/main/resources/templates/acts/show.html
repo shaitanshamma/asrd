@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Acts)"></nav>
+
+<div class="container">
+
+    <header class="card-header">
+        <h4 class="card-title mt-2" th:text="'Акт входного контроля №' + ${act.number} + ' от ' + ${act.date}">
+            Акт входного контроля
+        </h4>
+    </header>
+    <br>
+    <a sec:authorize="isAuthenticated()" href="#" th:href="@{'/acts/' + ${act.id} + '/update'}"
+       class="btn btn-primary btn-sm mb-3">
+        Редактировать
+    </a>
+    <p>
+        Изделия:<br>
+    <ul>
+        <li th:each="system : ${act.systems}">
+            <a th:href="@{'/systems/' + ${system.id}}" th:text="${system.title.title}"></a>
+        </li>
+        <li th:each="device : ${act.devices}">
+            <a th:href="@{'/devices/' + ${device.id}}" th:text="${device.title.title}"></a>
+        </li>
+    </ul>
+
+    Прибыли по <a th:href="@{'/invoices/' + ${act.invoice.id} + '/show'}" th:text="'накладной №' + ${act.invoice.number}"></a>
+    </p>
+    <p th:text="'Результат: ' + ${act.result.title}"></p>
+    <p th:text="'Описание: ' + ${act.description}"></p>
+    <p>Файл</p>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

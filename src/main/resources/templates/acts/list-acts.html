@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Acts)"></nav>
+
+<div class="container">
+    <br>
+    <h1>Каталог актов входного контроля</h1>
+    <hr>
+
+    <a th:href="@{/acts/0/update}"
+       class="btn btn-primary btn-sm mb-3">
+        Добавить
+    </a>
+    <span th:if="${acts.size() == 0}" th:text="'Накладных нет'" ></span>
+
+    <table th:unless="${acts.size() == 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Номер</th>
+            <th>Дата</th>
+            <th>Файл</th>
+            <th>Результат</th>
+            <th>Описание</th>
+        </tr>
+        </thead>
+        <tbody>
+<!--        th:onclick="'window.location.href=\'invoices/' + ${invoice.id} + '\'; return false'"-->
+        <tr th:each="act, iterator : ${acts}">
+            <td th:text="${iterator.count}"></td>
+            <td><a href="#" th:href="@{'/acts/' + ${act.id} + '/show'}" th:text="${act.number}"></a></td>
+            <td th:text="${act.date}"></td>
+            <td>
+<!--                <a th:href="@{'/invoices/files/' + ${invoice.id}}" th:text="${invoice.path}" target="_blank"></a>-->
+            </td>
+            <td th:text="${act.result.title}"></td>
+            <td th:text="${act.description}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

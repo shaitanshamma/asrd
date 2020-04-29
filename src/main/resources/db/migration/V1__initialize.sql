@@ -54,8 +54,8 @@ DROP TABLE IF EXISTS topic_titles;
 CREATE TABLE topic_titles
 (
     id    INT      NOT NULL AUTO_INCREMENT,
-    title VARCHAR(255) DEFAULT NULL,
-    path  VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -66,8 +66,8 @@ DROP TABLE IF EXISTS system_titles;
 CREATE TABLE system_titles
 (
     id    INT      NOT NULL AUTO_INCREMENT,
-    title VARCHAR(255)  NOT NULL,
-    path  VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -78,8 +78,8 @@ DROP TABLE IF EXISTS system_components_titles;
 CREATE TABLE system_components_titles
 (
     id    INT      NOT NULL AUTO_INCREMENT,
-    title VARCHAR(255)  NOT NULL,
-    path  VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -91,8 +91,8 @@ DROP TABLE IF EXISTS device_titles;
 CREATE TABLE device_titles
 (
     id    INT      NOT NULL AUTO_INCREMENT,
-    title VARCHAR(255)  NOT NULL,
-    path  VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -103,7 +103,7 @@ DROP TABLE IF EXISTS device_components_titles;
 CREATE TABLE device_components_titles
 (
     id              INT     NOT NULL AUTO_INCREMENT,
-    title           VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
     device_title_id INT     NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_DEVICE_TITLE_ID FOREIGN KEY (device_title_id)
@@ -537,13 +537,13 @@ CREATE TABLE acts_input_control
     id            INT           NOT NULL AUTO_INCREMENT,
     number        VARCHAR(255)  NOT NULL,
     invoice_id    INT           NOT NULL,
-    act_date      DATE         NOT NULL,
-    path          VARCHAR(255) NOT NULL,
-    result        VARCHAR(255)           DEFAULT 'positive',
-    description   VARCHAR(255) NOT NULL,
-    entity_status TINYINT               DEFAULT 1,
-    created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    act_date      DATE          NOT NULL,
+    path          VARCHAR(255)  NOT NULL,
+    result        TINYINT       NOT NULL default 1,
+    description   VARCHAR(255)  NOT NULL,
+    entity_status TINYINT       NOT NULL       DEFAULT 1,
+    created_at    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id       SMALLINT UNSIGNED      NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_ACTS_INVOICE_ID_01 FOREIGN KEY (invoice_id)
@@ -738,6 +738,9 @@ VALUES (1, 1),
 
 INSERT INTO invoices (number, invoice_date, path, from_company_id, destination_id, description, entity_status, user_id)
 VALUES ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1');
+
+INSERT INTO acts_input_control (number, invoice_id, act_date, path, result, description, user_id)
+VALUES ('000', 1, '2019-1-12', '/home/intruder/invoice.pdf', 1, 'Все ок', 1);
 
 INSERT INTO topic_titles (title, path)
 VALUES ('Тема 1', 'тема_1'),
