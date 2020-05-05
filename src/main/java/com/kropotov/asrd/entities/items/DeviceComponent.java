@@ -1,24 +1,36 @@
 package com.kropotov.asrd.entities.items;
 
 import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.common.InfoEntity;
+import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
-import com.kropotov.asrd.entities.utils.InfoEntity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 
 @Entity
 @Getter
 @Setter
 @Table(name = "device_components")
+@AllArgsConstructor
 @NoArgsConstructor
 public class DeviceComponent extends InfoEntity {
+
+    @Builder
+    public DeviceComponent(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
+                           DeviceComponentTitle title, String number, Device device, User user) {
+
+        super(id, entityStatus, createdAt, updatedAt);
+        this.title = title;
+        this.number = number;
+        this.device = device;
+        this.user = user;
+    }
 
     @ManyToOne
     @JoinColumn(name = "device_component_title_id")

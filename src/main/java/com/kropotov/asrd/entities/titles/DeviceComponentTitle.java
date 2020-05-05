@@ -1,8 +1,8 @@
 package com.kropotov.asrd.entities.titles;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.kropotov.asrd.entities.common.TitleEntity;
 import com.kropotov.asrd.entities.items.DeviceComponent;
-import com.kropotov.asrd.entities.utils.TitleEntity;
 import lombok.Getter;
 import lombok.Setter;
 

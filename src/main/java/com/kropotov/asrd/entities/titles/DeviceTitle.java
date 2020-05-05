@@ -2,8 +2,8 @@ package com.kropotov.asrd.entities.titles;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kropotov.asrd.entities.common.TitleEntity;
 import com.kropotov.asrd.entities.items.Device;
-import com.kropotov.asrd.entities.utils.TitleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public class DeviceTitle extends TitleEntity {
     @Column(name = "path")
     private String path;
 
-    @OneToMany(mappedBy = "title", fetch = FetchType.LAZY) // fetch - доставать либо не доставать список со всеми зависимостями при запросе SystemTitle
+    @OneToMany(mappedBy = "title", fetch = FetchType.LAZY) // fetch - доставать либо не доставать список со всеми зависимостями при запросе SystemTitleDto
     @JsonBackReference
     private List<Device> devices;
 

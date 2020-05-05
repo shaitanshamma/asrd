@@ -1,6 +1,6 @@
 package com.kropotov.asrd.entities.titles;
 
-import com.kropotov.asrd.entities.utils.TitleEntity;
+import com.kropotov.asrd.entities.common.TitleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,9 +1,8 @@
 package com.kropotov.asrd.entities.titles;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kropotov.asrd.entities.common.TitleEntity;
 import com.kropotov.asrd.entities.items.ControlSystem;
-import com.kropotov.asrd.entities.utils.TitleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,14 +20,15 @@ import java.util.List;
 public class SystemTitle extends TitleEntity {
 
     @Column(name = "path")
+    @JsonIgnore
     private String path;
 
-    @OneToMany(mappedBy = "title"/*, fetch = FetchType.LAZY*/) // fetch - доставать либо не доставать список со всеми зависимостями при запросе SystemTitle
+    @OneToMany(mappedBy = "title"/*, fetch = FetchType.LAZY*/) // fetch - доставать либо не доставать список со всеми зависимостями при запросе SystemTitleDto
     @JsonIgnore
     private List<ControlSystem> systems;
 
     @ManyToMany(mappedBy = "systemTitles")
-    @JsonBackReference
+    @JsonIgnore
     private List<Topic> topics;
 
     @ManyToMany
@@ -37,6 +37,7 @@ public class SystemTitle extends TitleEntity {
             joinColumns = @JoinColumn(name = "system_titles_id"),
             inverseJoinColumns = @JoinColumn(name = "device_titles_id")
     )
+    @JsonIgnore
     private List<DeviceTitle> deviceTitles;
 
     @ManyToMany
@@ -45,6 +46,7 @@ public class SystemTitle extends TitleEntity {
             joinColumns = @JoinColumn(name = "system_titles_id"),
             inverseJoinColumns = @JoinColumn(name = "system_components_titles_id")
     )
+    @JsonIgnore
     private List<SystemComponentTitle> systemComponentTitles;
 
 }

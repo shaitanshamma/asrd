@@ -1,19 +1,37 @@
-package com.kropotov.asrd.services;
+package com.kropotov.asrd.services.springdatajpa.items;
 
 import com.kropotov.asrd.entities.items.DeviceComponent;
+import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
 import com.kropotov.asrd.repositories.DeviceComponentRepository;
+import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DeviceComponentService {
+public class DeviceComponentService implements CrudService<DeviceComponent, Long> {
 
     private final DeviceComponentRepository deviceComponentRepository;
 
+    @Override
+    public List<DeviceComponent> getAll() {
+        return deviceComponentRepository.findAll();
+    }
+
+    @Override
+    public Optional<DeviceComponent> getById(Long id) {
+        return id == null ? Optional.empty() : deviceComponentRepository.findById(id);
+    }
+
+    public DeviceComponent getByNumberAndTitle(String number, DeviceComponentTitle title) {
+        return deviceComponentRepository.findByNumberAndTitle(number, title);
+    }
+
+    @Override
     public DeviceComponent save(DeviceComponent deviceComponent) {
         return deviceComponentRepository.save(deviceComponent);
     }

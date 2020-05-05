@@ -1,10 +1,11 @@
-package com.kropotov.asrd.services;
+package com.kropotov.asrd.services.springdatajpa.security;
 
 import com.kropotov.asrd.entities.Role;
 import com.kropotov.asrd.entities.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.repositories.RoleRepository;
 import com.kropotov.asrd.repositories.UserRepository;
+import com.kropotov.asrd.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,6 +63,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Optional<User> getById(Long id) {
+		return userRepository.findById(id);
+	}
+
+	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		User user = userRepository.findOneByUserName(userName);
@@ -74,4 +81,6 @@ public class UserServiceImpl implements UserService {
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}
+
+
 }

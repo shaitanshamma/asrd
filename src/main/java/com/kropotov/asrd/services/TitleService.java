@@ -1,4 +1,5 @@
 package com.kropotov.asrd.services;
 
-public class TitleService {
+public interface TitleService<T, ID> extends CrudService<T, ID> {
+    T getByTitle(String title);
 }

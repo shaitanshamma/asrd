@@ -2,8 +2,8 @@ package com.kropotov.asrd.api.controllers;
 
 import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.entities.titles.Topic;
-import com.kropotov.asrd.services.SystemTitleService;
-import com.kropotov.asrd.services.TopicService;
+import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
+import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +25,7 @@ public class SystemTitleApiController {
     }
 
     /*@GetMapping
-    public List<SystemTitle> getSystemTitles() {
+    public List<SystemTitleDto> getSystemTitles() {
         return systemTitleService.getAll();
     }*/
 

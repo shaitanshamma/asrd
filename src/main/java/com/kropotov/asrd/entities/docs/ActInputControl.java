@@ -12,6 +12,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -57,13 +58,34 @@ public class ActInputControl extends DocEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(mappedBy = "actsInputControl", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JsonBackReference
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinTable(
+            name = "acts_ic_systems",
+            joinColumns = @JoinColumn(name = "act_ic_id"),
+            inverseJoinColumns = @JoinColumn(name = "system_id")
+    )
     private List<ControlSystem> systems;
 
-    @ManyToMany(mappedBy = "actsInputControl", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinTable(
+            name = "act_ic_id_device_id",
+            joinColumns = @JoinColumn(name = "act_ic_id"),
+            inverseJoinColumns = @JoinColumn(name = "device_id")
+    )
     @JsonBackReference
     private List<Device> devices;
+
+    public void addSystem(ControlSystem controlSystem) {
+        if (systems == null) {
+            systems = new ArrayList<>();
+        }
+        systems.add(controlSystem);
+    }
+
+    public void addDevice(Device device) {
+        if (devices == null) {
+            devices = new ArrayList<>();
+        }
+        devices.add(device);
+    }
 }

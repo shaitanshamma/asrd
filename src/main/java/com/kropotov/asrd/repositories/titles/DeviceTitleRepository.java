@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeviceTitleRepository extends CrudRepository<DeviceTitle, Long> {
+    DeviceTitle findByTitle(String title);
 }

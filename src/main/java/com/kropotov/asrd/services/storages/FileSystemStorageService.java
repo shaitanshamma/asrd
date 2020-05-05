@@ -1,7 +1,8 @@
-package com.kropotov.asrd.services;
+package com.kropotov.asrd.services.storages;
 
 import com.kropotov.asrd.exceptions.StorageException;
 import com.kropotov.asrd.exceptions.StorageFileNotFoundException;
+import com.kropotov.asrd.services.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
@@ -12,7 +13,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;

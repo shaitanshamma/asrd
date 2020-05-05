@@ -17,7 +17,7 @@ public class DeviceTitleApiController {
         if (systemTitleId == null) {
             return deviceTitleService.getAll();
         }
-        SystemTitle systemTitle = systemTitleService.getById(systemTitleId);
+        SystemTitleDto systemTitle = systemTitleService.getById(systemTitleId);
         return systemTitle.getDeviceTitles();
     }
 }*/

@@ -1,4 +1,4 @@
-package com.kropotov.asrd.services;
+package com.kropotov.asrd.services.storages;
 
 import com.kropotov.asrd.exceptions.StorageException;
 import io.minio.MinioClient;

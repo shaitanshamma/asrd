@@ -3,23 +3,44 @@ package com.kropotov.asrd.entities.docs;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kropotov.asrd.entities.Company;
 import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.common.DocEntity;
+import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.items.Device;
-import com.kropotov.asrd.entities.utils.DocEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "invoices")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Invoice extends DocEntity {
+
+    @Builder
+    public Invoice(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt, String path,
+                   @NotNull(message = "is required") @Size(min = 1, message = "Number length must be greater then 4 symbols") String number,
+                   LocalDate date, @NotNull Company from, @NotNull Company destination, String description, User user,
+                   List<ControlSystem> systems, List<Device> devices) {
+
+        super(id, entityStatus, createdAt, updatedAt, path);
+        this.number = number;
+        this.date = date;
+        this.from = from;
+        this.destination = destination;
+        this.description = description;
+        this.user = user;
+        this.systems = systems;
+        this.devices = devices;
+    }
 
     @Column(name = "number")
     @NotNull(message = "is required")
@@ -48,14 +69,34 @@ public class Invoice extends DocEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(mappedBy = "invoices", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JsonBackReference
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinTable(
+            name = "systems_invoices",
+            joinColumns = @JoinColumn(name = "invoice_id"),
+            inverseJoinColumns = @JoinColumn(name = "system_id")
+    )
     private List<ControlSystem> systems;
 
-    @ManyToMany(mappedBy = "invoices", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinTable (
+            name = "invoice_id_device_id",
+            joinColumns = @JoinColumn(name = "invoice_id"),
+            inverseJoinColumns = @JoinColumn(name = "device_id")
+    )
     @JsonBackReference
     private List<Device> devices;
 
+    public void addSystem(ControlSystem controlSystem) {
+        if (systems == null) {
+            systems = new ArrayList<>();
+        }
+        systems.add(controlSystem);
+    }
+
+    public void addDevice(Device device) {
+        if (devices == null) {
+            devices = new ArrayList<>();
+        }
+        devices.add(device);
+    }
 }

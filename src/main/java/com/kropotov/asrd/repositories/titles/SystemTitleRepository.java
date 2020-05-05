@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SystemTitleRepository extends CrudRepository<SystemTitle, Long> {
     Iterable<SystemTitle> findAllByTopicsId(Long id);
+    SystemTitle findByTitle(String title);
 }

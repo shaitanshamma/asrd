@@ -4,4 +4,5 @@ import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DeviceComponentTitleRepository extends CrudRepository<DeviceComponentTitle, Long> {
+    DeviceComponentTitle findByTitle(String title);
 }

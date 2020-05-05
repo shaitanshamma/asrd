@@ -4,8 +4,8 @@ import com.kropotov.asrd.entities.items.DeviceComponent;
 import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
 import com.kropotov.asrd.entities.titles.DeviceTitle;
 import com.kropotov.asrd.entities.titles.SystemTitle;
-import com.kropotov.asrd.services.DeviceTitleService;
-import com.kropotov.asrd.services.SystemTitleService;
+import com.kropotov.asrd.services.springdatajpa.titles.DeviceTitleService;
+import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,13 +29,14 @@ public class DeviceApiController {
         if (systemTitleId == null) {
             return deviceTitleService.getAll();
         }
-        SystemTitle systemTitle = systemTitleService.getById(systemTitleId);
+        SystemTitle systemTitle = systemTitleService.getById(systemTitleId).orElse(null);
         return systemTitle.getDeviceTitles();
     }
 
     @GetMapping("/components")
     public Iterable<DeviceComponent> getDeviceComponentsByDeviceTitleId(@RequestParam("deviceTitleId") Long deviceTitleId) {
-        List<DeviceComponentTitle> componentTitles = deviceTitleService.getById(deviceTitleId).getComponentTitles();
+
+        List<DeviceComponentTitle> componentTitles = deviceTitleService.getById(deviceTitleId).orElse(null).getComponentTitles();
         List<DeviceComponent> components = new ArrayList<>();
         for (DeviceComponentTitle d: componentTitles) {
             DeviceComponent deviceComponent = new DeviceComponent();

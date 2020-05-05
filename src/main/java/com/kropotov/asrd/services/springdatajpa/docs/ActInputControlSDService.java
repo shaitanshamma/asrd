@@ -1,8 +1,8 @@
 package com.kropotov.asrd.services.springdatajpa.docs;
 
-import com.kropotov.asrd.converters.ActInputControlToDto;
-import com.kropotov.asrd.converters.DtoToActInputControl;
-import com.kropotov.asrd.dto.ActInputControlDto;
+import com.kropotov.asrd.converters.docs.ActInputControlToDto;
+import com.kropotov.asrd.converters.docs.DtoToActInputControl;
+import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.repositories.ActInputControlRepository;
 import com.kropotov.asrd.services.ActInputControlService;
@@ -31,10 +31,11 @@ public class ActInputControlSDService implements ActInputControlService {
 
     @Override
     public Optional<ActInputControl> getById(Long id) {
-        return actInputControlRepository.findById(id);
+        return id == null ? Optional.empty() : actInputControlRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public ActInputControl save(ActInputControl act) {
         return actInputControlRepository.save(act);
     }
