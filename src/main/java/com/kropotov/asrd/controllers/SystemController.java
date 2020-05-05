@@ -1,76 +1,83 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.converters.UserToSimple;
+import com.kropotov.asrd.converters.items.ControlSystemToDto;
+import com.kropotov.asrd.converters.items.DtoToControlSystem;
+import com.kropotov.asrd.dto.items.ControlSystemDto;
 import com.kropotov.asrd.entities.items.ControlSystem;
-import com.kropotov.asrd.entities.titles.SystemTitle;
-import com.kropotov.asrd.services.SystemService;
-import com.kropotov.asrd.services.SystemTitleService;
 import com.kropotov.asrd.services.UserService;
+import com.kropotov.asrd.services.springdatajpa.items.SystemService;
+import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
+import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 
 @Controller
 @RequestMapping("/systems")
+@RequiredArgsConstructor
 public class SystemController {
 
     private final SystemService systemService;
     private final UserService userService;
     private final SystemTitleService systemTitleService;
-
-    public SystemController(SystemService systemService, UserService userService, SystemTitleService systemTitleService) {
-        this.systemService = systemService;
-        this.userService = userService;
-        this.systemTitleService = systemTitleService;
-    }
+    private final DtoToControlSystem dtoToControlSystem;
+    private final ControlSystemToDto controlSystemToDto;
+    private final TopicService topicService;
+    private final UserToSimple userToSimple;
 
     @GetMapping
     public String displaySystems(Model model) {
         List<ControlSystem> systems = systemService.getAll();
         model.addAttribute("systems", systems);
+        model.addAttribute("topicTitleList", topicService.getAll());
+
         return "systems/list-systems";
     }
 
-    @GetMapping("/{id}")
-    public String displaySystemForm(Model model, @PathVariable("id") Long id) {
-        ControlSystem system = systemService.getById(id);
+    @GetMapping("/{id}/show")
+    public String displayById(@PathVariable Long id, Model model) {
+        if (systemService.getById(id).isPresent()) {
+            model.addAttribute("system", systemService.getDtoById(id));
+            return "systems/show";
+        } else {
+            return "redirect:/systems";
+        }
+    }
 
-        if (system == null) {
-            system = new ControlSystem();
-        }
-        if (system.getVintage() != null) {
-            model.addAttribute("strVintage", system.getVintage().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-        }
-        if (system.getOtkDate() != null) {
-            model.addAttribute("strOtkDate", system.getOtkDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-        }
-        if (system.getVpDate() != null) {
-            model.addAttribute("strVpDate", system.getVpDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+    @GetMapping("/{id}/update")
+    public String displaySystemForm(@PathVariable("id") Long id,
+                                    @RequestParam(value = "systemTitle", required = false) Long systemTitleId,
+                                    Model model, Principal principal) {
+        if (principal == null) {
+            return "redirect:/login";
         }
 
-        List<SystemTitle> systemTitles = systemTitleService.getAll();
+        ControlSystemDto systemDto;
 
-        model.addAttribute("system", system);
-        model.addAttribute("systemTitles", systemTitles);
+        if (systemTitleId != null) {
+            ControlSystem system = new ControlSystem();
+            system.setTitle(systemTitleService.getById(systemTitleId).get());
+            systemDto = controlSystemToDto.convert(system);
+        } else {
+            systemDto = systemService.getDtoById(id);
+        }
+        model.addAttribute("system", systemDto);
 
         return "systems/edit-system";
     }
 
     @PostMapping("/edit")
-    public String editSystem(@ModelAttribute("system") ControlSystem system, BindingResult bindingResult, Model model,
-                             @RequestParam("strVintage") String strVintage,
-                             @RequestParam("strOtkDate") String strOtkDate,
-                             @RequestParam("strVpDate") String strVpDate,
+    public String editSystem(@ModelAttribute("system") ControlSystemDto systemDto, BindingResult bindingResult, Model model,
                              Principal principal) {
         if (principal == null) {
-            model.addAttribute("systemTitles", systemTitleService.getAll());
+            model.addAttribute("system", systemDto);
             model.addAttribute("systemCreationError", "Необходима авторизация");
             return "systems/edit-system";
         }
@@ -85,37 +92,10 @@ public class SystemController {
             return "systems/edit-system";
         }*/
 
+        systemDto.setUser(userToSimple.convert(userService.findByUserName(principal.getName())));
+        ControlSystem detachedSystem = dtoToControlSystem.convert(systemDto);
+        systemService.save(detachedSystem);
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-        try {
-            system.setVintage(LocalDate.parse(strVintage, dateFormatter));
-        } catch (DateTimeParseException e) {
-            // TODO
-            model.addAttribute("systemTitles", systemTitleService.getAll());
-            model.addAttribute("systemCreationError", "Неверный формат даты");
-            return "systems/edit-system";
-        }
-        try {
-            system.setOtkDate(LocalDate.parse(strOtkDate, dateFormatter));
-        } catch (DateTimeParseException e) {
-            // TODO
-            model.addAttribute("systemTitles", systemTitleService.getAll());
-            model.addAttribute("systemCreationError", "Неверный формат даты");
-            return "systems/edit-system";
-        }
-        try {
-            system.setVpDate(LocalDate.parse(strVpDate, dateFormatter));
-        } catch (DateTimeParseException e) {
-            // TODO
-            model.addAttribute("systemTitles", systemTitleService.getAll());
-            model.addAttribute("systemCreationError", "Неверный формат даты");
-            return "systems/edit-system";
-        }
-
-        system.setUser(userService.findByUserName(principal.getName()));
-
-        systemService.saveOrUpdate(system);
         return "redirect:/systems";
     }
 

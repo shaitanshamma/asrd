@@ -1,6 +1,7 @@
-package com.kropotov.asrd.converters;
+package com.kropotov.asrd.converters.docs;
 
-import com.kropotov.asrd.dto.ActInputControlDto;
+import com.kropotov.asrd.converters.SimpleToUser;
+import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.services.springdatajpa.docs.InvoiceService;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 public class DtoToActInputControl implements Converter<ActInputControlDto, ActInputControl> {
 
     private final InvoiceService invoiceService;
+    private final SimpleToUser simpleToUser;
 
     @Synchronized
     @Nullable
@@ -29,24 +31,26 @@ public class DtoToActInputControl implements Converter<ActInputControlDto, ActIn
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        Invoice invoice = invoiceService.findById(source.getInvoiceId());
+        Invoice invoice = invoiceService.findById(source.getInvoice().getId());
 
         final ActInputControl act = ActInputControl.builder()
                 .id(source.getId())
                 .path(source.getPath())
                 .number(source.getNumber())
                 .invoice(invoice)
-                .date(LocalDate.parse(source.getDate(), dateFormatter))
+                .date((source.getDate() == null || source.getDate().equals("")) ? null : LocalDate.parse(source.getDate(), dateFormatter))
                 .result(source.getResult())
                 .description(source.getDescription())
+                .user(simpleToUser.convert(source.getUser()))
             .build();
 
         if (invoice.getSystems() != null && invoice.getSystems().size() > 0) {
-            act.setSystems(invoice.getSystems());
+            invoice.getSystems().forEach(act::addSystem);
+
         }
 
         if (invoice.getDevices() != null && invoice.getDevices().size() > 0) {
-            act.setDevices(invoice.getDevices());
+            invoice.getDevices().forEach(act::addDevice);
         }
 
         return act;

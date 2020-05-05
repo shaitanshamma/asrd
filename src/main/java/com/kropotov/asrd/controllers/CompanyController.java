@@ -1,7 +1,9 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.entities.Company;
-import com.kropotov.asrd.services.CompanyService;
+import com.kropotov.asrd.services.springdatajpa.titles.CompanyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,29 +12,24 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/companies")
 public class CompanyController {
     private final CompanyService companyService;
+    private final UserToSimple userToSimple;
 
-    public CompanyController(CompanyService companyService) {
-        this.companyService = companyService;
-    }
 
     @GetMapping("")
     public String showCompany(Model model) {
-        List<Company> companies = companyService.findAll();
+        List<Company> companies = companyService.getAll();
         model.addAttribute("companies", companies);
         return "companies/list-companies";
     }
 
     @GetMapping("/{id}")
     public String editCompanyPage(Model model, @PathVariable("id") Long id) {
-        Company company = companyService.findById(id);
-        if (company == null) {
-            company = new Company();
-        }
-        model.addAttribute("company", company);
+        model.addAttribute("company", companyService.getById(id).orElse(new Company()));
         return "companies/edit-company";
     }
 
@@ -44,13 +41,13 @@ public class CompanyController {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return "companies/edit-company";
         }
-        Company existing = companyService.findByTitle(company.getTitle());
-        if (existing != null && !company.getId().equals(existing.getId())) {
+        Company existing = companyService.getByTitle(company.getTitle());
+        if (existing != null && !existing.getId().equals(company.getId())) {
             model.addAttribute("company", company);
             model.addAttribute("companyCreationError", "Company title already exists");
             return "companies/edit-company";
         }
-        companyService.saveOrUpdate(company);
+        companyService.save(company);
         return "redirect:/companies";
     }
 

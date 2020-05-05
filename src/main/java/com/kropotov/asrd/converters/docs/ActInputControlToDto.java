@@ -1,6 +1,8 @@
-package com.kropotov.asrd.converters;
+package com.kropotov.asrd.converters.docs;
 
-import com.kropotov.asrd.dto.ActInputControlDto;
+import com.kropotov.asrd.converters.simples.items.ControlSystemToSimple;
+import com.kropotov.asrd.converters.simples.items.DeviceToSimple;
+import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -14,8 +16,8 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class ActInputControlToDto implements Converter<ActInputControl, ActInputControlDto> {
     private final InvoiceToDto invoiceConverter;
-    private final DeviceToDto deviceConverter;
-    private final ControlSystemToDto systemConverter;
+    private final DeviceToSimple deviceConverter;
+    private final ControlSystemToSimple systemConverter;
 
     @Synchronized
     @Nullable
@@ -29,7 +31,7 @@ public class ActInputControlToDto implements Converter<ActInputControl, ActInput
                 .id(source.getId())
                 .path(source.getPath())
                 .number(source.getNumber())
-                .invoiceId(source.getId())
+                .invoice(invoiceConverter.convert(source.getInvoice()))
                 .result(source.getResult())
                 .description(source.getDescription())
                 .build();
@@ -39,12 +41,12 @@ public class ActInputControlToDto implements Converter<ActInputControl, ActInput
 
         if (source.getSystems() != null && source.getSystems().size() > 0) {
             source.getSystems()
-                    .forEach(system -> actDto.getSystems().add(systemConverter.convert(system)));
+                    .forEach(system -> actDto.addSystem(systemConverter.convert(system)));
         }
 
         if (source.getDevices() != null && source.getDevices().size() > 0) {
             source.getDevices()
-                    .forEach(device -> actDto.getDevices().add(deviceConverter.convert(device)));
+                    .forEach(device -> actDto.addDevice(deviceConverter.convert(device)));
         }
 
         return actDto;
