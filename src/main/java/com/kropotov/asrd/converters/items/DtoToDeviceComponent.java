@@ -16,6 +16,7 @@ public class DtoToDeviceComponent implements Converter<DeviceComponentDto, Devic
     @Override
     public DeviceComponent convert(DeviceComponentDto deviceComponentDto) {
         return null;
+//        .location(source.getLocation())
 //        .user(simpleToUser.convert(source.getUser()))
     }
 }

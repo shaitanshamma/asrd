@@ -42,6 +42,7 @@ public class DeviceToDto implements Converter<Device, DeviceDto> {
                 .id(source.getId())
                 .deviceTitle(source.getTitle())
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .purpose(source.getPurpose())
                 .purposePassport(source.getPurposePassport())
                 .vintage(source.getVintage() != null ? source.getVintage().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) : null)

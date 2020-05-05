@@ -5,6 +5,7 @@ import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.common.ItemEntity;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.entities.docs.Invoice;
+import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.titles.DeviceTitle;
 import lombok.*;
@@ -27,12 +28,12 @@ public class Device extends ItemEntity {
 
     @Builder
     public Device(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
-                  @NotNull(message = "Number cannot be null") String number, String purpose, String purposePassport,
-                  LocalDate vintage, int vpNumber, LocalDate otkDate, LocalDate vpDate, DeviceTitle title,
-                  ControlSystem system, List<DeviceComponent> components, List<Invoice> invoices,
+                  @NotNull(message = "Number cannot be null") String number, Location location, String purpose,
+                  String purposePassport, LocalDate vintage, int vpNumber, LocalDate otkDate, LocalDate vpDate,
+                  DeviceTitle title, ControlSystem system, List<DeviceComponent> components, List<Invoice> invoices,
                   List<ActInputControl> actsInputControl, User user) {
 
-        super(id, entityStatus, createdAt, updatedAt, number, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
+        super(id, entityStatus, createdAt, updatedAt, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
         this.title = title;
         this.system = system;
         this.components = components;
@@ -40,6 +41,7 @@ public class Device extends ItemEntity {
         this.actsInputControl = actsInputControl;
         this.user = user;
     }
+
 
     @ManyToOne
     @JoinColumn(name = "device_title_id")

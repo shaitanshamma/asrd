@@ -1,6 +1,7 @@
 package com.kropotov.asrd.dto.items;
 
 import com.kropotov.asrd.dto.SimpleUser;
+import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.titles.SystemTitle;
 import lombok.*;
 
@@ -18,6 +19,8 @@ public class ControlSystemDto {
     private SystemTitle systemTitle;
 
     private String number;
+
+    private Location location;
 
     private String purpose;
 

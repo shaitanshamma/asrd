@@ -39,6 +39,7 @@ public class ControlSystemToDto implements Converter<ControlSystem, ControlSyste
                 .id(source.getId())
                 .systemTitle(source.getTitle())
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .purpose(source.getPurpose())
                 .purposePassport(source.getPurposePassport())
                 .vintage(source.getVintage() != null ? source.getVintage().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) : null)

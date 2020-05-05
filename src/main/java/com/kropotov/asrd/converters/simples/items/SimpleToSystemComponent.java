@@ -43,6 +43,7 @@ public class SimpleToSystemComponent  implements Converter<SimpleSystemComponent
         final SystemComponent systemComponent = SystemComponent.builder()
                 .title(systemComponentTitle)
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .user(simpleToUser.convert(source.getUser()))
             .build();
 

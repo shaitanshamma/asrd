@@ -1,6 +1,7 @@
 package com.kropotov.asrd.dto.items;
 
 import com.kropotov.asrd.dto.SimpleUser;
+import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
 import lombok.*;
 
@@ -13,5 +14,6 @@ public class SimpleDeviceComponent {
     private Long id;
     private DeviceComponentTitle deviceComponentTitle;
     private String number;
+    private Location location;
     private SimpleUser user;
 }

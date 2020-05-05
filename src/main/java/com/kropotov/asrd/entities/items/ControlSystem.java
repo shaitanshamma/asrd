@@ -4,6 +4,7 @@ import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.common.ItemEntity;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.entities.docs.Invoice;
+import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.titles.SystemTitle;
 import lombok.*;
@@ -25,12 +26,12 @@ public class ControlSystem extends ItemEntity {
 
     @Builder
     public ControlSystem(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
-                         @NotNull(message = "Number cannot be null") String number, String purpose, String purposePassport,
+                         @NotNull(message = "Number cannot be null") String number, Location location, String purpose, String purposePassport,
                          LocalDate vintage, int vpNumber, LocalDate otkDate, LocalDate vpDate, SystemTitle title,
                          @NotNull(message = "User cannot be null") User user, List<ActInputControl> actsInputControl,
                          List<Invoice> invoices, List<Device> devices) {
 
-        super(id, entityStatus, createdAt, updatedAt, number, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
+        super(id, entityStatus, createdAt, updatedAt, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
         this.title = title;
         this.user = user;
         this.actsInputControl = actsInputControl;

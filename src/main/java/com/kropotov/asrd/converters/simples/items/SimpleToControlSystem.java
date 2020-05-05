@@ -42,6 +42,7 @@ public class SimpleToControlSystem  implements Converter<SimpleControlSystem, Co
         final ControlSystem controlSystem = ControlSystem.builder()
                 .title(systemTitle)
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .user(simpleToUser.convert(source.getUser()))
                 .build();
 

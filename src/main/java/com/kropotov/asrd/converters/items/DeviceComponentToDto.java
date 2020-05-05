@@ -10,6 +10,7 @@ public class DeviceComponentToDto implements Converter<DeviceComponent, DeviceCo
 
     @Override
     public DeviceComponentDto convert(DeviceComponent deviceComponent) {
+//        .location(source.getLocation())
         return null;
     }
 }

@@ -25,6 +25,7 @@ public class ControlSystemToSimple implements Converter<ControlSystem, SimpleCon
                 .id(source.getId())
                 .systemTitle(source.getTitle())
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .build();
 
         return simpleControlSystem;

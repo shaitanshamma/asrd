@@ -25,6 +25,7 @@ public class DeviceToSimple implements Converter<Device, SimpleDevice> {
                 .id(source.getId())
                 .deviceTitle(source.getTitle())
                 .number(source.getNumber())
+                .location(source.getLocation())
             .build();
 
         return simpleDevice;

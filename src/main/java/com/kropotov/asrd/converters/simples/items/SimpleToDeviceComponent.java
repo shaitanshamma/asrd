@@ -44,6 +44,7 @@ public class SimpleToDeviceComponent  implements Converter<SimpleDeviceComponent
         final DeviceComponent deviceComponent = DeviceComponent.builder()
                 .title(deviceComponentTitle)
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .user(simpleToUser.convert(source.getUser()))
                 .build();
 

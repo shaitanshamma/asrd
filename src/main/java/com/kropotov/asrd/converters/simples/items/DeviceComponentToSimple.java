@@ -25,6 +25,7 @@ public class DeviceComponentToSimple  implements Converter<DeviceComponent, Simp
                 .id(source.getId())
                 .deviceComponentTitle(source.getTitle())
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .build();
 
         return simpleDeviceComponent;

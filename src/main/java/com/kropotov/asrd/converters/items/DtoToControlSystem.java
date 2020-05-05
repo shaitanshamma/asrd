@@ -46,6 +46,7 @@ public class DtoToControlSystem implements Converter<ControlSystemDto, ControlSy
                         () -> new RuntimeException("Ошибка при выборе названия системы")
                 ))
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .purpose(source.getPurpose())
                 .purposePassport(source.getPurposePassport())
                 .vintage((source.getVintage() == null || source.getVintage().equals("")) ? null : LocalDate.parse(source.getVintage(), dateFormatter))

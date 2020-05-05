@@ -1,6 +1,7 @@
 package com.kropotov.asrd.dto.items;
 
 import com.kropotov.asrd.dto.SimpleUser;
+import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.titles.DeviceTitle;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class DeviceDto {
     private Long id;
     private DeviceTitle deviceTitle;
     private String number;
+    private Location location;
     private String purpose;
     private String purposePassport;
     private String vintage;

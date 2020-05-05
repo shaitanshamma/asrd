@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,11 +23,14 @@ public abstract class InfoEntity extends BaseEntity {
 
     public InfoEntity(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id);
-        this.entityStatus = Status.ACTIVE;
+        if (entityStatus == null) {
+            this.entityStatus = Status.ACTIVE;
+        } else {
+            this.entityStatus = entityStatus;
+        }
     }
 
     @Enumerated(value = EnumType.ORDINAL)
-    @Value("1")
     private Status entityStatus;
 
     @CreationTimestamp

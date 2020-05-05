@@ -20,6 +20,7 @@ public class SystemComponentToSimple implements Converter<SystemComponent, Simpl
                 .id(source.getId())
                 .systemComponentTitle(source.getTitle())
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .build();
 
         return simpleSystemComponent;

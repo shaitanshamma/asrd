@@ -42,6 +42,7 @@ public class SimpleToDevice implements Converter<SimpleDevice, Device> {
         final Device device = Device.builder()
                 .title(deviceTitle)
                 .number(source.getNumber())
+                .location(source.getLocation())
                 .user(simpleToUser.convert(source.getUser()))
             .build();
 

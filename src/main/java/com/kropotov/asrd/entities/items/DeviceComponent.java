@@ -1,7 +1,8 @@
 package com.kropotov.asrd.entities.items;
 
 import com.kropotov.asrd.entities.User;
-import com.kropotov.asrd.entities.common.InfoEntity;
+import com.kropotov.asrd.entities.common.ItemEntity;
+import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.titles.DeviceComponentTitle;
 import lombok.*;
@@ -10,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -19,15 +22,16 @@ import java.time.LocalDateTime;
 @Table(name = "device_components")
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeviceComponent extends InfoEntity {
+public class DeviceComponent extends ItemEntity {
 
     @Builder
     public DeviceComponent(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
-                           DeviceComponentTitle title, String number, Device device, User user) {
+                           @NotNull(message = "Number cannot be null") String number, Location location, String purpose,
+                           String purposePassport, LocalDate vintage, int vpNumber, LocalDate otkDate, LocalDate vpDate,
+                           DeviceComponentTitle title, Device device, User user) {
 
-        super(id, entityStatus, createdAt, updatedAt);
+        super(id, entityStatus, createdAt, updatedAt, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
         this.title = title;
-        this.number = number;
         this.device = device;
         this.user = user;
     }
@@ -36,7 +40,6 @@ public class DeviceComponent extends InfoEntity {
     @JoinColumn(name = "device_component_title_id")
     private DeviceComponentTitle title;
 
-    private String number;
 
     @ManyToOne
     @JoinColumn(name = "device_id")
@@ -45,11 +48,6 @@ public class DeviceComponent extends InfoEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public DeviceComponent(DeviceComponentTitle title, String number) {
-        this.title = title;
-        this.number = number;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -116,6 +116,24 @@
                        th:field="*{purposePassport}">
             </div>
         </div>
+
+        <div class="col-auto">
+            <label for="result-id">Местоположение: </span></label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        №
+                    </div>
+                </div>
+                <!--                /*@thymesVar id="locationValue" type="com.kropotov.asrd.entities.enums.Location"*/-->
+                <select class="custom-select" id="result-id" th:field="*{location}">
+                    <option th:each="locationValue : ${T(com.kropotov.asrd.entities.enums.Location).values()}"
+                            th:value="${locationValue.name()}"
+                            th:text="${locationValue.title}"></option>
+                </select>
+            </div>
+        </div>
+
         <div th:if="${not #lists.isEmpty(device.components)}" class="col-auto">
             <h5>Составные части</h5>
             <ul>
