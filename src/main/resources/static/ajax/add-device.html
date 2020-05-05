@@ -1,0 +1,51 @@
+<div class="col-auto">
+    <label for="topic-id">Выберите тему</label>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <i class="fa fa-rocket" aria-hidden="true"></i>
+            </div>
+        </div>
+        <select class="custom-select" id="topic-id" onchange="onChangeTopic(this)">
+        </select>
+    </div>
+</div>
+
+<div class="col-auto">
+    <label for="systemTitle-id">Выберите название системы</label>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <i class="fa fa-rocket" aria-hidden="true"></i>
+            </div>
+        </div>
+        <select class="custom-select" id="systemTitle-id" name="systemTitleId"
+                onchange="onChangeSystem(this)"></select>
+    </div>
+</div>
+
+<div class="col-auto device">
+    <label for="deviceTitle-id">Выберите название прибора</label>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <i class="fa fa-rocket" aria-hidden="true"></i>
+            </div>
+        </div>
+        <select class="custom-select" id="deviceTitle-id" name="titleId"></select>
+    </div>
+</div>
+
+<div class="col-auto">
+    <label for="itemNumber-id">Введите номер прибора</label>
+    <div class="input-group mb-2">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                №
+            </div>
+        </div>
+        <input type="text" class="form-control" id="itemNumber-id" name="itemNumber">
+    </div>
+</div>
+
+<button formaction="/asrd/invoices/add/device" class="btn btn-dark">Добавить</button>

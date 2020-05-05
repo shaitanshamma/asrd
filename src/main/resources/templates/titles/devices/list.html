@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Admin)"></nav>
+
+<div class="container">
+    <br>
+    <h1>Список названий приборов</h1>
+    <hr>
+
+    <a th:href="@{devices/0}"
+       class="btn btn-primary btn-sm mb-3">
+        Добавить
+    </a>
+    <span th:if="${deviceTitles.size() == 0}" th:text="'Наваний приборов нет'" ></span>
+
+    <table th:unless="${deviceTitles.size() == 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Название</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="deviceTitle, iterator : ${deviceTitles}">
+            <td th:text="${iterator.count}"></td>
+            <td>
+                <a th:href="@{/titles/devices/__${deviceTitle.id}__}" th:text="${deviceTitle.title}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

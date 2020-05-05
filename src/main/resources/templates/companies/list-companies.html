@@ -22,16 +22,16 @@
     <table th:unless="${companies.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
+            <th>№ п/п</th>
             <th>Название</th>
             <th>Доп. информация(TODO)</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="company : ${companies}" th:attr="sys_id=${company.id}"
+        <tr th:each="company, iterator : ${companies}" th:attr="sys_id=${company.id}"
             th:onclick="'window.location.href=\'companies/' + ${company.id} + '\'; return false'">
-            <td th:text="${company.id}"/>
-            <td th:text="${company.title}"/>
+            <td th:text="${iterator.count}"></td>
+            <td th:text="${company.title}"></td>
             <td>
                 <a th:href="@{'/info/' + ${company.id}}">"Информация"</a>
             </td>

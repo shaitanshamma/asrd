@@ -8,6 +8,16 @@
 
 <nav th:replace="layouts :: navbar(Systems)"></nav>
 <div class="container">
+
+    <header class="card-header">
+        <h4 class="card-title mt-2">
+            <span th:text="${system.number == null} ? 'Добавление ' : 'Изменение '"></span>
+            <span th:text="'системы ' + ${system.systemTitle.title}"></span>
+            <span th:if="${system.number != null}"
+                  th:text="' №' + ${system.number}"></span>
+        </h4>
+    </header>
+
     <div class="form-group">
         <div class="col-xs-15">
             <div th:if="${systemCreationError != null}">
@@ -21,25 +31,8 @@
 
     <form class="form-horizontal" th:action="@{/systems/edit}" th:object="${system}" method="post">
         <input type="hidden" th:field="*{id}" class="form-control" id="systemId">
+        <input type="hidden" th:field="*{systemTitle.id}">
 
-        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
-
-        <div class="col-auto">
-            <label for="systemTitle-id">Название</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="systemTitle-id" th:field="*{title}">
-                    <option th:each="t : ${systemTitles}"
-                            th:value="${t.id}"
-                            th:text="${t.title}">
-                    </option>
-                </select>
-            </div>
-        </div>
 
         <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
 
@@ -52,7 +45,7 @@
                     </div>
                 </div>
                 <input th:field="*{number}" type="text" class="form-control" id="number-id"
-                       placeholder="Введите номер системы">
+                       placeholder="Введите номер системы" required>
             </div>
         </div>
 
@@ -64,8 +57,8 @@
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                     </div>
                 </div>
-                <input type="text" class="form-date" name="strVintage"
-                       id="strVintage-id" th:value="${strVintage}" placeholder="дд.мм.гггг">
+                <input type="text" class="form-date"
+                       id="strVintage-id" th:field="*{vintage}" placeholder="дд.мм.гггг">
             </div>
         </div>
 
@@ -77,7 +70,7 @@
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                     </div>
                 </div>
-                <input type="text" class="form-date" name="strOtkDate" id="strOtkDate-id" th:value="${strOtkDate}"
+                <input type="text" class="form-date" id="strOtkDate-id" th:field="*{otkDate}"
                        placeholder="дд.мм.гггг">
             </div>
         </div>
@@ -90,7 +83,7 @@
                     </div>
                 </div>
 
-                <input type="text" class="form-date" name="strVpDate" id="strVpDate-id" th:value="${strVpDate}"
+                <input type="text" class="form-date" id="strVpDate-id" th:field="*{vpDate}"
                        placeholder="дд.мм.гггг">
             </div>
         </div>
@@ -126,6 +119,26 @@
                 </div>
                 <input type="text" class="form-control" name="strVpDate" id="purposePassport-id" th:field="*{purposePassport}">
             </div>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(system.devices)}" class="col-auto">
+            <h5>Составные части</h5>
+            <ul>
+                <li th:each="t, i : *{devices}">
+                    <input type="hidden" th:field="*{devices[__${i.index}__].deviceTitle.id}">
+                    <input type="hidden" th:field="*{devices[__${i.index}__].id}">
+                    <!--                    <input type="hidden" th:field="*{components[__${i.index}__].title.title}">-->
+                    <label th:text="*{devices[__${i.index}__].deviceTitle.title}"></label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                №
+                            </div>
+                        </div>
+                        <input type="text" th:field="*{devices[__${i.index}__].number}">
+                    </div>
+                </li>
+            </ul>
         </div>
         <hr>
         <button type="submit" class="btn btn-primary">Сохранить</button>

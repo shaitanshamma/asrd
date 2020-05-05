@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Admin)"></nav>
+<div class="container">
+    <div class="form-group">
+        <div class="col-xs-15">
+            <div th:if="${titleCreationError != null}">
+                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    <span th:text="${titleCreationError}" ></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form class="form-horizontal" th:action="@{/titles/devices/edit}" th:object="${deviceTitle}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="col-4">
+            <label for="number-id">Название</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        К
+                    </div>
+                </div>
+                <input th:field="*{title}" type="text" class="form-control" id="number-id"
+                       placeholder="Введите название" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

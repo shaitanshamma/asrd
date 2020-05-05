@@ -32,6 +32,11 @@ function onChangeTopic(select) {
             if (this.readyState == 4 && this.status == 200) {
                 var objSel = document.getElementById("systemTitle-id");
                 var myObj = JSON.parse(this.responseText);
+                if (myObj.length === 0) {
+                    objSel.style.display = 'none';
+                } else {
+                    objSel.style.display = '';
+                }
                 for (var i = 0; i < myObj.length; i++) {
                     objSel.options[i] = new Option(myObj[i].title, myObj[i].id);
                 }

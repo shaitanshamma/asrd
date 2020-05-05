@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Admin)"></nav>
+
+<div class="container">
+    <br>
+    <h1>Список названий СЧ систем</h1>
+    <hr>
+
+    <a th:href="@{systemcomponents/0}"
+       class="btn btn-primary btn-sm mb-3">
+        Добавить
+    </a>
+    <span th:if="${systemComponentTitles.size() == 0}" th:text="'Составных частей нет'" ></span>
+
+    <table th:unless="${systemComponentTitles.size() == 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Название</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="systemComponentTitle, iterator : ${systemComponentTitles}">
+            <td th:text="${iterator.count}"></td>
+            <td>
+                <a th:href="@{/titles/systemcomponents/__${systemComponentTitle.id}__}" th:text="${systemComponentTitle.title}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 
-<head th:replace="layouts :: header" ></head>
+<head th:replace="layouts :: header"></head>
 
 <body>
 
@@ -28,79 +28,6 @@
         <!--<div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>-->
 
         <div class="col-auto">
-            <label for="type-id">Выберите тип изделия</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="type-id" name="type" onchange="onChangeType(this)">
-                    <!--<option th:each="t : ${topicTitleList}"
-                            th:value="${t.id}"
-                            th:text="${t.title}">
-                    </option>-->
-                    <option value="system">Система</option>
-                    <option value="device" selected>Прибор</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <label for="topic-id">Выберите тему</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="topic-id" onchange="onChangeTopic(this)">
-                    <option th:each="t : ${topicTitleList}"
-                            th:value="${t.id}"
-                            th:text="${t.title}">
-                    </option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <label for="systemTitle-id">Выберите название системы</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="systemTitle-id" name="systemTitle" onchange="onChangeSystem(this)"></select>
-            </div>
-        </div>
-
-
-        <div class="col-auto device">
-            <label for="deviceTitle-id">Выберите название прибора (опционально)</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="deviceTitle-id" name="deviceTitle"></select>
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <label for="itemNumber-id">Введите номер <span id='deviceOrSystem'>прибора</span></label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        №
-                    </div>
-                </div>
-                <input type="text" class="form-control" id="itemNumber-id" name="itemNumber" th:value="${itemNumber}">
-            </div>
-        </div>
-
-        <div class="col-auto">
             <label for="invoiceNumber-id">Введите номер накладной</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -122,7 +49,7 @@
                     </div>
                 </div>
 
-                <input type="text" class="form-date" name="strInvoiceDate" id="strVpDate-id" th:value="${strInvoiceDate}"
+                <input type="text" class="form-date" id="strVpDate-id" th:field="*{date}"
                        placeholder="дд.мм.гггг">
             </div>
         </div>
@@ -132,7 +59,7 @@
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
+<!--                        <i class="fa fa-rocket" aria-hidden="true"></i>-->
                     </div>
                 </div>
                 <select class="custom-select" id="from-id" th:field="*{from.id}">
@@ -161,23 +88,63 @@
             </div>
         </div>
 
+        <br>
+        <div class="col-md-6 mb-3">
+            Системы:<br>
+            <ul class="list-group" th:field="*{systems}">
+                <li th:each="system, iterator : *{systems}" class="list-group-item d-flex justify-content-between align-items-center">
+                    <span th:text="${system.systemTitle.title} + ' №' +${system.number}"></span>
+                    <a th:href="@{'/invoices/' + ${invoice.id} + '/system/' + ${iterator.index} + '/delete'}"><i class="fa fa-trash"></i></a>
+                </li>
+            </ul>
+            <br>
+        </div>
+        <div class="col-md-6 mb-3">
+            Приборы:<br>
+            <ul class="list-group" th:field="*{devices}">
+                <li th:each="device, iterator : *{devices}"
+                    class="list-group-item d-flex justify-content-between align-items-center">
+                    <!--                <a th:href="@{'/devices/' + ${device.id}}"></a>-->
+                    <span th:text="${device.deviceTitle.title} + ' №' +${device.number}"></span>
+                    <a th:href="@{'/invoices/' + ${invoice.id} + '/device/' + ${iterator.index} + '/delete'}"><i class="fa fa-trash"></i></a>
+                </li>
+            </ul>
+            <br>
+        </div>
+
         <div class="col-auto">
             <div class="form-group">
                 <label for="exampleFormControlFile1">Выберите файл накладной</label>
                 <input name="file" type="file" class="form-control-file" id="exampleFormControlFile1">
             </div>
-<!--            <label for="itemNumber-id">Выберите файл накладной</label>-->
-<!--            <div class="input-group mb-3">-->
-                <!--<div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-upload" aria-hidden="true"></i>
-                    </div>
-                </div>-->
-                <!--<div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile02" name="file">
-                    <label class="custom-file-label" for="inputGroupFile02">Выберите файл</label>
-                </div>-->
-<!--            </div>-->
+            <!--            <label for="itemNumber-id">Выберите файл накладной</label>-->
+            <!--            <div class="input-group mb-3">-->
+            <!--<div class="input-group-prepend">
+                <div class="input-group-text">
+                    <i class="fa fa-upload" aria-hidden="true"></i>
+                </div>
+            </div>-->
+            <!--<div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile02" name="file">
+                <label class="custom-file-label" for="inputGroupFile02">Выберите файл</label>
+            </div>-->
+            <!--            </div>-->
+        </div>
+
+
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <button type="button" name="btnShowAddDeviceForm" onclick="showDeviceForm()" class="btn btn-primary">
+                    Добавить прибор
+                </button>
+                <div class="add-device"></div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <button type="button" name="btnShowAddSystemForm" onclick="showSystemFrom()" class="btn btn-primary">
+                    Добавить систему
+                </button>
+                <div class="add-system"></div>
+            </div>
         </div>
 
         <hr>
@@ -190,9 +157,39 @@
 <div th:replace="layouts :: date"></div>
 
 <script th:src="@{/js/ajaxes.js}"></script>
-<script>
-    onChangeType(document.getElementById("type-id"));
-    onChangeTopic(document.getElementById("topic-id"));
+<script th:inline="javascript">
+    var topics = [[${topicTitleList}]];
+
+    function showDeviceForm() {
+        $.ajax({
+            url: "/asrd/ajax/add-device.html", // отткель
+            dataType: "html",         // формат
+            success: function (data) {
+                $('.add-device').html(data);
+                $('.add-system').empty();
+                fillTopics()
+            }  // callback
+        });
+    }
+
+    function showSystemFrom() {
+        $.ajax({
+            url: "/asrd/ajax/add-system.html", // отткель
+            dataType: "html",         // формат
+            success: function (data) {
+                $('.add-system').html(data);
+                $('.add-device').empty();
+                fillTopics()
+            }  // callback
+        });
+    }
+
+    function fillTopics() {
+        for (var i = 0; i < topics.length; i++) {
+            $('#topic-id').append("<option value = " + topics[i].id + ">" + topics[i].title + "</option>")
+        }
+        onChangeTopic(document.getElementById("topic-id"));
+    }
 </script>
 </body>
 </html>

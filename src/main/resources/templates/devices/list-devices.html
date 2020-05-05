@@ -12,7 +12,9 @@
     <h1>Каталог приборов</h1>
     <hr>
 
-    <span th:if="${devices.size() == 0}" th:text="'Приборов нет'"></span>
+    <div th:if="${devices.size() == 0}" >
+        Приборов нет<hr>
+    </div>
 
     <table th:unless="${devices.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
@@ -25,7 +27,7 @@
         </thead>
         <tbody>
         <tr th:each="device, i : ${devices}" th:attr="sys_id=${device.id}"
-            th:onclick="'window.location.href=\'devices/' + ${device.id} + '\'; return false'">
+            th:onclick="'window.location.href=\'devices/' + ${device.id} + '/show\'; return false'">
             <td th:text="${i.count}"/>
             <td th:text="${device.vintage}"/>
             <td th:text="${device.title.getTitle()}"/>
@@ -35,9 +37,10 @@
     </table>
 
     <div>
-        <form class="form-horizontal" th:action="@{/devices/0}" method="get">
+        <form th:action="@{/devices/0/update}" method="get">
+            <div class="form-row align-items-center">
             <div class="col-auto">
-                <label for="topic-id">Выберите тему</label>
+                <label class="sr-only" for="topic-id">Выберите тему</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -54,7 +57,7 @@
             </div>
 
             <div class="col-auto">
-                <label for="systemTitle-id">Выберите название системы</label>
+                <label class="sr-only" for="systemTitle-id">Выберите название системы</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -66,7 +69,7 @@
             </div>
 
             <div class="col-auto device">
-                <label for="deviceTitle-id">Выберите название прибора (опционально)</label>
+                <label class="sr-only" for="deviceTitle-id">Выберите название прибора</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
@@ -76,7 +79,8 @@
                     <select class="custom-select" id="deviceTitle-id" name="deviceTitle"></select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Добавить</button>
+            <button type="submit" class="btn btn-primary mb-2">Добавить</button>
+            </div>
         </form>
     </div>
 </div>

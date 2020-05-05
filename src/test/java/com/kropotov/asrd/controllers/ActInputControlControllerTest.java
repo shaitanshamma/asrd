@@ -1,6 +1,7 @@
 package com.kropotov.asrd.controllers;
 
-import com.kropotov.asrd.converters.DtoToActInputControl;
+import com.kropotov.asrd.converters.UserToSimple;
+import com.kropotov.asrd.converters.docs.DtoToActInputControl;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.services.ActInputControlService;
 import com.kropotov.asrd.services.UserService;
@@ -29,13 +30,16 @@ class ActInputControlControllerTest {
     @Mock
     DtoToActInputControl dtoToActInputControl;
 
+    @Mock
+    UserToSimple userToSimple;
+
     ActInputControlController actController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        actController = new ActInputControlController(actService, userService, dtoToActInputControl);
+        actController = new ActInputControlController(actService, userService, dtoToActInputControl, userToSimple);
     }
 
     @Test

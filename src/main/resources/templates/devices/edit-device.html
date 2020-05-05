@@ -21,11 +21,11 @@
 
     <form class="form-horizontal" th:action="@{/devices/edit}" th:object="${device}" method="post">
         <input type="hidden" th:field="*{id}">
-        <input type="hidden" th:field="*{title}">
+        <input type="hidden" th:field="*{deviceTitle.id}">
 
         <!--        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>-->
         <!--        <input type="hidden" th:field="*{id}" class="form-control" id="deviceId">-->
-        <h2 th:text="*{title.title}"></h2>
+        <h2 th:text="*{deviceTitle.title}"></h2>
         <hr>
 
 
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <input type="text" class="form-date" name="strVintage"
-                       id="strVintage-id" th:value="${strVintage}" placeholder="дд.мм.гггг">
+                       id="strVintage-id" th:value="*{vintage}" placeholder="дд.мм.гггг">
             </div>
         </div>
 
@@ -65,7 +65,7 @@
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                     </div>
                 </div>
-                <input type="text" class="form-date" name="strOtkDate" id="strOtkDate-id" th:value="${strOtkDate}"
+                <input type="text" class="form-date" name="strOtkDate" id="strOtkDate-id" th:value="*{otkDate}"
                        placeholder="дд.мм.гггг">
             </div>
         </div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <input type="text" class="form-date" name="strVpDate" id="strVpDate-id" th:value="${strVpDate}"
+                <input type="text" class="form-date" name="strVpDate" id="strVpDate-id" th:value="*{vpDate}"
                        placeholder="дд.мм.гггг">
             </div>
         </div>
@@ -120,10 +120,10 @@
             <h5>Составные части</h5>
             <ul>
                 <li th:each="t, i : ${device.components}">
-                    <input type="hidden" th:field="*{components[__${i.index}__].title.id}">
+                    <input type="hidden" th:field="*{components[__${i.index}__].deviceComponentTitle.id}">
                     <input type="hidden" th:field="*{components[__${i.index}__].id}">
                     <!--                    <input type="hidden" th:field="*{components[__${i.index}__].title.title}">-->
-                    <label th:text="*{components[__${i.index}__].title.title}"></label>
+                    <label th:text="*{components[__${i.index}__].deviceComponentTitle.title}"></label>
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
@@ -136,20 +136,26 @@
             </ul>
         </div>
 
+        <div class="form-inline col-4">
+            <label class="my-1 mr-2" for="system-id" th:text="'Входит в состав системы '">Входит в состав
+                системы:</label>
+            <select class="custom-select my-1 mr-sm-2" th:field="*{system.systemTitle}">
+                <option th:each="current : ${systemTitles}"
+                        th:value="${current.id}"
+                        th:text="${current.title}">
+                </option>
+            </select>
+        </div>
+
         <div class="col-4">
-            <label for="system-id">Входит в состав системы:</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
+                        №
                     </div>
                 </div>
-                <select class="custom-select" th:field="*{system}" id="system-id">
-                    <option th:each="system : ${systems}"
-                            th:value="${system.id}"
-                            th:text="${system.title.title} + ' ' + ${system.number}">
-                    </option>
-                </select>
+                <input type="hidden" th:field="*{system.id}">
+                <input type="text" id="system-id" th:field="*{system.number}">
             </div>
         </div>
 

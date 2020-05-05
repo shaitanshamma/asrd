@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ru">
+
+<head th:replace="layouts :: header" ></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Devices)"></nav>
+
+<div class="container">
+    <header class="card-header">
+        <h4 class="card-title mt-2" th:text="'Прибор ' + ${device.deviceTitle.title} +' №' + ${device.number}">Система</h4>
+    </header>
+    <br>
+    <a sec:authorize="isAuthenticated()" href="#" th:href="@{'/devices/' + ${device.id} + '/update'}"
+       class="btn btn-primary btn-sm mb-3">
+        Редактировать
+    </a>
+
+
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

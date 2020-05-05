@@ -18,7 +18,7 @@
 
 
 <nav th:fragment = "navbar(activeTab)" class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark ">
-    <a class="navbar-brand" th:href="@{/}">АСРД</a>
+    <a class="navbar-brand" th:href="@{/}">АСУП</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -37,8 +37,21 @@
             <li class="nav-item" th:classappend="${activeTab == 'Invoices' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/invoices}">Накладные<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item" th:classappend="${activeTab == 'Companies' ? 'active' : ''}">
-                <a class="nav-link" th:href="@{/companies}">Компании<span class="sr-only">(current)</span></a>
+            <li class="nav-item" th:classappend="${activeTab == 'Acts' ? 'active' : ''}">
+                <a class="nav-link" th:href="@{/acts}">Вх. контроль<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown" th:classappend="${activeTab == 'Admin' ? 'active' : ''}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Админка
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" th:href="@{/companies}">Компании<span class="sr-only">(current)</span></a>
+                    <a class="dropdown-item" th:href="@{/titles/topics}">Названия тем</a>
+                    <a class="dropdown-item" th:href="@{/titles/systems}">Названия систем</a>
+                    <a class="dropdown-item" th:href="@{/titles/systemcomponents}">Названия СЧ систем</a>
+                    <a class="dropdown-item" th:href="@{/titles/devices}">Названия приборов</a>
+                    <a class="dropdown-item" th:href="@{/titles/devicecomponents}">Названия СЧ приборов</a>
+                </div>
             </li>
             <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${activeTab == 'Login' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/login}">Войти<span class="sr-only">(current)</span></a>

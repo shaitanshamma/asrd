@@ -278,7 +278,7 @@ CREATE TABLE device_components
     id                        INT     NOT NULL AUTO_INCREMENT,
     device_component_title_id INT     NOT NULL,
     number                    VARCHAR(255) NOT NULL,
-    device_id                 INT     NOT NULL,
+    device_id                 INT     DEFAULT NULL,
     entity_status             TINYINT              DEFAULT 1,
     created_at                TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at                TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,

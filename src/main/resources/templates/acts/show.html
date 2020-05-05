@@ -20,17 +20,28 @@
         Редактировать
     </a>
     <p>
-        Изделия:<br>
-    <ul>
-        <li th:each="system : ${act.systems}">
-            <a th:href="@{'/systems/' + ${system.id}}" th:text="${system.title.title}"></a>
-        </li>
-        <li th:each="device : ${act.devices}">
-            <a th:href="@{'/devices/' + ${device.id}}" th:text="${device.title.title}"></a>
-        </li>
-    </ul>
+    <div th:if="${act.systems.size() > 0}">
+        Системы:<br>
+        <ul>
+            <li th:each="system : ${act.systems}">
+                <a th:href="@{'/systems/' + ${system.id} + '/show'}"
+                   th:text="${system.systemTitle.title} + ' №' + ${system.number}"></a>
+            </li>
+        </ul>
+    </div>
+    <div th:if="${act.systems.size() > 0}">
+        Приборы:<br>
+        <ul>
 
-    Прибыли по <a th:href="@{'/invoices/' + ${act.invoice.id} + '/show'}" th:text="'накладной №' + ${act.invoice.number}"></a>
+            <li th:each="device : ${act.devices}">
+                <a th:href="@{'/devices/' + ${device.id} + '/show'}"
+                   th:text="${device.deviceTitle.title} + ' №' + ${device.number}"></a>
+            </li>
+        </ul>
+    </div>
+
+    Прибыли по <a th:href="@{'/invoices/' + ${act.invoice.id} + '/show'}"
+                  th:text="'накладной №' + ${act.invoice.number}"></a>
     </p>
     <p th:text="'Результат: ' + ${act.result.title}"></p>
     <p th:text="'Описание: ' + ${act.description}"></p>

@@ -12,7 +12,7 @@
     <h1>Каталог накладных</h1>
     <hr>
 
-    <a th:href="@{/invoices/0}"
+    <a th:href="@{/invoices/0/update}"
        class="btn btn-primary btn-sm mb-3">
         Добавить
     </a>
@@ -34,7 +34,7 @@
 <!--        th:onclick="'window.location.href=\'invoices/' + ${invoice.id} + '\'; return false'"-->
         <tr th:each="invoice, iterator : ${invoices}" th:attr="sys_id=${invoice.id}">
             <td th:text="${iterator.count}"></td>
-            <td th:text="${invoice.number}"></td>
+            <td><a href="#" th:href="@{'/invoices/' + ${invoice.id} + '/show'}" th:text="${invoice.number}"></a></td>
             <td th:text="${invoice.date}"></td>
             <td>
                 <a th:href="@{'/invoices/files/' + ${invoice.id}}" th:text="${invoice.path}" target="_blank"></a>

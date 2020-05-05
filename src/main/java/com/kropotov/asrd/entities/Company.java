@@ -1,6 +1,6 @@
 package com.kropotov.asrd.entities;
 
-import com.kropotov.asrd.entities.utils.TitleEntity;
+import com.kropotov.asrd.entities.common.TitleEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,5 +13,4 @@ import javax.persistence.Table;
 @Getter
 @Setter
 public class Company extends TitleEntity {
-
 }

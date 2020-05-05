@@ -12,11 +12,6 @@
     <h1>Каталог систем</h1>
     <hr>
 
-    <a th:href="@{/systems/0}"
-       class="btn btn-primary btn-sm mb-3">
-        Добавить
-    </a>
-
     <span th:if="${systems.size() == 0}" th:text="'Систем нет'"></span>
 
     <table th:unless="${systems.size() == 0}" class="table table-hover">
@@ -30,15 +25,54 @@
         </thead>
         <tbody>
         <tr th:each="system, i : ${systems}" th:attr="sys_id=${system.id}"
-            th:onclick="'window.location.href=\'systems/' + ${system.id} + '\'; return false'">
-            <td th:text="${i.count}"/>
-            <td th:text="${system.vintage}"/>
-            <td th:text="${system.title.getTitle()}"/>
-            <td th:text="${system.number}"/>
+            th:onclick="'window.location.href=\'systems/' + ${system.id} + '/show\'; return false'">
+            <td th:text="${i.count}"></td>
+            <td th:text="${#temporals.format(system.vintage, 'dd.MM.yyyy')}"></td>
+            <td th:text="${system.title.getTitle()}"></td>
+            <td th:text="${system.number}"></td>
         </tr>
         </tbody>
     </table>
+    <div>
+        <form th:action="@{/systems/0/update}" method="get">
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <label class="sr-only" for="topic-id">Выберите тему</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-rocket" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <select class="custom-select" id="topic-id" onchange="onChangeTopic(this)">
+                            <option th:each="t : ${topicTitleList}"
+                                    th:value="${t.id}"
+                                    th:text="${t.title}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <label class="sr-only" for="systemTitle-id">Выберите название системы</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-rocket" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <select class="custom-select" id="systemTitle-id" name="systemTitle"></select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Добавить</button>
+            </div>
+        </form>
+    </div>
 </div>
 <div th:replace="layouts :: footer"></div>
+<script th:src="@{/js/ajaxes.js}"></script>
+<script>
+    onChangeTopic(document.getElementById("topic-id"));
+</script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 package com.kropotov.asrd.entities;
 
-import com.kropotov.asrd.entities.utils.BaseEntity;
+import com.kropotov.asrd.entities.common.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 

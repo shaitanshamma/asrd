@@ -39,16 +39,16 @@
                         №
                     </div>
                 </div>
-                <input type="text" class="form-control" id="invoiceNumber-id" name="invoiceNumber" list="invoiceList"
+                <input type="text" class="form-control" id="invoiceNumber-id" th:field="*{invoice.number}" list="invoiceList"
                        autocomplete="off">
                 <datalist id="invoiceList">
 
                 </datalist>
             </div>
             <div class="invoices">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" th:field="*{invoiceId}" th:value="*{invoiceId}" id="inlineRadio">
-                    <label class="form-check-label" for="inlineRadio" th:text="'Накладная'"></label>
+                <div th:if="*{invoice.id != null}" class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" th:value="*{invoice.id}" th:field="*{invoice.id}" id="inlineRadio">
+                    <label class="form-check-label" for="inlineRadio" th:text="*{invoice.date}"></label>
                 </div>
             </div>
         </div>
@@ -110,102 +110,6 @@
             </div>
         </div>
 
-        <!--<div class="col-auto">
-            <label for="type-id">Выберите тип изделия</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="type-id" name="type" onchange="onChangeType(this)">
-                    &lt;!&ndash;<option th:each="t : ${topicTitleList}"
-                            th:value="${t.id}"
-                            th:text="${t.title}">
-                    </option>&ndash;&gt;
-                    <option value="system">Система</option>
-                    <option value="device" selected>Прибор</option>
-                </select>
-            </div>
-        </div>
-
-
-        <div class="col-auto device">
-            <label for="deviceTitle-id">Выберите название прибора (опционально)</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-rocket" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <select class="custom-select" id="deviceTitle-id" name="deviceTitle"></select>
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <label for="itemNumber-id">Введите номер <span id='deviceOrSystem'>прибора</span></label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        №
-                    </div>
-                </div>
-                <input type="text" class="form-control" id="itemNumber-id" name="itemNumber" th:value="${itemNumber}">
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <label for="invoiceNumber-id">Введите номер накладной</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        №
-                    </div>
-                </div>
-                <input type="text" class="form-control" id="invoiceNumber-id" th:field="*{number}">
-                <small class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"> </small>
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <label for="strVpDate-id">Дата входного каонтроля</label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                    </div>
-                </div>
-
-                <input type="text" class="form-date" name="strInvoiceDate" id="strVpDate-id"
-                       th:value="*{#temporals.format(date, 'dd.MM.yyyy')}"
-                       placeholder="дд.мм.гггг">
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <label for="itemNumber-id">Введите номер <span id='deviceOrSystem'>прибора</span></label>
-            <div class="input-group mb-2">
-                <div class="input-group-prepend">
-                    <div class="input-group-text">
-                        №
-                    </div>
-                </div>
-                &lt;!&ndash;/*@thymesVar id="resultValue" type="com.kropotov.asrd.entities.enums.Result"*/&ndash;&gt;
-                <select class="custom-select" th:field="*{result}">
-                    <option th:each="resultValue : ${T(com.kropotov.asrd.entities.enums.Result).values()}"
-                            th:value="${resultValue.name()}"
-                            th:text="${resultValue.title}"></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <div class="form-group">
-                <label for="exampleFormControlFile1">Выберите файл акта вх. контроля</label>
-                <input name="file" type="file" class="form-control-file" id="exampleFormControlFile1">
-            </div>
-        </div>-->
-
         <hr>
         <div class="form-group">
             <button type="submit" name="addInvoice" class="btn btn-primary">Сохранить</button>
@@ -239,7 +143,7 @@
                     $("#invoiceList").append("<option>" + data[i].number + "</option>")
                     if ($("#invoiceNumber-id").val() === data[i].number) {
                         var txt = "<div class=\"form-check form-check-inline\">\n" +
-                            "            <input class=\"form-check-input\" type=\"radio\" name=\"invoiceId\" id=\"inlineRadio" + i + "\" value=\"" + data[i].id + "\">\n" +
+                            "            <input class=\"form-check-input\" type=\"radio\" name=\"invoice.id\" id=\"inlineRadio" + i + "\" value=\"" + data[i].id + "\">\n" +
                             "            <label class=\"form-check-label\" for=\"inlineRadio" + i + "\">" + data[i].date + "</label>\n" +
                             "        </div>";
                         $(".invoices").append(txt);

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<body>
+<form>
+    <th:block th:fragment="select (label, name, items, badge)">
+        <div class="col-auto">
+            <label for="topic-id" th:text="${label}">Label</label>
+
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <span th:text="${badge}"></span>
+                    </div>
+                </div>
+                <select class="custom-select" id="topic-id" th:field="*{__${name}__}">
+                    <option th:each="item : ${items}"
+                            th:text="${item.title}">
+                    </option>
+                </select>
+            </div>
+        </div>
+    </th:block>
+    <i class="fa fa-rocket" aria-hidden="true"></i>
+</form>
+</body>
+</html>
