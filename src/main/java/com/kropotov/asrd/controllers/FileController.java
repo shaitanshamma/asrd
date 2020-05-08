@@ -41,13 +41,13 @@ public class FileController {
                 headers.setContentType(MediaType.IMAGE_JPEG);
                 break;
             default:
-                Resource file = storageService.loadAsResource("invoices", filename);
+                Resource file = storageService.loadAsResource(path, filename);
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
                 headers.set(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + file.getFilename() + "\"");
         }
         try {
-            return new ResponseEntity<>(Files.readAllBytes(storageService.load("invoices", filename)),
+            return new ResponseEntity<>(Files.readAllBytes(storageService.load(path, filename)),
                     headers, HttpStatus.OK);
         } catch (IOException e) {
             throw new RuntimeException();

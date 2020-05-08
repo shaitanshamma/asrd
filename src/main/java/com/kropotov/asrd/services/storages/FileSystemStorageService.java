@@ -54,16 +54,16 @@ public class FileSystemStorageService implements StorageService {
                         "Невозможно сохранить файл за пределами текущей директории "
                                 + filename);
             }
-            // TODO добавить проверку на уникальное имя
-            try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(rootLocation.resolve(path))) {
-                for (Path child : dirStream) {
-                    if (child.getFileName().toString().equals(filename)) {
-                        throw new StorageException("Файл с таким именем уже существует " + rootLocation.toAbsolutePath());
+
+            try {
+                Files.createDirectories(rootLocation.resolve(path));
+                try (DirectoryStream<Path> dirStream = Files.newDirectoryStream(rootLocation.resolve(path))) {
+                    for (Path child : dirStream) {
+                        if (child.getFileName().toString().equals(filename)) {
+                            throw new StorageException("Файл с таким именем уже существует " + rootLocation.toAbsolutePath());
+                        }
                     }
                 }
-            }
-            try {
-                    Files.createDirectories(rootLocation.resolve(path));
             } catch (IOException e) {
                 log.error("Ошибка при создании хранилища файлов " + rootLocation.toAbsolutePath());
                 throw new StorageException("Ошибка при создании хранилища файло " + rootLocation.toAbsolutePath(), e);
@@ -80,7 +80,7 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public String store(String path, MultipartFile file) {
-        String filename = UUID.randomUUID() + "_" +StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        String filename = UUID.randomUUID() + "_" + StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         return store(path, filename, file);
     }
 
@@ -105,12 +105,12 @@ public class FileSystemStorageService implements StorageService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                log.error("Файл "+ filename + "в директории" + path + " не найден!");
-                throw new StorageFileNotFoundException("Файл "+ filename + "в директории" + path + " не найден!");
+                log.error("Файл " + filename + "в директории" + path + " не найден!");
+                throw new StorageFileNotFoundException("Файл " + filename + "в директории" + path + " не найден!");
             }
         } catch (MalformedURLException e) {
-            log.error("Файл "+ filename + "в директории" + path + " не найден!");
-            throw new StorageFileNotFoundException("Файл "+ filename + "в директории" + path + " не найден!", e);
+            log.error("Файл " + filename + "в директории" + path + " не найден!");
+            throw new StorageFileNotFoundException("Файл " + filename + "в директории" + path + " не найден!", e);
         }
     }
 }

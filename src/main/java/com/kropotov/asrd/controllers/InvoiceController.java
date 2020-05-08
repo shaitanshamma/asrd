@@ -139,6 +139,8 @@ public class InvoiceController {
         return "redirect:/invoices/" + (invoiceId.equals("null") ? 0 : invoiceId) + "/update";
     }
 
+    // todo добавить проверку с какой страницы пришел, НЕЛЬЗЯ ДОПУСТИТЬ ЦИКЛИЧНОГО УДАЛЕНИЯ ВСЕХ ФАЙЛОВ ПО ID!!!!!!!
+    // todo Перенести удаление файлов в FileController
     @GetMapping("/{invoiceId}/file/delete")
     @ResponseStatus(HttpStatus.OK)
     public void deleteInvoiceFileById(@PathVariable("invoiceId") Long invoiceId) {

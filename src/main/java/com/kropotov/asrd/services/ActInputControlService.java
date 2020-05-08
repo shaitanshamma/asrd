@@ -4,6 +4,6 @@ import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 
 public interface ActInputControlService extends CrudService<ActInputControl, Long> {
-    ActInputControlDto saveDto(ActInputControlDto dto);
+    //ActInputControlDto saveDto(ActInputControlDto dto);
     ActInputControlDto getDtoById(Long id);
 }

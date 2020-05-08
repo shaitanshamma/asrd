@@ -4,6 +4,7 @@ import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.converters.docs.DtoToActInputControl;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.services.ActInputControlService;
+import com.kropotov.asrd.services.StorageService;
 import com.kropotov.asrd.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,13 +34,16 @@ class ActInputControlControllerTest {
     @Mock
     UserToSimple userToSimple;
 
+    @Mock
+    StorageService storageService;
+
     ActInputControlController actController;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        actController = new ActInputControlController(actService, userService, dtoToActInputControl, userToSimple);
+        actController = new ActInputControlController(actService, userService, dtoToActInputControl, userToSimple, storageService);
     }
 
     @Test

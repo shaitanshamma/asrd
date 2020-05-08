@@ -1,7 +1,6 @@
 package com.kropotov.asrd.services.springdatajpa.docs;
 
 import com.kropotov.asrd.converters.docs.ActInputControlToDto;
-import com.kropotov.asrd.converters.docs.DtoToActInputControl;
 import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.repositories.ActInputControlRepository;
@@ -19,7 +18,7 @@ import java.util.Optional;
 public class ActInputControlSDService implements ActInputControlService {
 
     private final ActInputControlRepository actInputControlRepository;
-    private final DtoToActInputControl dtoToActInputControl;
+    //private final DtoToActInputControl dtoToActInputControl;
     private final ActInputControlToDto actInputControlToDto;
 
     @Override
@@ -40,13 +39,14 @@ public class ActInputControlSDService implements ActInputControlService {
         return actInputControlRepository.save(act);
     }
 
-    @Override
+
+/*    @Override
     @Transactional
     public ActInputControlDto saveDto(ActInputControlDto actDto) {
         ActInputControl detachedAct = dtoToActInputControl.convert(actDto);
         ActInputControl savedAct = actInputControlRepository.save(detachedAct);
         return actInputControlToDto.convert(savedAct);
-    }
+    }*/
 
     @Override
     @Transactional

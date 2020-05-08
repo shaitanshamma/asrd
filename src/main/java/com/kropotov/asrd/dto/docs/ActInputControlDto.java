@@ -5,6 +5,7 @@ import com.kropotov.asrd.dto.items.SimpleControlSystem;
 import com.kropotov.asrd.dto.items.SimpleDevice;
 import com.kropotov.asrd.entities.enums.Result;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ActInputControlDto {
     private Long id;
     private String path;
+    private MultipartFile file;
     private String number;
     private InvoiceDto invoice;
     private String date;

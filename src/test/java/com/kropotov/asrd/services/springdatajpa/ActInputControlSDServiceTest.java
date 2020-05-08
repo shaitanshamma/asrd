@@ -37,7 +37,7 @@ class ActInputControlSDServiceTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        actInputControlSDService = new ActInputControlSDService(actInputControlRepository, dtoToActInputControl, actInputControlToDto);
+        actInputControlSDService = new ActInputControlSDService(actInputControlRepository, actInputControlToDto);
     }
 
     @Test

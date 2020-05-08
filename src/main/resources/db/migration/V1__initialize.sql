@@ -548,7 +548,7 @@ CREATE TABLE acts_input_control
     number        VARCHAR(255)  NOT NULL,
     invoice_id    INT           NOT NULL,
     act_date      DATE          NOT NULL,
-    path          VARCHAR(255)  NOT NULL,
+    path          VARCHAR(255) ,
     result        TINYINT       NOT NULL default 1,
     description   VARCHAR(255)  NOT NULL,
     entity_status TINYINT       NOT NULL       DEFAULT 1,

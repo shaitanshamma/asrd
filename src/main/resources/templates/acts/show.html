@@ -20,7 +20,7 @@
         Редактировать
     </a>
     <p>
-    <div th:if="${act.systems.size() > 0}">
+    <div th:if="${act.systems != null && act.systems.size() > 0}">
         Системы:<br>
         <ul>
             <li th:each="system : ${act.systems}">
@@ -29,7 +29,7 @@
             </li>
         </ul>
     </div>
-    <div th:if="${act.systems.size() > 0}">
+    <div th:if="${act.devices != null && act.devices.size() > 0}">
         Приборы:<br>
         <ul>
 

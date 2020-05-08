@@ -4,6 +4,8 @@ import com.kropotov.asrd.converters.SimpleToUser;
 import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.entities.docs.Invoice;
+import com.kropotov.asrd.services.ActInputControlService;
+import com.kropotov.asrd.services.StorageService;
 import com.kropotov.asrd.services.springdatajpa.docs.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
@@ -20,6 +22,8 @@ public class DtoToActInputControl implements Converter<ActInputControlDto, ActIn
 
     private final InvoiceService invoiceService;
     private final SimpleToUser simpleToUser;
+    private final StorageService storageService;
+    private final ActInputControlService actInputControlService;
 
     @Synchronized
     @Nullable
@@ -44,7 +48,7 @@ public class DtoToActInputControl implements Converter<ActInputControlDto, ActIn
                 .result(source.getResult())
                 .description(source.getDescription())
                 .user(simpleToUser.convert(source.getUser()))
-            .build();
+                .build();
 
         if (invoice.getSystems() != null && invoice.getSystems().size() > 0) {
             invoice.getSystems().forEach(act::addSystem);
@@ -53,6 +57,16 @@ public class DtoToActInputControl implements Converter<ActInputControlDto, ActIn
 
         if (invoice.getDevices() != null && invoice.getDevices().size() > 0) {
             invoice.getDevices().forEach(act::addDevice);
+        }
+
+//todo убрать так много copy-paste из методов конвертации
+
+        if (source.getFile() != null && !("").equals(source.getFile().getOriginalFilename())) {
+            String extension = source.getFile().getOriginalFilename().substring(source.getFile().getOriginalFilename().lastIndexOf('.'));
+            String filename = "act_" + act.getNumber() + "_" + act.getDate() + extension;
+            act.setPath(storageService.store("acts", filename, source.getFile()));
+        } else if (source.getId() != null) {
+            actInputControlService.getById(source.getId()).ifPresent(actFromDB -> act.setPath(actFromDB.getPath()));
         }
 
         return act;

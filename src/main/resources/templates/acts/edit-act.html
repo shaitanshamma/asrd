@@ -110,6 +110,25 @@
             </div>
         </div>
 
+        <div class="col-auto download-file">
+            <div th:if="${act.path != null}" class="form-row">
+                Файл: <a class="file-link" th:href="@{'/files/acts/' + ${act.path}}" th:text="${act.path}"
+                         target="_blank"></a>
+                <a class="delete-link" th:href="@{'/acts/' + ${act.id} + '/file/delete'}">
+                    <i class="fa fa-trash" style="color: red;"></i>
+                </a>
+                <br>
+                <br>
+            </div>
+        </div>
+
+        <div class="col-auto upload-file">
+            <div th:unless="${act.path != null}" class="form-group">
+                <label for="exampleFormControlFile1">Выберите файл накладной</label>
+                <input name="file" type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+        </div>
+
         <hr>
         <div class="form-group">
             <button type="submit" name="addInvoice" class="btn btn-primary">Сохранить</button>
@@ -129,6 +148,31 @@
     });
     $("#invoiceNumber-id").click(function (event) {
         getInvoices();
+    });
+
+
+    var txt ="       <div class=\"form-group\">\n" +
+        "                <label for=\"exampleFormControlFile1\">Выберите файл акта вх. контроля</label>\n" +
+        "                <input name=\"file\" type=\"file\" class=\"form-control-file\" id=\"exampleFormControlFile1\">\n" +
+        "            </div>\n";
+
+
+    $('.delete-link').click(function (event) {
+        event.preventDefault();
+        if (confirm("Удалить файл " + $('.file-link').html() + "?")) {
+            $.ajax({
+                url: $('.delete-link').attr('href'), // отткель
+                success: function () {
+                    $('.upload-file').append(txt);
+                    $('.download-file').empty();
+
+                    fillTopics()
+                }  // callback
+            });
+        } else {
+            return false;
+        }
+
     });
 
     function getInvoices() {
