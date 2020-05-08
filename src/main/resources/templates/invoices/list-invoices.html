@@ -37,7 +37,7 @@
             <td><a href="#" th:href="@{'/invoices/' + ${invoice.id} + '/show'}" th:text="${invoice.number}"></a></td>
             <td th:text="${invoice.date}"></td>
             <td>
-                <a th:href="@{'/invoices/files/' + ${invoice.id}}" th:text="${invoice.path}" target="_blank"></a>
+                <a th:href="@{'/files/invoices/' + ${invoice.path}}" th:text="${invoice.path}" target="_blank"></a>
             </td>
             <td th:text="${invoice.from.getTitle()}"></td>
             <td th:text="${invoice.destination.getTitle()}"></td>

@@ -10,30 +10,23 @@ import com.kropotov.asrd.exceptions.StorageException;
 import com.kropotov.asrd.services.StorageService;
 import com.kropotov.asrd.services.UserService;
 import com.kropotov.asrd.services.springdatajpa.docs.InvoiceService;
-import com.kropotov.asrd.services.springdatajpa.items.DeviceService;
-import com.kropotov.asrd.services.springdatajpa.items.SystemService;
 import com.kropotov.asrd.services.springdatajpa.titles.CompanyService;
 import com.kropotov.asrd.services.springdatajpa.titles.DeviceTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.security.Principal;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/invoices")
@@ -45,8 +38,6 @@ public class InvoiceController {
     private final TopicService topicService;
     private final DeviceTitleService deviceTitleService;
     private final SystemTitleService systemTitleService;
-    private final DeviceService deviceService;
-    private final SystemService systemService;
     private final StorageService storageService;
     private final UserToSimple userToSimple;
 
@@ -56,19 +47,21 @@ public class InvoiceController {
 
     @GetMapping
     public String invoicePage(Model model) {
-        List<Invoice> invoices = invoiceService.findAll();
+        List<Invoice> invoices = invoiceService.getAll();
         model.addAttribute("invoices", invoices);
         return "invoices/list-invoices";
     }
 
     @GetMapping("/{id}/show")
     public String displayById(@PathVariable Long id, Model model) {
-        if (invoiceService.findById(id) != null) {
-            model.addAttribute("invoice", invoiceService.findById(id));
+        Optional<Invoice> invoiceOptional = invoiceService.getById(id);
+        if (invoiceOptional.isPresent()) {
+            model.addAttribute("invoice", invoiceOptional.get());
             return "invoices/show";
         } else {
             return "redirect:/invoices";
         }
+
     }
 
     @GetMapping("/{id}/update")
@@ -77,13 +70,10 @@ public class InvoiceController {
             return "redirect:/login";
         }
         InvoiceDto invoiceDto = invoiceService.getDtoById(id);
-        InvoiceDto sessionInvoice = (InvoiceDto) request.getSession().getAttribute("invoice");
-        if (id == 0 && sessionInvoice != null) {
-            invoiceDto = sessionInvoice;
-        } else if (sessionInvoice == null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("invoice", invoiceDto);
-        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("invoice", invoiceDto);
+
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
@@ -106,11 +96,6 @@ public class InvoiceController {
         invoiceDto.setDevices(sessionInvoice.getDevices());
         invoiceDto.setSystems(sessionInvoice.getSystems());
 
-        sessionInvoice.setNumber(invoiceDto.getNumber());
-        sessionInvoice.setDate(invoiceDto.getDate());
-        sessionInvoice.setFrom(invoiceDto.getFrom());
-        sessionInvoice.setDestination(invoiceDto.getDestination());
-
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
         model.addAttribute("companies", companyService.getAll());
@@ -129,11 +114,6 @@ public class InvoiceController {
         // todo убрать везде один и тот же код
         invoiceDto.setDevices(sessionInvoice.getDevices());
         invoiceDto.setSystems(sessionInvoice.getSystems());
-
-        sessionInvoice.setNumber(invoiceDto.getNumber());
-        sessionInvoice.setDate(invoiceDto.getDate());
-        sessionInvoice.setFrom(invoiceDto.getFrom());
-        sessionInvoice.setDestination(invoiceDto.getDestination());
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
@@ -159,9 +139,22 @@ public class InvoiceController {
         return "redirect:/invoices/" + (invoiceId.equals("null") ? 0 : invoiceId) + "/update";
     }
 
+    @GetMapping("/{invoiceId}/file/delete")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteInvoiceFileById(@PathVariable("invoiceId") Long invoiceId) {
+        Optional<Invoice> invoiceOptional = invoiceService.getById(invoiceId);
+        try {
+            if (invoiceOptional.isPresent()) {
+                storageService.delete("invoices", invoiceOptional.get().getPath());
+                invoiceOptional.get().setPath(null);
+                invoiceService.save(invoiceOptional.get());
+            }
+        } catch (StorageException e) {
+        }
+    }
+
     @PostMapping("/edit")
     public String saveModifiedInvoice(@ModelAttribute("invoice") InvoiceDto invoiceDto,
-                                      @RequestParam(value = "file", required = false) MultipartFile file, //TODO после тестов сделать поле обязательным
                                       BindingResult bindingResult,
                                       Model model, HttpServletRequest request, Principal principal) {
 
@@ -176,36 +169,14 @@ public class InvoiceController {
             return INVOICE_CREATE_OR_UPDATE_FORM;
         }
 
-/*        if (bindingResult.hasErrors()) {
-            model.addAttribute("invoice", invoiceDto);
-            model.addAttribute("invoiceCreationError", "Ошибка валидатора");
-            model.addAttribute("companies", companyService.getAll());
-        }*/
-
         InvoiceDto sessionInvoice = (InvoiceDto) request.getSession().getAttribute("invoice");
         invoiceDto.setDevices(sessionInvoice.getDevices());
         invoiceDto.setSystems(sessionInvoice.getSystems());
 
-        //TODO сделать так, чтобы пути к файлам не были жестко зашиты в коде. Надо ли? Или сделать таблицу с индексацией имен?
-        //String extension = file.getOriginalFilename().lastIndexOf('.')
-        //String filename = "invoice_" + invoice.getNumber() + "_" + invoice.getDate() + "." + "pdf";
-        try {
-            storageService.store("invoices", file.getOriginalFilename(), file);
-        } catch (StorageException e) {
-            System.out.println(e.getMessage());
-            /*model.addAttribute("invoice", invoice);
-            model.addAttribute("invoiceCreationError", "Ошибка сохранения файла");
-            model.addAttribute("companies", companyService.findAll());
-            return INVOICE_CREATE_OR_UPDATE_FORM;*/
-        }
-
-        invoiceDto.setPath(file.getOriginalFilename());
-        Invoice detachInvoice;
         try {
             invoiceDto.setUser(userToSimple.convert(userService.findByUserName(principal.getName())));
-            detachInvoice = dtoToInvoice.convert(invoiceDto);
-            //        invoice.setEntityStatus(Status.ACTIVE);
-            invoiceService.save(detachInvoice);
+            invoiceService.save(dtoToInvoice.convert(invoiceDto));
+            request.getSession().setAttribute("invoice", null);
         } catch (DateTimeParseException e) {
             // TODO
             model.addAttribute("deviceTitles", deviceTitleService.getAll());
@@ -213,69 +184,6 @@ public class InvoiceController {
             return INVOICE_CREATE_OR_UPDATE_FORM;
         }
         return "redirect:/invoices";
-    }
-
-    @GetMapping(value = "/files/{id}")
-    public String redirectToGetFile(@PathVariable Long id) {
-        String result;
-        int index = invoiceService.findById(id).getPath().lastIndexOf('.');
-        String extension = invoiceService.findById(id).getPath().substring(index + 1);
-        switch (extension) {
-            case "pdf":
-                result = "redirect:/invoices/pdf/" + id;
-                break;
-            case "png":
-                result = "redirect:/invoices/png/" + id;
-                break;
-            case "jpg":
-                result = "redirect:/invoices/jpg/" + id;
-                break;
-            case "jpeg":
-                result = "redirect:/invoices/jpg/" + id;
-                break;
-            default:
-                result = "redirect:/invoices/download/" + id;
-        }
-        return result;
-    }
-
-    @GetMapping(value = "pdf/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public @ResponseBody
-    byte[] getPDFById(@PathVariable Long id) {
-        try {
-            return Files.readAllBytes(storageService.load("invoices", invoiceService.findById(id).getPath()));
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    @GetMapping(value = "png/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public @ResponseBody
-    byte[] getPNGById(@PathVariable Long id) {
-        try {
-            return Files.readAllBytes(storageService.load("invoices", invoiceService.findById(id).getPath()));
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    @GetMapping(value = "jpg/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody
-    byte[] getJPGById(@PathVariable Long id) {
-        try {
-            return Files.readAllBytes(storageService.load("invoices", invoiceService.findById(id).getPath()));
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
-    @GetMapping(value = "download/{id}")
-    @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable Long id) {
-
-        Resource file = storageService.loadAsResource("invoices", invoiceService.findById(id).getPath());
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
 }

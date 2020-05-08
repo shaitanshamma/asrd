@@ -5,6 +5,7 @@ import com.kropotov.asrd.dto.SimpleUser;
 import com.kropotov.asrd.dto.items.SimpleControlSystem;
 import com.kropotov.asrd.dto.items.SimpleDevice;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 public class InvoiceDto {
     private Long id;
     private String path;
+
+    private MultipartFile file;
 
     private String number;
 

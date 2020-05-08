@@ -31,7 +31,9 @@ public class DtoToActInputControl implements Converter<ActInputControlDto, ActIn
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        Invoice invoice = invoiceService.findById(source.getInvoice().getId());
+        Invoice invoice = invoiceService.getById(source.getInvoice().getId()).orElseThrow(
+                () -> new RuntimeException("Накладная не выбрана")
+        );
 
         final ActInputControl act = ActInputControl.builder()
                 .id(source.getId())

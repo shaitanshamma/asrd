@@ -89,6 +89,15 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
+    public void delete(String path, String filename) {
+        try {
+            Files.deleteIfExists(load(path, filename));
+        } catch (IOException e) {
+            throw new StorageException("Ошибка при удалении файла " + filename, e);
+        }
+    }
+
+    @Override
     public Resource loadAsResource(String path, String filename) {
         try {
             Path file = rootLocation.resolve(path).resolve(filename);

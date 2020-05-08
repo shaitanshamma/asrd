@@ -21,7 +21,7 @@ public class InvoiceApiController {
 
     @GetMapping("{id}")
     public Invoice getInvoiceById(@PathVariable("id") Long id) {
-        return invoiceService.findById(id);
+        return invoiceService.getById(id).orElse(null);
     }
 
     @GetMapping("/like")

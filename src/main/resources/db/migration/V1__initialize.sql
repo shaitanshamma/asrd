@@ -397,7 +397,7 @@ CREATE TABLE invoices
     id              INT      NOT NULL AUTO_INCREMENT,
     number          VARCHAR(255)  NOT NULL,
     invoice_date    DATE         NOT NULL,
-    path            VARCHAR(255) NOT NULL,
+    path            VARCHAR(255) DEFAULT NULL,
     from_company_id INT      NOT NULL,
     destination_id  INT      NOT NULL,
     description     VARCHAR(255) ,

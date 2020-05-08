@@ -4,6 +4,7 @@ import com.kropotov.asrd.converters.docs.InvoiceToDto;
 import com.kropotov.asrd.dto.docs.InvoiceDto;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.repositories.InvoiceRepository;
+import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,22 +14,25 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class InvoiceService {
+public class InvoiceService implements CrudService<Invoice, Long> {
 
     private final InvoiceRepository invoiceRepository;
     private final InvoiceToDto invoiceToDto;
 
-    public List<Invoice> findAll() {
+    @Override
+    public List<Invoice> getAll() {
         return (List<Invoice>) (invoiceRepository.findAll());
     }
 
-    public Invoice findById(Long id) { return invoiceRepository.findById(id).orElse(null); }
+    @Override
+    public Optional<Invoice> getById(Long id) { return invoiceRepository.findById(id); }
 
     public boolean isInvoiceWithNumberExists(String number) {
         return invoiceRepository.findOneByNumber(number) != null;
     }
 
     @Transactional
+    @Override
     public Invoice save(Invoice invoice) {
         return invoiceRepository.save(invoice);
     }
