@@ -27,7 +27,7 @@ public class ActInputControl extends DocEntity {
     public ActInputControl(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt, String path,
                            String number, Invoice invoice, LocalDate date, Result result, String description, User user,
                            List<ControlSystem> systems, List<Device> devices) {
-        super(id, entityStatus, createdAt, updatedAt, path);
+        super(id, entityStatus, path);
         this.number = number;
         this.invoice = invoice;
         this.date = date;

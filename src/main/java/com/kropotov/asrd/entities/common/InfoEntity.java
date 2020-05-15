@@ -5,8 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,9 +20,10 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited(withModifiedFlag = true)
 public abstract class InfoEntity extends BaseEntity {
 
-    public InfoEntity(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public InfoEntity(Long id, Status entityStatus) {
         super(id);
         if (entityStatus == null) {
             this.entityStatus = Status.ACTIVE;
@@ -33,9 +35,9 @@ public abstract class InfoEntity extends BaseEntity {
     @Enumerated(value = EnumType.ORDINAL)
     private Status entityStatus;
 
-    @CreationTimestamp
+    @CreatedDate
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 }

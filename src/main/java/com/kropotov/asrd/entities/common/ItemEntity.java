@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.Column;
@@ -14,19 +15,19 @@ import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
-public class ItemEntity extends InfoEntity {
+@Audited(withModifiedFlag = true)
+public abstract class ItemEntity extends InfoEntity {
 
-    public ItemEntity(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
-                      @NotNull(message = "Number cannot be null") String number, Location location, String purpose,
-                      String purposePassport, LocalDate vintage, int vpNumber, LocalDate otkDate, LocalDate vpDate) {
-        super(id, entityStatus, createdAt, updatedAt);
+    public ItemEntity(Long id, Status entityStatus, @NotNull(message = "Number cannot be null") String number,
+                      Location location, String purpose, String purposePassport, LocalDate vintage, int vpNumber,
+                      LocalDate otkDate, LocalDate vpDate) {
+        super(id, entityStatus);
         this.number = number;
         if (location == null) {
             this.location = Location.ANYWHERE;
@@ -62,8 +63,10 @@ public class ItemEntity extends InfoEntity {
     private int vpNumber;
 
     @Column(name = "accept_otk_date")
+    @Audited(modifiedColumnName = "accept_otk_date_mod", withModifiedFlag = true)
     private LocalDate otkDate;
 
     @Column(name = "accept_vp_date")
+    @Audited(modifiedColumnName = "accept_vp_date_mod", withModifiedFlag = true)
     private LocalDate vpDate;
 }

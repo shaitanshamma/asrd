@@ -33,7 +33,7 @@ public class Device extends ItemEntity {
                   DeviceTitle title, ControlSystem system, List<DeviceComponent> components, List<Invoice> invoices,
                   List<ActInputControl> actsInputControl, User user) {
 
-        super(id, entityStatus, createdAt, updatedAt, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
+        super(id, entityStatus, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
         this.title = title;
         this.system = system;
         this.components = components;

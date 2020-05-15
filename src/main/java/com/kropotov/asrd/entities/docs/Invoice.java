@@ -31,7 +31,7 @@ public class Invoice extends DocEntity {
                    LocalDate date, @NotNull Company from, @NotNull Company destination, String description, User user,
                    List<ControlSystem> systems, List<Device> devices) {
 
-        super(id, entityStatus, createdAt, updatedAt, path);
+        super(id, entityStatus, path);
         this.number = number;
         this.date = date;
         this.from = from;

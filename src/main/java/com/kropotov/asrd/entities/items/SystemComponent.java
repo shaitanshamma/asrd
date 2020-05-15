@@ -29,7 +29,7 @@ public class SystemComponent extends ItemEntity {
                            String purposePassport, LocalDate vintage, int vpNumber, LocalDate otkDate, LocalDate vpDate,
                            SystemComponentTitle title, User user) {
 
-        super(id, entityStatus, createdAt, updatedAt, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
+        super(id, entityStatus, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
         this.title = title;
         this.user = user;
     }

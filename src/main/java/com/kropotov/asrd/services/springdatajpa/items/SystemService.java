@@ -46,4 +46,8 @@ public class SystemService implements CrudService<ControlSystem, Long> {
     public ControlSystemDto getDtoById(Long id) {
         return controlSystemToDto.convert(getById(id).orElse(new ControlSystem()));
     }
+
+    public List<ControlSystem> getHistoryById(Long id) {
+        return systemRepository.getHistoryById(ControlSystem.class, id);
+    }
 }

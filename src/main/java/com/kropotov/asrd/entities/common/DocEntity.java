@@ -7,17 +7,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
-public class DocEntity extends InfoEntity {
+public abstract class DocEntity extends InfoEntity {
 
-    public DocEntity(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt, String path) {
-        super(id, entityStatus, createdAt, updatedAt);
+    public DocEntity(Long id, Status entityStatus, String path) {
+        super(id, entityStatus);
         this.path = path;
     }
 

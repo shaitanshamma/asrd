@@ -45,6 +45,7 @@ public class SystemController {
     public String displayById(@PathVariable Long id, Model model) {
         if (systemService.getById(id).isPresent()) {
             model.addAttribute("system", systemService.getDtoById(id));
+            systemService.getHistoryById(id);
             return "systems/show";
         } else {
             return "redirect:/systems";

@@ -1,6 +1,12 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS revinfo;
+
+CREATE TABLE revinfo (
+    rev BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    revtstmp BIGINT NOT NULL,
+    PRIMARY KEY (REV)
+);
 
 CREATE TABLE users
 (
@@ -53,7 +59,7 @@ DROP TABLE IF EXISTS topic_titles;
 
 CREATE TABLE topic_titles
 (
-    id    INT      NOT NULL AUTO_INCREMENT,
+    id    SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
@@ -65,7 +71,7 @@ DROP TABLE IF EXISTS system_titles;
 
 CREATE TABLE system_titles
 (
-    id    INT      NOT NULL AUTO_INCREMENT,
+    id    SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
@@ -77,7 +83,7 @@ DROP TABLE IF EXISTS system_components_titles;
 
 CREATE TABLE system_components_titles
 (
-    id    INT      NOT NULL AUTO_INCREMENT,
+    id    SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
@@ -90,7 +96,7 @@ DROP TABLE IF EXISTS device_titles;
 
 CREATE TABLE device_titles
 (
-    id    INT      NOT NULL AUTO_INCREMENT,
+    id    SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     path  VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
@@ -102,9 +108,9 @@ DROP TABLE IF EXISTS device_components_titles;
 
 CREATE TABLE device_components_titles
 (
-    id              INT     NOT NULL AUTO_INCREMENT,
+    id   SMALLINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
-    device_title_id INT     NOT NULL,
+    device_title_id SMALLINT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_DEVICE_TITLE_ID FOREIGN KEY (device_title_id)
         REFERENCES device_titles (id)
@@ -119,8 +125,8 @@ DROP TABLE IF EXISTS topic_titles_system_titles;
 
 CREATE TABLE topic_titles_system_titles
 (
-    topic_titles_id  INT NOT NULL,
-    system_titles_id INT NOT NULL,
+    topic_titles_id  SMALLINT UNSIGNED NOT NULL,
+    system_titles_id SMALLINT UNSIGNED NOT NULL,
 
     PRIMARY KEY (topic_titles_id, system_titles_id),
 
@@ -140,8 +146,8 @@ DROP TABLE IF EXISTS system_titles_system_components_titles;
 
 CREATE TABLE system_titles_system_components_titles
 (
-    system_titles_id            INT NOT NULL,
-    system_components_titles_id INT NOT NULL,
+    system_titles_id            SMALLINT UNSIGNED NOT NULL,
+    system_components_titles_id SMALLINT UNSIGNED NOT NULL,
 
     PRIMARY KEY (system_titles_id, system_components_titles_id),
 
@@ -161,8 +167,8 @@ DROP TABLE IF EXISTS system_titles_device_titles;
 
 CREATE TABLE system_titles_device_titles
 (
-    system_titles_id INT NOT NULL,
-    device_titles_id INT NOT NULL,
+    system_titles_id SMALLINT UNSIGNED NOT NULL,
+    device_titles_id SMALLINT UNSIGNED NOT NULL,
 
     PRIMARY KEY (system_titles_id, device_titles_id),
 
@@ -177,15 +183,14 @@ CREATE TABLE system_titles_device_titles
   DEFAULT CHARSET = utf8;
 
 
--- не хватает timestamp и всего остального??
 -- добавить составной ключ
 
 DROP TABLE IF EXISTS systems;
 
 CREATE TABLE systems
 (
-    id               INT     NOT NULL AUTO_INCREMENT,
-    title_system_id  INT    NOT NULL,
+    id               INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    title_system_id  SMALLINT UNSIGNED   NOT NULL,
     number           VARCHAR(255) NOT NULL,
     purpose          VARCHAR(255)          DEFAULT NULL,
     purpose_passport VARCHAR(255)          DEFAULT NULL,
@@ -195,8 +200,8 @@ CREATE TABLE systems
     accept_vp_date   DATE                 DEFAULT NULL,
     location         TINYINT              DEFAULT 0,
     entity_status    TINYINT              DEFAULT 1,
-    created_at       DATETIME    DEFAULT CURRENT_TIMESTAMP,
-    updated_at       DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    created_at       DATETIME,
+    updated_at       DATETIME,
     user_id          SMALLINT UNSIGNED     ,
     PRIMARY KEY (id),
     CONSTRAINT FK_TITLE_SYSTEM_ID_02 FOREIGN KEY (title_system_id)
@@ -209,13 +214,55 @@ CREATE TABLE systems
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS systems_aud;
+
+CREATE TABLE systems_aud
+(
+    id               		INT UNSIGNED     NOT NULL,
+    rev 					BIGINT UNSIGNED NOT NULL,
+    revtype 				TiNYINT,
+    number           		VARCHAR(255) NOT NULL,
+    number_mod           	BOOLEAN,
+    purpose          		VARCHAR(255)          DEFAULT NULL,
+    purpose_mod      		BOOLEAN,
+    purpose_passport 		VARCHAR(255)          DEFAULT NULL,
+    purpose_passport_mod	BOOLEAN,
+    vintage          		DATE                 DEFAULT NULL,
+    vintage_mod      		BOOLEAN,
+    vp_number        		INT              DEFAULT NULL,
+    vp_number_mod      		BOOLEAN,
+    accept_otk_date  		DATE                 DEFAULT NULL,
+    accept_otk_date_mod		BOOLEAN,
+    accept_vp_date   		DATE                 DEFAULT NULL,
+    accept_vp_date_mod  	BOOLEAN,
+    location         		TINYINT              DEFAULT 0,
+    location_mod      		BOOLEAN,
+    entity_status    		TINYINT              DEFAULT 1,
+    entity_status_mod   	BOOLEAN,
+    created_at       		DATETIME,
+    created_at_mod      	BOOLEAN,
+    updated_at       		DATETIME,
+    updated_at_mod     		BOOLEAN,
+    user_id          		SMALLINT UNSIGNED,
+    user_id_mod      		BOOLEAN,
+    PRIMARY KEY (id, rev),
+    CONSTRAINT FK_SYSTEMS_AUD_USERS FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT FK_SYSTEMS_AUD_REVINFO FOREIGN KEY (rev)
+        REFERENCES revinfo (rev)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
 
 DROP TABLE IF EXISTS system_components;
 
 CREATE TABLE system_components
 (
-    id                        INT     NOT NULL AUTO_INCREMENT,
-    title_system_component_id INT     NOT NULL,
+    id                        INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+    title_system_component_id SMALLINT UNSIGNED     NOT NULL,
     number                    VARCHAR(255) NOT NULL,
     purpose                   VARCHAR(255)          DEFAULT NULL,
     purpose_passport          VARCHAR(255)          DEFAULT NULL,
@@ -223,7 +270,7 @@ CREATE TABLE system_components
     vp                        INT              DEFAULT NULL,
     accept_otk                DATE                 DEFAULT NULL,
     accept_vp                 DATE                 DEFAULT NULL,
-    location         TINYINT              DEFAULT 0,
+    location                  TINYINT              DEFAULT 0,
     entity_status             TINYINT              DEFAULT 1,
     created_at                TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at                TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -244,12 +291,12 @@ DROP TABLE IF EXISTS devices;
 
 CREATE TABLE devices
 (
-    id               INT     NOT NULL AUTO_INCREMENT,
-    device_title_id  INT     NOT NULL,
+    id               INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+    device_title_id  SMALLINT UNSIGNED     NOT NULL,
     number           VARCHAR(255) NOT NULL,
     purpose          VARCHAR(255)          DEFAULT NULL,
     purpose_passport VARCHAR(255)          DEFAULT NULL,
-    system_id        INT              DeFAULT NULL,
+    system_id        INT UNSIGNED             DeFAULT NULL,
     vintage          DATE                 DEFAULT NULL,
     vp_number        INT              DEFAULT NULL,
     accept_otk_date  DATE                 DEFAULT NULL,
@@ -278,10 +325,10 @@ DROP TABLE IF EXISTS device_components;
 
 CREATE TABLE device_components
 (
-    id                        INT     NOT NULL AUTO_INCREMENT,
-    device_component_title_id INT     NOT NULL,
+    id                        INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+    device_component_title_id SMALLINT UNSIGNED     NOT NULL,
     number                    VARCHAR(255) NOT NULL,
-    device_id                 INT     DEFAULT NULL,
+    device_id                 INT UNSIGNED    DEFAULT NULL,
     purpose                   VARCHAR(255)         DEFAULT NULL,
     purpose_passport          VARCHAR(255)         DEFAULT NULL,
     vintage                   DATE                 DEFAULT NULL,
@@ -312,8 +359,8 @@ DROP TABLE IF EXISTS system_docs;
 
 CREATE TABLE system_docs
 (
-    id              INT      NOT NULL AUTO_INCREMENT,
-    system_id       INT      NOT NULL,
+    id              INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+    system_id       INT UNSIGNED      NOT NULL,
     title           VARCHAR(255) NOT NULL,
     doc_path        VARCHAR(255) NOT NULL,
     doc_description VARCHAR(255) DEFAULT NULL,
@@ -330,8 +377,8 @@ DROP TABLE IF EXISTS system_components_docs;
 
 CREATE TABLE system_components_docs
 (
-    id                  INT      NOT NULL AUTO_INCREMENT,
-    system_component_id INT      NOT NULL,
+    id                  INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+    system_component_id INT UNSIGNED      NOT NULL,
     title               VARCHAR(255) NOT NULL,
     doc_path            VARCHAR(255) NOT NULL,
     doc_description     VARCHAR(255) DEFAULT NULL,
@@ -348,8 +395,8 @@ DROP TABLE IF EXISTS device_docs;
 
 CREATE TABLE device_docs
 (
-    id            	INT          NOT NULL AUTO_INCREMENT,
-    device_id       INT  	     NOT NULL,
+    id            	INT UNSIGNED          NOT NULL AUTO_INCREMENT,
+    device_id       INT UNSIGNED 	     NOT NULL,
     title			VARCHAR(255) NOT NULL,
     doc_path        VARCHAR(255) NOT NULL,
     doc_description VARCHAR(255) DEFAULT NULL,
@@ -366,8 +413,8 @@ DROP TABLE IF EXISTS device_components_docs;
 
 CREATE TABLE device_components_docs
 (
-    id            	    INT          NOT NULL AUTO_INCREMENT,
-    device_component_id INT  	     NOT NULL,
+    id            	    INT UNSIGNED         NOT NULL AUTO_INCREMENT,
+    device_component_id INT UNSIGNED 	     NOT NULL,
     title			    VARCHAR(255) NOT NULL,
     doc_path            VARCHAR(255) NOT NULL,
     doc_description     VARCHAR(255) DEFAULT NULL,
@@ -383,7 +430,7 @@ DROP TABLE IF EXISTS companies;
 
 CREATE TABLE companies
 (
-    id    INT     NOT NULL AUTO_INCREMENT,
+    id    SMALLINT UNSIGNED     NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL UNIQUE,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
@@ -394,12 +441,12 @@ DROP TABLE IF EXISTS invoices;
 
 CREATE TABLE invoices
 (
-    id              INT      NOT NULL AUTO_INCREMENT,
+    id              INT UNSIGNED      NOT NULL AUTO_INCREMENT,
     number          VARCHAR(255)  NOT NULL,
     invoice_date    DATE         NOT NULL,
     path            VARCHAR(255) DEFAULT NULL,
-    from_company_id INT      NOT NULL,
-    destination_id  INT      NOT NULL,
+    from_company_id SMALLINT UNSIGNED      NOT NULL,
+    destination_id  SMALLINT UNSIGNED      NOT NULL,
     description     VARCHAR(255) ,
     entity_status   TINYINT               DEFAULT 1,
     created_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -423,15 +470,15 @@ DROP TABLE IF EXISTS letters;
 
 CREATE TABLE letters
 (
-    id                 INT          NOT NULL AUTO_INCREMENT,
+    id                 INT UNSIGNED         NOT NULL AUTO_INCREMENT,
     letter_number      VARCHAR(255) NOT NULL,
     inner_number       VARCHAR(255) DEFAULT NULL,
     letter_date        DATE         NOT NULL,
     letter_path        VARCHAR(255) NOT NULL,
     date_response      DATE         DEFAULT NULL,
     letter_description VARCHAR(255) DEFAULT NULL,
-    from_company_id    INT          NOT NULL,
-    destination_id     INT          NOT NULL,
+    from_company_id    SMALLINT UNSIGNED          NOT NULL,
+    destination_id     SMALLINT UNSIGNED          NOT NULL,
     entity_status      TINYINT               DEFAULT 1,
     created_at         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -448,8 +495,8 @@ DROP TABLE IF EXISTS letter_documents;
 
 CREATE TABLE letter_documents
 (
-    id              INT      NOT NULL AUTO_INCREMENT,
-    letter_id       INT      NOT NULL,
+    id              INT UNSIGNED      NOT NULL AUTO_INCREMENT,
+    letter_id       INT UNSIGNED     NOT NULL,
     title           VARCHAR(255) NOT NULL,
     letter_path     VARCHAR(255) NOT NULL,
     doc_description VARCHAR(255) DEFAULT NULL,
@@ -466,8 +513,8 @@ DROP TABLE IF EXISTS systems_invoices;
 
 CREATE TABLE systems_invoices
 (
-    system_id  INT NOT NULL,
-    invoice_id INT NOT NULL,
+    system_id  INT UNSIGNED NOT NULL,
+    invoice_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (system_id, invoice_id),
 
@@ -485,8 +532,8 @@ DROP TABLE IF EXISTS invoice_id_system_component_id;
 
 CREATE TABLE invoice_id_system_component_id
 (
-    invoice_id INT NOT NULL,
-    system_component_id INT NOT NULL,
+    invoice_id INT UNSIGNED NOT NULL,
+    system_component_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (invoice_id, system_component_id),
 
@@ -505,8 +552,8 @@ DROP TABLE IF EXISTS invoice_id_device_id;
 
 CREATE TABLE invoice_id_device_id
 (
-    invoice_id INT NOT NULL,
-    device_id INT NOT NULL,
+    invoice_id INT UNSIGNED NOT NULL,
+    device_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (invoice_id, device_id),
 
@@ -524,8 +571,8 @@ DROP TABLE IF EXISTS invoice_id_device_component_id;
 
 CREATE TABLE invoice_id_device_component_id
 (
-    invoice_id INT NOT NULL,
-    device_component_id INT NOT NULL,
+    invoice_id INT UNSIGNED NOT NULL,
+    device_component_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (invoice_id, device_component_id),
 
@@ -544,9 +591,9 @@ DROP TABLE IF EXISTS acts_input_control;
 
 CREATE TABLE acts_input_control
 (
-    id            INT           NOT NULL AUTO_INCREMENT,
+    id            INT UNSIGNED          NOT NULL AUTO_INCREMENT,
     number        VARCHAR(255)  NOT NULL,
-    invoice_id    INT           NOT NULL,
+    invoice_id    INT UNSIGNED         NOT NULL,
     act_date      DATE          NOT NULL,
     path          VARCHAR(255) ,
     result        TINYINT       NOT NULL default 1,
@@ -571,8 +618,8 @@ DROP TABLE IF EXISTS acts_ic_systems;
 
 CREATE TABLE acts_ic_systems
 (
-    system_id INT NOT NULL,
-    act_ic_id INT NOT NULL,
+    system_id INT UNSIGNED NOT NULL,
+    act_ic_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (system_id, act_ic_id),
 
@@ -591,8 +638,8 @@ DROP TABLE IF EXISTS act_ic_id_system_component_id;
 
 CREATE TABLE act_ic_id_system_component_id
 (
-    act_ic_id INT NOT NULL,
-    system_component_id INT NOT NULL,
+    act_ic_id INT UNSIGNED NOT NULL,
+    system_component_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (act_ic_id, system_component_id),
 
@@ -610,8 +657,8 @@ DROP TABLE IF EXISTS act_ic_id_device_id;
 
 CREATE TABLE act_ic_id_device_id
 (
-    act_ic_id INT NOT NULL,
-    device_id INT NOT NULL,
+    act_ic_id INT UNSIGNED NOT NULL,
+    device_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (act_ic_id, device_id),
 
@@ -630,8 +677,8 @@ DROP TABLE IF EXISTS act_ic_id_device_component_id;
 
 CREATE TABLE act_ic_id_device_component_id
 (
-    act_ic_id INT NOT NULL,
-    device_component_id INT NOT NULL,
+    act_ic_id INT UNSIGNED NOT NULL,
+    device_component_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (act_ic_id, device_component_id),
 
@@ -649,8 +696,8 @@ DROP TABLE IF EXISTS letter_id_system_id;
 
 CREATE TABLE letter_id_system_id
 (
-    letter_id INT NOT NULL,
-    system_id INT NOT NULL,
+    letter_id INT UNSIGNED NOT NULL,
+    system_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (letter_id, system_id),
 
@@ -671,8 +718,8 @@ DROP TABLE IF EXISTS letter_id_system_component_id;
 
 CREATE TABLE letter_id_system_component_id
 (
-    letter_id INT NOT NULL,
-    system_component_id INT NOT NULL,
+    letter_id INT UNSIGNED NOT NULL,
+    system_component_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (letter_id, system_component_id),
 
@@ -692,8 +739,8 @@ DROP TABLE IF EXISTS letter_id_device_id;
 
 CREATE TABLE letter_id_device_id
 (
-    letter_id INT NOT NULL,
-    device_id INT NOT NULL,
+    letter_id INT UNSIGNED NOT NULL,
+    device_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (letter_id, device_id),
 
@@ -713,8 +760,8 @@ DROP TABLE IF EXISTS letter_id_device_component_id;
 
 CREATE TABLE letter_id_device_component_id
 (
-    letter_id INT NOT NULL,
-    device_component_id INT NOT NULL,
+    letter_id INT UNSIGNED NOT NULL,
+    device_component_id INT UNSIGNED NOT NULL,
 
     PRIMARY KEY (letter_id, device_component_id),
 

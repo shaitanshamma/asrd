@@ -8,11 +8,12 @@ import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.titles.SystemTitle;
 import lombok.*;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +23,17 @@ import java.util.List;
 @Table(name = "systems")
 @AllArgsConstructor
 @NoArgsConstructor
+@Audited(withModifiedFlag = true)
 public class ControlSystem extends ItemEntity {
 
     @Builder
-    public ControlSystem(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
-                         @NotNull(message = "Number cannot be null") String number, Location location, String purpose, String purposePassport,
-                         LocalDate vintage, int vpNumber, LocalDate otkDate, LocalDate vpDate, SystemTitle title,
+    public ControlSystem(Long id, Status entityStatus, @NotNull(message = "Number cannot be null") String number,
+                         Location location, String purpose, String purposePassport, LocalDate vintage, int vpNumber,
+                         LocalDate otkDate, LocalDate vpDate, SystemTitle title,
                          @NotNull(message = "User cannot be null") User user, List<ActInputControl> actsInputControl,
                          List<Invoice> invoices, List<Device> devices) {
 
-        super(id, entityStatus, createdAt, updatedAt, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
+        super(id, entityStatus, number, location, purpose, purposePassport, vintage, vpNumber, otkDate, vpDate);
         this.title = title;
         this.user = user;
         this.actsInputControl = actsInputControl;
@@ -42,21 +44,26 @@ public class ControlSystem extends ItemEntity {
     // @NotNull(message = "Title cannot be null")
     @ManyToOne
     @JoinColumn(name = "title_system_id")
+    @NotAudited
     private SystemTitle title;
 
     @NotNull(message = "User cannot be null")
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @NotAudited
     private User user;
 
 
     @ManyToMany(mappedBy = "systems", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @NotAudited
     private List<ActInputControl> actsInputControl;
 
     @ManyToMany(mappedBy = "systems", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @NotAudited
     private List<Invoice> invoices;
 
     @OneToMany(mappedBy = "system", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @NotAudited
     private List<Device> devices;
 
     public void addDevice(Device device) {
