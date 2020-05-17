@@ -1,31 +1,24 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 
-<head>
-    <title>Register New User Form</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-		.error {color:red}
-    </style>
-</head>
+<head th:replace="layouts :: header"></head>
 
 <body>
 
-<div>
+<nav th:replace="layouts :: navbar(Register)"></nav>
 
+<div class="container">
+    <header class="card-header">
+        <h4 class="card-title mt-2">Регистрация нового пользователя</h4>
+    </header>
     <div id="loginbox" style="margin-top: 50px;"
          class="mainbox col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">
 
         <div class="panel panel-primary">
 
-            <div class="panel-heading">
-                <div class="panel-title">Register New User</div>
-            </div>
+<!--            <div class="panel-heading">
+                <div class="panel-title">Регистрация нового пользователя</div>
+            </div>-->
 
             <div style="padding-top: 30px" class="panel-body">
                 <form th:action="@{/register/processRegistrationForm}"
@@ -45,36 +38,39 @@
                     <div class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" />
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{userName}" placeholder="username (*)" class="form-control"/>
+                        <input th:field="*{userName}" placeholder="Логин (*)" class="form-control"/>
                     </div>
 
                     <!-- Password -->
                     <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" th:field="*{password}" placeholder="password (*)" class="form-control"/>
+                        <input type="password" th:field="*{password}" placeholder="Пароль (*)" class="form-control"/>
                     </div>
 
-                    <!-- Confirm Password -->
                     <div class="error" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" />
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" th:field="*{matchingPassword}" placeholder="confirm password (*)" class="form-control"/>
+                        <input type="password" th:field="*{matchingPassword}" placeholder="Повторите пароль (*)" class="form-control"/>
                     </div>
 
-
-                    <!-- First name -->
                     <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" />
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{firstName}" placeholder="first name (*)" class="form-control"/>
+                        <input th:field="*{firstName}" placeholder="Имя (*)" class="form-control"/>
+                    </div>
+
+                    <div class="error" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{firstName}" />
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input th:field="*{patronymic}" placeholder="Отчество (*)" class="form-control"/>
                     </div>
 
                     <!-- Last name -->
                     <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" />
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{lastName}" placeholder="last name (*)" class="form-control"/>
+                        <input th:field="*{lastName}" placeholder="Фамилия (*)" class="form-control"/>
                     </div>
 
                     <!-- Email -->
@@ -86,7 +82,7 @@
 
                     <div style="margin-top: 10px" class="form-group">
                         <div class="col-sm-6 controls">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary">Регистрация</button>
                         </div>
                     </div>
                 </form>
@@ -94,5 +90,6 @@
         </div>
     </div>
 </div>
+<div th:replace="layouts :: footer"></div>
 </body>
 </html>

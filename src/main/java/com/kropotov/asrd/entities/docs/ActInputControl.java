@@ -68,7 +68,7 @@ public class ActInputControl extends DocEntity {
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
-            name = "act_ic_id_device_id",
+            name = "act_ic_device",
             joinColumns = @JoinColumn(name = "act_ic_id"),
             inverseJoinColumns = @JoinColumn(name = "device_id")
     )

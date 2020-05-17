@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "device_components_titles")
+@Table(name = "device_component_titles")
 public class DeviceComponentTitle extends TitleEntity {
 
     @ManyToOne

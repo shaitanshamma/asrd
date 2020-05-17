@@ -4,6 +4,7 @@ import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.entities.titles.Topic;
 import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,15 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/systems/titles")
 //@RequestMapping("/invoices/titles")
+@RequiredArgsConstructor
 public class SystemTitleApiController {
 
     private final SystemTitleService systemTitleService;
     private final TopicService topicService;
-
-    public SystemTitleApiController(SystemTitleService systemTitleService, TopicService topicService) {
-        this.systemTitleService = systemTitleService;
-        this.topicService = topicService;
-    }
 
     /*@GetMapping
     public List<SystemTitleDto> getSystemTitles() {

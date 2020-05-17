@@ -79,7 +79,7 @@ public class Invoice extends DocEntity {
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable (
-            name = "invoice_id_device_id",
+            name = "device_invoice",
             joinColumns = @JoinColumn(name = "invoice_id"),
             inverseJoinColumns = @JoinColumn(name = "device_id")
     )

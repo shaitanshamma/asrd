@@ -11,7 +11,7 @@ CREATE TABLE users
     last_name  VARCHAR(255) NOT NULL,
     patronymic VARCHAR(255) NOT NULL,
     email      VARCHAR(255) NOT NULL,
-    phone      VARCHAR(255) NOT NULL,
+    phone      VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -49,9 +49,9 @@ CREATE TABLE users_roles
 
 -- Создание таблиц с названиями
 
-DROP TABLE IF EXISTS topic_titles;
+DROP TABLE IF EXISTS topics;
 
-CREATE TABLE topic_titles
+CREATE TABLE topics
 (
     id    INT      NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -73,9 +73,9 @@ CREATE TABLE system_titles
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS system_components_titles;
+DROP TABLE IF EXISTS system_component_titles;
 
-CREATE TABLE system_components_titles
+CREATE TABLE system_component_titles
 (
     id    INT      NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -98,9 +98,9 @@ CREATE TABLE device_titles
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS device_components_titles;
+DROP TABLE IF EXISTS device_component_titles;
 
-CREATE TABLE device_components_titles
+CREATE TABLE device_component_titles
 (
     id              INT     NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -113,29 +113,25 @@ CREATE TABLE device_components_titles
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS topic_system_title;
 
--- добавить таблицу ManyToMany topic_titles_system_titles
-DROP TABLE IF EXISTS topic_titles_system_titles;
-
-CREATE TABLE topic_titles_system_titles
+CREATE TABLE topic_system_title
 (
-    topic_titles_id  INT NOT NULL,
-    system_titles_id INT NOT NULL,
+    topic_id  INT NOT NULL,
+    system_title_id INT NOT NULL,
 
-    PRIMARY KEY (topic_titles_id, system_titles_id),
+    PRIMARY KEY (topic_id, system_title_id),
 
-    CONSTRAINT FK_TOPIC_TITLES_ID_01 FOREIGN KEY (topic_titles_id)
-        REFERENCES topic_titles (id)
+    CONSTRAINT FK_TOPIC_TITLES_ID_01 FOREIGN KEY (topic_id)
+        REFERENCES topics (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
 
-    CONSTRAINT FK_SYSTEM_TITLES_ID_01 FOREIGN KEY (system_titles_id)
+    CONSTRAINT FK_SYSTEM_TITLES_ID_01 FOREIGN KEY (system_title_id)
         REFERENCES system_titles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-
--- добавить таблицу ManyToMany system_titles_system_components_titles
 DROP TABLE IF EXISTS system_titles_system_components_titles;
 
 CREATE TABLE system_titles_system_components_titles
@@ -150,7 +146,7 @@ CREATE TABLE system_titles_system_components_titles
         ON DELETE NO ACTION ON UPDATE NO ACTION,
 
     CONSTRAINT FK_SYSTEM_COMPONENT_TITLES_ID_02 FOREIGN KEY (system_components_titles_id)
-        REFERENCES system_components_titles (id)
+        REFERENCES system_component_titles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
@@ -230,7 +226,7 @@ CREATE TABLE system_components
     user_id                   SMALLINT UNSIGNED     NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_TITLE_SYSTEM_COMPONENT_ID_02 FOREIGN KEY (title_system_component_id)
-        REFERENCES system_components_titles (id)
+        REFERENCES system_component_titles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT FK_SYSTEM_COMPONENT_USER_ID_02 FOREIGN KEY (user_id)
         REFERENCES users (id)
@@ -295,7 +291,7 @@ CREATE TABLE device_components
     user_id                   SMALLINT UNSIGNED     NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_DEV_COMPONENT_TITLE_DEV_COM_ID_01 FOREIGN KEY (device_component_title_id)
-        REFERENCES device_components_titles (id)
+        REFERENCES device_component_titles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT FK_DEV_COM_USER_ID_01 FOREIGN KEY (user_id)
         REFERENCES users (id)
@@ -481,9 +477,9 @@ CREATE TABLE systems_invoices
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS invoice_id_system_component_id;
+DROP TABLE IF EXISTS invoice_system_component;
 
-CREATE TABLE invoice_id_system_component_id
+CREATE TABLE invoice_system_component
 (
     invoice_id INT NOT NULL,
     system_component_id INT NOT NULL,
@@ -501,9 +497,9 @@ CREATE TABLE invoice_id_system_component_id
   DEFAULT CHARSET = utf8;
 
 
-DROP TABLE IF EXISTS invoice_id_device_id;
+DROP TABLE IF EXISTS device_invoice;
 
-CREATE TABLE invoice_id_device_id
+CREATE TABLE device_invoice
 (
     invoice_id INT NOT NULL,
     device_id INT NOT NULL,
@@ -520,9 +516,9 @@ CREATE TABLE invoice_id_device_id
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS invoice_id_device_component_id;
+DROP TABLE IF EXISTS device_component_invoice;
 
-CREATE TABLE invoice_id_device_component_id
+CREATE TABLE device_component_invoice
 (
     invoice_id INT NOT NULL,
     device_component_id INT NOT NULL,
@@ -587,9 +583,9 @@ CREATE TABLE acts_ic_systems
   DEFAULT CHARSET = utf8;
 
 
-DROP TABLE IF EXISTS act_ic_id_system_component_id;
+DROP TABLE IF EXISTS act_ic_system_component;
 
-CREATE TABLE act_ic_id_system_component_id
+CREATE TABLE act_ic_system_component
 (
     act_ic_id INT NOT NULL,
     system_component_id INT NOT NULL,
@@ -606,9 +602,9 @@ CREATE TABLE act_ic_id_system_component_id
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS act_ic_id_device_id;
+DROP TABLE IF EXISTS act_ic_device;
 
-CREATE TABLE act_ic_id_device_id
+CREATE TABLE act_ic_device
 (
     act_ic_id INT NOT NULL,
     device_id INT NOT NULL,
@@ -626,9 +622,9 @@ CREATE TABLE act_ic_id_device_id
   DEFAULT CHARSET = utf8;
 
 
-DROP TABLE IF EXISTS act_ic_id_device_component_id;
+DROP TABLE IF EXISTS act_ic_device_component;
 
-CREATE TABLE act_ic_id_device_component_id
+CREATE TABLE act_ic_device_component
 (
     act_ic_id INT NOT NULL,
     device_component_id INT NOT NULL,
@@ -645,9 +641,9 @@ CREATE TABLE act_ic_id_device_component_id
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS letter_id_system_id;
+DROP TABLE IF EXISTS letter_system;
 
-CREATE TABLE letter_id_system_id
+CREATE TABLE letter_system
 (
     letter_id INT NOT NULL,
     system_id INT NOT NULL,
@@ -667,9 +663,9 @@ CREATE TABLE letter_id_system_id
 
 
 
-DROP TABLE IF EXISTS letter_id_system_component_id;
+DROP TABLE IF EXISTS letter_system_component;
 
-CREATE TABLE letter_id_system_component_id
+CREATE TABLE letter_system_component
 (
     letter_id INT NOT NULL,
     system_component_id INT NOT NULL,
@@ -688,9 +684,9 @@ CREATE TABLE letter_id_system_component_id
   DEFAULT CHARSET = utf8;
 
 
-DROP TABLE IF EXISTS letter_id_device_id;
+DROP TABLE IF EXISTS device_letter;
 
-CREATE TABLE letter_id_device_id
+CREATE TABLE device_letter
 (
     letter_id INT NOT NULL,
     device_id INT NOT NULL,
@@ -709,9 +705,9 @@ CREATE TABLE letter_id_device_id
   DEFAULT CHARSET = utf8;
 
 
-DROP TABLE IF EXISTS letter_id_device_component_id;
+DROP TABLE IF EXISTS device_component_letter;
 
-CREATE TABLE letter_id_device_component_id
+CREATE TABLE device_component_leter
 (
     letter_id INT NOT NULL,
     device_component_id INT NOT NULL,
@@ -733,7 +729,7 @@ CREATE TABLE letter_id_device_component_id
 
 INSERT INTO roles (name)
 VALUES ('ROLE_USER'),
-       ('ROLE_MANAGER'),
+       ('ROLE_EMPLOYEE'),
        ('ROLE_ADMIN');
 
 INSERT INTO users (username, password, first_name, last_name, patronymic, email, phone)
@@ -752,7 +748,7 @@ VALUES ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибы�
 INSERT INTO acts_input_control (number, invoice_id, act_date, path, result, description, user_id)
 VALUES ('000', 1, '2019-1-12', '/home/intruder/invoice.pdf', 1, 'Все ок', 1);
 
-INSERT INTO topic_titles (title, path)
+INSERT INTO topics (title, path)
 VALUES ('Тема 1', 'тема_1'),
        ('Тема 2', 'тема_2');
 
@@ -761,12 +757,12 @@ VALUES ('Система 1', 'система_1'),
        ('Система 2', 'система_2'),
        ('Система 3', 'система_3');
 
-INSERT INTO topic_titles_system_titles
+INSERT INTO topic_system_title
 VALUES (1, 1),
        (2, 2),
        (2, 3);
 
-INSERT INTO system_components_titles (title, path)
+INSERT INTO system_component_titles (title, path)
 VALUES ('Компонент Системы', 'компонент_системы/');
 
 INSERT INTO device_titles (title, path)
@@ -789,7 +785,7 @@ VALUES (1, 1),
        (2, 7),
        (2, 8);
 
-INSERT INTO device_components_titles (title, device_title_id)
+INSERT INTO device_component_titles (title, device_title_id)
 VALUES ('СЧ 1 1', 1),
        ('СЧ 2 1', 1),
        ('СЧ 3 1', 1),

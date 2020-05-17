@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "system_components_titles")
+@Table(name = "system_component_titles")
 @Getter
 @Setter
 @NoArgsConstructor

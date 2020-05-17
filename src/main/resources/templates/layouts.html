@@ -40,7 +40,7 @@
             <li class="nav-item" th:classappend="${activeTab == 'Acts' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/acts}">Вх. контроль<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown" th:classappend="${activeTab == 'Admin' ? 'active' : ''}">
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')" th:classappend="${activeTab == 'Admin' ? 'active' : ''}">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Админка
                 </a>
@@ -55,6 +55,9 @@
             </li>
             <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${activeTab == 'Login' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/login}">Войти<span class="sr-only">(current)</span></a>
+            </li>
+            <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${activeTab == 'Register' ? 'active' : ''}">
+                <a class="nav-link" th:href="@{/register}">Регистрация<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="POST">

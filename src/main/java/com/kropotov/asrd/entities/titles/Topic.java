@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "topic_titles")
+@Table(name = "topics")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,9 +20,9 @@ public class Topic extends TitleEntity {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "topic_titles_system_titles",
-            joinColumns = @JoinColumn(name = "topic_titles_id"),
-            inverseJoinColumns = @JoinColumn(name = "system_titles_id")
+            name = "topic_system_title",
+            joinColumns = @JoinColumn(name = "topic_id"),
+            inverseJoinColumns = @JoinColumn(name = "system_title_id")
     )
     private List<SystemTitle> systemTitles;
 }

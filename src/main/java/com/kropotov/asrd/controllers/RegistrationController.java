@@ -32,13 +32,12 @@ public class RegistrationController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @GetMapping("/showRegistrationForm")
-    public String showMyLoginPage(Model theModel) {
+    @GetMapping
+    public String displayForm(Model theModel) {
         theModel.addAttribute("systemUser", new SystemUser());
         return "registration-form";
     }
 
-    // Binding Result после @ValidModel !!!
     @PostMapping("/processRegistrationForm")
     public String processRegistrationForm(@Valid @ModelAttribute("systemUser") SystemUser theSystemUser, BindingResult theBindingResult, Model theModel) {
         String userName = theSystemUser.getUserName();
