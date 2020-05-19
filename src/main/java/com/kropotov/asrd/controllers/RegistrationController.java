@@ -25,12 +25,12 @@ public class RegistrationController {
     }
 
     private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-    }
+//
+//    @InitBinder
+//    public void initBinder(WebDataBinder dataBinder) {
+//        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+//        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+//    }
 
     @GetMapping
     public String displayForm(Model theModel) {
