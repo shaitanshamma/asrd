@@ -8,11 +8,14 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
 @FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
 public class SystemUser {
+
+    private Long id;
 
     @NotNull(message = "not null check")
     @Size(min = 3, message = "username length must be greater than 2 symbols")
@@ -38,6 +41,8 @@ public class SystemUser {
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String patronymic;
+
+    private Collection<Role> roles;
 
     @ValidEmail
     @NotNull(message = "is required")

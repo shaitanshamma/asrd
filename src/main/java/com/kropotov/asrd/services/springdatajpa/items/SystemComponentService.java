@@ -36,4 +36,9 @@ public class SystemComponentService implements CrudService<SystemComponent, Long
     public SystemComponent getByNumberAndTitle(String number, SystemComponentTitle title) {
         return systemComponentRepository.findByNumberAndTitle(number, title);
     }
+
+    @Override
+    public void delete(Long id) {
+        systemComponentRepository.deleteById(id);
+    }
 }

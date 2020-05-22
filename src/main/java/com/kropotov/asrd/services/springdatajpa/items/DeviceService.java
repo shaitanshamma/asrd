@@ -44,4 +44,9 @@ public class DeviceService implements CrudService<Device, Long> {
     public DeviceDto getDtoById(Long id) {
         return deviceToDto.convert(getById(id).orElse(new Device()));
     }
+
+    @Override
+    public void delete(Long id) {
+        deviceRepository.deleteById(id);
+    }
 }

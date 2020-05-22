@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body class="bg-light">
+
+    <div th:fragment="sidebar" class="sidebar sidebar-dark bg-dark">
+        <ul class="list-unstyled">
+            <li th:unless="${@userServiceImpl.isManagerRole()}" th:classappend="${activePage == 'Users'} ? active"><a th:href="@{/admin/users}"><i class="fa fa-fw fa-link"></i>
+                Пользователи</a></li>
+            <li th:unless="${@userServiceImpl.isManagerRole()}" th:classappend="${activePage == 'Roles'} ? active"><a th:href="@{/admin/roles}"><i class="fa fa-fw fa-link"></i>
+                Роли</a></li>
+            <li><a th:href="@{/}"><i
+                    class="fa fa-fw fa-link"></i>На главную</a></li>
+        </ul>
+    </div>
+
+</body>
+
+</html>

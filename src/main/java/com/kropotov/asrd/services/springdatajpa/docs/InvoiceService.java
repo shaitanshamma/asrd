@@ -55,4 +55,9 @@ public class InvoiceService implements CrudService<Invoice, Long> {
             return new InvoiceDto();
         }
     }
+
+    @Override
+    public void delete(Long id) {
+        invoiceRepository.deleteById(id);
+    }
 }

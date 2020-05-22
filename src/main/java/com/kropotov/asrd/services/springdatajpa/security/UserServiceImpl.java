@@ -15,9 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,24 +40,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
 	public User findByUserName(String userName) {
 		return userRepository.findOneByUserName(userName);
+	}
+
+	@Override
+	public List<User> getAll() {
+		return userRepository.findAll();
 	}
 
 	@Override
 	@Transactional
 	public void save(SystemUser systemUser) {
 		User user = new User();
+		user.setId(systemUser.getId());
 		user.setUserName(systemUser.getUserName());
 		user.setPassword(passwordEncoder.encode(systemUser.getPassword()));
 		user.setFirstName(systemUser.getFirstName());
 		user.setLastName(systemUser.getLastName());
 		user.setPatronymic(systemUser.getPatronymic());
 		user.setEmail(systemUser.getEmail());
-
-		user.setRoles(Arrays.asList(roleRepository.findOneByName("ROLE_EMPLOYEE")));
-
+		if(!systemUser.getRoles().isEmpty()) {
+			user.setRoles(systemUser.getRoles());
+		}
+		else
+		user.setRoles(Collections.singletonList(roleRepository.findOneByName("ROLE_NEW_USER")));
 		userRepository.save(user);
 	}
 
@@ -83,5 +88,13 @@ public class UserServiceImpl implements UserService {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}
 
+	@Override
+	public void delete(Long id) {
+		userRepository.deleteById(id);
+	}
 
+	@Override
+	public boolean isManagerRole() {
+		return false;
+	}
 }

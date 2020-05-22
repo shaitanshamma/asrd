@@ -54,5 +54,8 @@ public class ActInputControlSDService implements ActInputControlService {
         return actInputControlToDto.convert(getById(id).orElse(new ActInputControl()));
     }
 
-
+    @Override
+    public void delete(Long id) {
+        actInputControlRepository.findById(id);
+    }
 }

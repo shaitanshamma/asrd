@@ -37,4 +37,9 @@ public class DeviceComponentTitleService implements TitleService<DeviceComponent
     public DeviceComponentTitle getByTitle(String title) {
         return deviceComponentTitleRepository.findByTitle(title);
     }
+
+    @Override
+    public void delete(Long id) {
+        deviceComponentTitleRepository.deleteById(id);
+    }
 }

@@ -37,4 +37,9 @@ public class SystemComponentTitleService implements TitleService<SystemComponent
     public SystemComponentTitle save(SystemComponentTitle object) {
         return systemComponentTitleRepository.save(object);
     }
+
+    @Override
+    public void delete(Long id) {
+        systemComponentTitleRepository.deleteById(id);
+    }
 }

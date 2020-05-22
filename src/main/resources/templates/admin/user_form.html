@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="admin/fragments/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="admin/fragments/header :: header"></div>
+
+<div class="d-flex">
+    <div th:replace="admin/fragments/sidebar :: sidebar"></div>
+
+    <div class="content p-4">
+        <h2 class="mb-4" th:if="${edit}" >Edit user</h2>
+        <h2 class="mb-4" th:if="${create}" >Create user</h2>
+
+        <form th:object="${user}" method="post" th:action="@{/admin/user}">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <input th:type="hidden" th:field="*{id}">
+                    <div class="form-group">
+                        <label for="user_name">Имя</label>
+                        <input th:field="*{userName}" type="text" class="form-control" id="user_name" placeholder="Введте логин" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_first_name">Имя</label>
+                        <input th:field="*{firstName}" type="text" class="form-control" id="user_first_name" placeholder="Введите имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_last_name">Фамилия</label>
+                        <input th:field="*{lastName}" type="text" class="form-control" id="user_last_name" placeholder="Введите фамилию" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="number_phone">Отчество</label>
+                        <input th:field="*{patronymic}" type="text" class="form-control" id="number_phone" placeholder="Введите Отчество" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input th:field="*{password}" type="password" class="form-control" id="password" placeholder="Пароль" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input th:field="*{email}" type="text" class="form-control" id="email" placeholder="Введите почту" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="roles">Роли</label>
+                        <select multiple class="form-control" id="roles" th:field="*{roles}" required>
+                            <option th:each="role : ${allRoles}"
+                                    th:text="${role.name}"
+                                    th:value="${role.id}">
+                            </option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+        </form>
+    </div>
+</div>
+
+<script th:replace="admin/fragments/footer :: scripts"></script>
+
+</body>
+</html>
