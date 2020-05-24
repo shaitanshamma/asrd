@@ -1,6 +1,6 @@
 package com.kropotov.asrd.controllers.util;
 
-import com.kropotov.asrd.entities.common.ItemEntity;
+import com.kropotov.asrd.entities.common.InfoEntity;
 import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,7 @@ public final class PageValues {
 		return pageable;
 	}
 
-	public static void addDefaultAttributes(Model model, PageWrapper<? extends ItemEntity> page, TopicService topicService) {
+	public static void addDefaultAttributes(Model model, PageWrapper<? extends InfoEntity> page, TopicService topicService) {
 		model.addAttribute("page", page);
 		model.addAttribute("pageSizes", PAGE_SIZES);
 

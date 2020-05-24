@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 
 <head th:replace="layouts :: header"></head>
@@ -16,9 +17,9 @@
        class="btn btn-primary btn-sm mb-3">
         Добавить
     </a>
-    <span th:if="${invoices.size() == 0}" th:text="'Накладных нет'" ></span>
+    <span th:if="${page.items.size() == 0}" th:text="'Накладных нет'" ></span>
 
-    <table th:unless="${invoices.size() == 0}" class="table table-hover">
+    <table th:unless="${page.items.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
@@ -32,8 +33,8 @@
         </thead>
         <tbody>
 <!--        th:onclick="'window.location.href=\'invoices/' + ${invoice.id} + '\'; return false'"-->
-        <tr th:each="invoice, iterator : ${invoices}" th:attr="sys_id=${invoice.id}">
-            <td th:text="${iterator.count}"></td>
+        <tr th:each="invoice, i : ${page.content}" th:attr="sys_id=${invoice.id}">
+            <td th:text="${(page.number - 1) * page.size + i.count}"></td>
             <td><a href="#" th:href="@{'/invoices/' + ${invoice.id} + '/show'}" th:text="${invoice.number}"></a></td>
             <td th:text="${invoice.date}"></td>
             <td>
@@ -45,6 +46,11 @@
         </tr>
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-end">
+        <nav th:replace="layouts :: pagination"></nav>
+    </div>
+
 </div>
 <div th:replace="layouts :: footer"></div>
 </body>

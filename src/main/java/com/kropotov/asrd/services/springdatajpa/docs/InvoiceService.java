@@ -6,6 +6,8 @@ import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.repositories.InvoiceRepository;
 import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,10 @@ public class InvoiceService implements CrudService<Invoice, Long> {
     @Override
     public List<Invoice> getAll() {
         return (List<Invoice>) (invoiceRepository.findAll());
+    }
+
+    public Page<Invoice> getAll(Pageable pageable) {
+        return invoiceRepository.findAll(pageable);
     }
 
     @Override
