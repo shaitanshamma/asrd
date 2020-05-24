@@ -70,8 +70,8 @@
     </div>
 </nav>
 
-<nav th:fragment="pagination" class="d-inline-flex">
-    <ul class="pagination justify-content-end">
+<nav th:fragment="pagination" class="d-inline-flex justify-content-end">
+    <ul class="pagination">
         <li th:class="page-item" th:classappend="${page.isFirstPage() ? 'disabled' : ''}">
             <a th:class="page-link" th:href="@{${page.url}(page = 1, size=${page.size})}">
                 <span aria-hidden="true">&#8810;</span>

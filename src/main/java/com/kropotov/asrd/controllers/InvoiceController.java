@@ -49,12 +49,11 @@ public class InvoiceController {
 
     @GetMapping
     public String invoicePage(Model model, Pageable pageable) {
-//        List<Invoice> invoices = invoiceService.getAll();
-//        model.addAttribute("invoices", invoices);
         pageable = PageValues.getPageableOrDefault(pageable);
         PageWrapper<Invoice> page = new PageWrapper<>(invoiceService.getAll(pageable.previousOrFirst()), "/invoices");
 
-        PageValues.addDefaultAttributes(model, page, topicService);
+        PageValues.addContentToModel(model, page);
+        model.addAttribute("topicTitleList", topicService.getAll());
 
         return "invoices/list-invoices";
     }

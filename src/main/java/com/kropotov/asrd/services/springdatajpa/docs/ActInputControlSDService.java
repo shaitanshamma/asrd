@@ -6,6 +6,8 @@ import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.repositories.ActInputControlRepository;
 import com.kropotov.asrd.services.ActInputControlService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,10 @@ public class ActInputControlSDService implements ActInputControlService {
         List<ActInputControl> actInputControlList = new ArrayList<>();
         actInputControlRepository.findAll().forEach(actInputControlList::add);
         return actInputControlList;
+    }
+
+    public Page<ActInputControl> getAll(Pageable pageable) {
+        return actInputControlRepository.findAll(pageable);
     }
 
     @Override

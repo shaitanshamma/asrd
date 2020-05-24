@@ -39,7 +39,8 @@ public class SystemController {
         pageable = PageValues.getPageableOrDefault(pageable);
         PageWrapper<ControlSystem> page = new PageWrapper<>(systemService.getAll(pageable.previousOrFirst()), "/systems");
 
-        PageValues.addDefaultAttributes(model, page, topicService);
+        PageValues.addContentToModel(model, page);
+        model.addAttribute("topicTitleList", topicService.getAll());
 
         return "systems/list-systems";
     }
