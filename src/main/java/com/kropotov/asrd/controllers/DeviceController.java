@@ -1,6 +1,8 @@
 package com.kropotov.asrd.controllers;
 
 
+import com.kropotov.asrd.controllers.util.PageValues;
+import com.kropotov.asrd.controllers.util.PageWrapper;
 import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.converters.items.DeviceToDto;
 import com.kropotov.asrd.converters.items.DtoToDevice;
@@ -14,13 +16,13 @@ import com.kropotov.asrd.services.springdatajpa.titles.DeviceComponentTitleServi
 import com.kropotov.asrd.services.springdatajpa.titles.DeviceTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping("/devices")
@@ -39,11 +41,11 @@ public class DeviceController {
     private final DtoToDevice dtoToDevice;
 
     @GetMapping
-    public String displayDevices(Model model) {
-        List<Device> devices = deviceService.getAll();
-        model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("device", new Device());
-        model.addAttribute("devices", devices);
+    public String displayDevices(Model model, Pageable pageable) {
+        pageable = PageValues.getPageableOrDefault(pageable);
+        PageWrapper<Device> page = new PageWrapper<>(deviceService.getAll(pageable.previousOrFirst()), "/devices");
+
+        PageValues.addDefaultAttributes(model, page, topicService);
         return "devices/list-devices";
     }
 
