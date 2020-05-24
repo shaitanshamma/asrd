@@ -1,3 +1,4 @@
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ru">
 
 
@@ -69,6 +70,46 @@
     </div>
 </nav>
 
+<nav th:fragment="pagination" class="d-inline-flex">
+    <ul class="pagination justify-content-end">
+        <li th:class="page-item" th:classappend="${page.isFirstPage() ? 'disabled' : ''}">
+            <a th:class="page-link" th:href="@{${page.url}(page = 1, size=${page.size})}">
+                <span aria-hidden="true">&#8810;</span>
+            </a>
+        </li>
+        <li th:class="page-item" th:classappend="${not page.hasPreviousPage() ? 'disabled' : ''}">
+            <a th:class="page-link" th:href="@{${page.url}(page=${page.number - 1}, size=${page.size})}">
+                <span aria-hidden="true">&lt;</span>
+            </a>
+        </li>
+
+        <li th:each="item : ${page.items}"
+            th:class="page-item" th:classappend="${item.current ? 'active' : ''}">
+            <a th:class="page-link" th:text="${item.number}" th:href="@{${page.url}(page=${item.number}, size=${page.size})}"></a>
+        </li>
+
+        <li th:class="page-item" th:classappend="${not page.hasNextPage() ? 'disabled' : ''}">
+            <a th:class="page-link" th:href="@{${page.url}(page=${page.number + 1}, size=${page.size})}">
+                <span aria-hidden="true">&gt;</span>
+            </a>
+        </li>
+        <li th:class="page-item" th:classappend="${page.isLastPage() ? 'disabled' : ''}">
+            <a th:class="page-link" th:href="@{${page.url}(page=${page.totalPages}, size=${page.size})}">
+                <span aria-hidden="true">&#8811;</span>
+            </a>
+        </li>
+    </ul>
+
+    <label for="pageSize" class="ml-3">
+        <select id="pageSize" name="pageSize" class="form-control" onchange="location = this.value;">
+            <option th:each="size : ${pageSizes}"
+                    th:value="@{${page.url}(page=1, size=${size})}"
+                    th:text="${'По ' + size}"
+                    th:selected="${size==page.size}">
+            </option>
+        </select>
+    </label>
+</nav>
 
 <div th:fragment="footer">
     <!--jQuery-->
