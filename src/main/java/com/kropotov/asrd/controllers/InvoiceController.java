@@ -77,7 +77,7 @@ public class InvoiceController {
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("companies", companiesService.findAll());
+        model.addAttribute("companies", companiesService.getAll());
         return INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -98,7 +98,7 @@ public class InvoiceController {
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("companies", companiesService.findAll());
+        model.addAttribute("companies", companiesService.getAll());
         return INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -117,7 +117,7 @@ public class InvoiceController {
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("companies", companiesService.findAll());
+        model.addAttribute("companies", companiesService.getAll());
         return INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -167,7 +167,7 @@ public class InvoiceController {
         if (invoiceDto.getId() == null && invoiceService.isInvoiceWithNumberExists(invoiceDto.getNumber())) {
             model.addAttribute("invoice", invoiceDto);
             model.addAttribute("invoiceCreationError", "Накладная с таким номером уже существует");
-            model.addAttribute("companies", companiesService.findAll());
+            model.addAttribute("companies", companiesService.getAll());
             return INVOICE_CREATE_OR_UPDATE_FORM;
         }
 

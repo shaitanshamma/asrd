@@ -3,6 +3,8 @@ package com.kropotov.asrd.services.springdatajpa.titles.company;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.Employee;
 import com.kropotov.asrd.repositories.company.EmployeesRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,20 +12,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeesService {
+@RequiredArgsConstructor
+public class EmployeeService {
 
-    @Autowired
-    private EmployeesRepository employeesRepository;
+    private final EmployeesRepository employeesRepository;
 
-    public Optional<Employee> findOneById(Long id){
+    public Optional<Employee> getById(Long id){
         return employeesRepository.findById(id);
     }
 
-    public List<Employee> finAll(){
+    public List<Employee> getAll(){
         return employeesRepository.findAll();
     }
 
-    public Employee findOneByEmail(String email){
+    public Employee getOneByEmail(String email){
         return employeesRepository.findOneByEmail(email);
     }
 
@@ -35,7 +37,7 @@ public class EmployeesService {
         employeesRepository.deleteById(id);
     }
 
-    public List<Employee> findAllByCompany(Company company){
+    public List<Employee> getAllByCompany(Company company){
         return employeesRepository.findAllByCompany(company);
     }
 

@@ -52,13 +52,16 @@
 //        actList.add(act1);
 //        actList.add(act2);
 //
-//        when(actInputControlRepository.findAll()).thenReturn(actList);
+//        when(actInputControlRepository.
+//        afindAll()).thenReturn(actList);
 //
 //        List<ActInputControl> actListReturned = actInputControlSDService.getAll();
 //
 //        assertEquals(2, actListReturned.size());
-//        verify(actInputControlRepository, times(1)).findAll();
-//        verify(actInputControlRepository, never()).findById(anyLong());
+//        verify(actInputControlRepository, times(1)).
+//        afindAll();
+//        verify(actInputControlRepository, never()).
+//        afindById(anyLong());
 //    }
 //
 //    @Test
@@ -67,13 +70,14 @@
 //        act.setId(ID);
 //        Optional<ActInputControl> actOptional = Optional.of(act);
 //
-//        when(actInputControlRepository.findById(ID)).thenReturn(actOptional);
+//        when(actInputControlRepository.getById(ID)).thenReturn(actOptional);
 //
 //        Optional<ActInputControl> actReturned = actInputControlSDService.getById(ID);
 //
 //        assertNotNull(actReturned.orElse(null));
-//        verify(actInputControlRepository, times(1)).findById(anyLong());
-//        verify(actInputControlRepository, never()).findAll();
+//        verify(actInputControlRepository, times(1)).getById(anyLong());
+//        verify(actInputControlRepository, never()).
+//        afindAll();
 //    }
 //
 //}
