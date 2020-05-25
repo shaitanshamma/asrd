@@ -2,10 +2,8 @@ package com.kropotov.asrd.services.springdatajpa.titles.company;
 
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.Employee;
-import com.kropotov.asrd.repositories.company.EmployeesRepository;
-import lombok.AllArgsConstructor;
+import com.kropotov.asrd.repositories.company.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,33 +13,33 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EmployeeService {
 
-    private final EmployeesRepository employeesRepository;
+    private final EmployeeRepository employeeRepository;
 
     public Optional<Employee> getById(Long id){
-        return employeesRepository.findById(id);
+        return employeeRepository.findById(id);
     }
 
     public List<Employee> getAll(){
-        return employeesRepository.findAll();
+        return employeeRepository.findAll();
     }
 
     public Employee getOneByEmail(String email){
-        return employeesRepository.findOneByEmail(email);
+        return employeeRepository.findOneByEmail(email);
     }
 
     public Employee save(Employee employee){
-        return employeesRepository.save(employee);
+        return employeeRepository.save(employee);
     }
 
     public void delete(Long id){
-        employeesRepository.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 
     public List<Employee> getAllByCompany(Company company){
-        return employeesRepository.findAllByCompany(company);
+        return employeeRepository.findAllByCompany(company);
     }
 
     public Employee findOneByMobilPhone(String mobilPhone){
-        return employeesRepository.findByMobilPhone(mobilPhone);
+        return employeeRepository.findByMobilPhone(mobilPhone);
     }
 }

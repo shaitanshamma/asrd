@@ -1,7 +1,7 @@
 package com.kropotov.asrd.controllers;
 
 import com.kropotov.asrd.entities.company.Company;
-import com.kropotov.asrd.services.springdatajpa.titles.company.CompaniesService;
+import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,17 +16,17 @@ import javax.validation.Valid;
 @RequestMapping("/companies")
 public class CompanyController {
 
-    private final CompaniesService companiesService;
+    private final CompanyService companyService;
 
     @GetMapping("")
     public String showCompany(Model model) {
-        model.addAttribute("companies", companiesService.getAll());
+        model.addAttribute("companies", companyService.getAll());
         return "companies/list-companies";
     }
 
     @GetMapping("/edit/{id}")
     public String editCompanyPage(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("company", companiesService.getById(id).orElse(new Company()));
+        model.addAttribute("company", companyService.getById(id).orElse(new Company()));
         return "companies/edit-company";
     }
     @GetMapping("/add/")
@@ -50,10 +50,10 @@ public class CompanyController {
 
     @GetMapping("/info/{id}")
     public String companyInfoPage(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("company", companiesService.getById(id).get());
-        model.addAttribute("employees", companiesService.getById(id).get().getEmployee());
-        model.addAttribute("phones", companiesService.getById(id).get().getCompanyPhones());
-        model.addAttribute("addresses", companiesService.getById(id).get().getAddress());
+        model.addAttribute("company", companyService.getById(id).get());
+        model.addAttribute("employees", companyService.getById(id).get().getEmployee());
+        model.addAttribute("phones", companyService.getById(id).get().getCompanyPhones());
+        model.addAttribute("addresses", companyService.getById(id).get().getAddress());
         return "companies/info";
     }
     private boolean saveOrEditCompany(@ModelAttribute("company") @Valid Company company, BindingResult bindingResult, Model model) {
@@ -61,13 +61,13 @@ public class CompanyController {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return true;
         }
-        Company existing = companiesService.getOneByTitle(company.getTitle());
+        Company existing = companyService.getOneByTitle(company.getTitle());
         if (existing != null && !existing.getId().equals(company.getId())) {
             model.addAttribute("company", company);
             model.addAttribute("companyCreationError", "CompanyOld title already exists");
             return true;
         }
-        companiesService.save(company);
+        companyService.save(company);
         return false;
     }
 

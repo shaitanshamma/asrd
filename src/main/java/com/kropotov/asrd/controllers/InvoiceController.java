@@ -13,7 +13,7 @@ import com.kropotov.asrd.services.springdatajpa.docs.InvoiceService;
 import com.kropotov.asrd.services.springdatajpa.titles.DeviceTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
-import com.kropotov.asrd.services.springdatajpa.titles.company.CompaniesService;
+import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,7 +33,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class InvoiceController {
     private final InvoiceService invoiceService;
-    private final CompaniesService companiesService;
+    private final CompanyService companyService;
     private final UserService userService;
     private final TopicService topicService;
     private final DeviceTitleService deviceTitleService;
@@ -77,7 +77,7 @@ public class InvoiceController {
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("companies", companiesService.getAll());
+        model.addAttribute("companies", companyService.getAll());
         return INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -98,7 +98,7 @@ public class InvoiceController {
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("companies", companiesService.getAll());
+        model.addAttribute("companies", companyService.getAll());
         return INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -117,7 +117,7 @@ public class InvoiceController {
 
         model.addAttribute("invoice", invoiceDto);
         model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("companies", companiesService.getAll());
+        model.addAttribute("companies", companyService.getAll());
         return INVOICE_CREATE_OR_UPDATE_FORM;
     }
 
@@ -167,7 +167,7 @@ public class InvoiceController {
         if (invoiceDto.getId() == null && invoiceService.isInvoiceWithNumberExists(invoiceDto.getNumber())) {
             model.addAttribute("invoice", invoiceDto);
             model.addAttribute("invoiceCreationError", "Накладная с таким номером уже существует");
-            model.addAttribute("companies", companiesService.getAll());
+            model.addAttribute("companies", companyService.getAll());
             return INVOICE_CREATE_OR_UPDATE_FORM;
         }
 
