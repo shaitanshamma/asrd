@@ -63,9 +63,9 @@
                     </div>
                 </div>
                 <select class="custom-select" id="from-id" th:field="*{from.id}">
-                    <option th:each="companyOld: ${companies}"
-                            th:value="${companyOld.id}"
-                            th:text="${companyOld.title}">
+                    <option th:each="company: ${companies}"
+                            th:value="${company.id}"
+                            th:text="${company.title}">
                     </option>
                 </select>
             </div>
@@ -80,9 +80,9 @@
                     </div>
                 </div>
                 <select class="custom-select" id="destination-id" th:field="*{destination.id}">
-                    <option th:each="companyOld: ${companies}"
-                            th:value="${companyOld.id}"
-                            th:text="${companyOld.title}">
+                    <option th:each="company: ${companies}"
+                            th:value="${company.id}"
+                            th:text="${company.title}">
                     </option>
                 </select>
             </div>
