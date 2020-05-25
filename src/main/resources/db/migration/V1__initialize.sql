@@ -740,6 +740,7 @@ CREATE TABLE file (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `type_id` int(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_file_type_id_idx` (`type_id`),
   CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_type` (`id`)
