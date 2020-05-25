@@ -5,7 +5,6 @@ import com.kropotov.asrd.entities.company.Employee;
 import com.kropotov.asrd.repositories.company.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,32 +15,31 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public Optional<Employee> getById(Long id) {
+    public Optional<Employee> getById(Long id){
         return employeeRepository.findById(id);
     }
 
-    public List<Employee> getAll() {
+    public List<Employee> getAll(){
         return employeeRepository.findAll();
     }
 
-    public Employee getOneByEmail(String email) {
+    public Employee getOneByEmail(String email){
         return employeeRepository.findOneByEmail(email);
     }
 
-    @Transactional
-    public Employee save(Employee employee) {
+    public Employee save(Employee employee){
         return employeeRepository.save(employee);
     }
 
-    public void delete(Long id) {
+    public void delete(Long id){
         employeeRepository.deleteById(id);
     }
 
-    public List<Employee> getAllByCompany(Company company) {
+    public List<Employee> getAllByCompany(Company company){
         return employeeRepository.findAllByCompany(company);
     }
 
-    public Employee findOneByMobilPhone(String mobilPhone) {
+    public Employee findOneByMobilPhone(String mobilPhone){
         return employeeRepository.findByMobilPhone(mobilPhone);
     }
 }
