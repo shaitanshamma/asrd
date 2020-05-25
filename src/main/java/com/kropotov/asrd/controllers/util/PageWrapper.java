@@ -2,6 +2,7 @@ package com.kropotov.asrd.controllers.util;
 
 import lombok.Getter;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,10 @@ public class PageWrapper<T> {
 
 	public int getSize() {
 		return page.getSize();
+	}
+
+	public Sort getSort() {
+		return page.getSort();
 	}
 
 	public int getTotalPages() {
