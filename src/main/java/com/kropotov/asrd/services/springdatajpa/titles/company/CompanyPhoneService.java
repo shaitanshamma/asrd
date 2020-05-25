@@ -6,6 +6,7 @@ import com.kropotov.asrd.repositories.company.CompanyPhoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,18 +16,20 @@ public class CompanyPhoneService {
 
     private final CompanyPhoneRepository companyPhoneRepository;
 
-    public List<CompanyPhone> getAll(){
+    public List<CompanyPhone> getAll() {
         return companyPhoneRepository.findAll();
     }
 
-    public List<CompanyPhone> getAllByCompany(Company company){
+    public List<CompanyPhone> getAllByCompany(Company company) {
         return companyPhoneRepository.findAllByCompany(company);
     }
-    public CompanyPhone save(CompanyPhone companyPhone){
+
+    @Transactional
+    public CompanyPhone save(CompanyPhone companyPhone) {
         return companyPhoneRepository.save(companyPhone);
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         companyPhoneRepository.deleteById(id);
     }
 }

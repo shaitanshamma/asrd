@@ -6,6 +6,7 @@ import com.kropotov.asrd.repositories.company.AddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,16 +17,20 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
 
-    public Optional<Address> getById(Long id){
+    public Optional<Address> getById(Long id) {
         return addressRepository.findById(id);
     }
-    public List<Address> getAll(){
+
+    public List<Address> getAll() {
         return addressRepository.findAll();
     }
-    public Address save(Address address){
+
+    @Transactional
+    public Address save(Address address) {
         return addressRepository.save(address);
     }
-    public void delete(Long id){
+
+    public void delete(Long id) {
         addressRepository.deleteById(id);
     }
 

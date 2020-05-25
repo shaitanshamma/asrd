@@ -64,7 +64,7 @@ public class CompanyController {
         Company existing = companyService.getOneByTitle(company.getTitle());
         if (existing != null && !existing.getId().equals(company.getId())) {
             model.addAttribute("company", company);
-            model.addAttribute("companyCreationError", "CompanyOld title already exists");
+            model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
             return true;
         }
         companyService.save(company);
