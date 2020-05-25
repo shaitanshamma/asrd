@@ -33,7 +33,7 @@ public class CompanyController {
         return "companies/list-companies";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/edit/{id}")
     public String editCompanyPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("company", companiesService.findById(id).orElse(new Company()));
         return "companies/edit-company";
@@ -41,8 +41,8 @@ public class CompanyController {
 
     // @Valid проверяет в соответствии с аннотациями сущности
     // результаты проверки приходят в BindingResult
-    @PostMapping("/edit")
-    public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model) {
+    @PostMapping("/edit/{id}")
+    public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model,@PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return "companies/edit-company";
@@ -54,7 +54,7 @@ public class CompanyController {
             return "companies/edit-company";
         }
         companiesService.save(company);
-        return "redirect:/companies";
+        return "redirect:/companies/info/{id}";
     }
 
     @GetMapping("/info/{id}")

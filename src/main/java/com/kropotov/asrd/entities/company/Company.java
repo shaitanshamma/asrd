@@ -30,19 +30,16 @@ public class Company {
 
     @OneToMany(
             mappedBy = "company",
-            orphanRemoval = true,
             cascade = CascadeType.ALL)
     private List<CompanyPhone> companyPhones;
 
     @OneToMany(
             mappedBy = "company",
-            orphanRemoval = true,
             cascade = CascadeType.ALL)
     private List<Address> address;
 
     @OneToMany(
             mappedBy = "company",
-            orphanRemoval = true,
             cascade = CascadeType.ALL)
     private List<Employee> employee;
 }

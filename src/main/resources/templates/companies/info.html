@@ -20,17 +20,19 @@
             <th>E-mail</th>
             <th>Факс</th>
             <th>Военное представительство</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="comp, iterator : ${company}" th:attr="sys_id=${company.id}"
-            th:onclick="'window.location.href=\'companies/' + ${company.id} + '\'; return false'">
+        <tr th:each="comp, iterator : ${company}" th:attr="sys_id=${company.id}">
             <td th:text="${iterator.count}"></td>
             <td th:text="${company.title}"></td>
             <td th:text="${company.email}"></td>
             <td th:text="${company.fax}"></td>
             <td th:text="${company.militaryRepresentation}"></td>
-            <td th:text="${company.militaryRepresentation}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
         </tr>
         </tbody>
     </table>

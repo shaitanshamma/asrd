@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form th:action="@{/companies/edit}" th:object="${company}" method="post">
+    <form th:action="@{'/companies/edit/'+${company.id}}" th:object="${company}" method="post">
         <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
 
         <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>
@@ -27,7 +27,12 @@
         <div class="form-group">
             <label for="companyTitle">Название</label>
             <input type="text" th:field="*{title}" class="form-control" id="companyTitle" placeholder="Введите название компании">
-            <label for="companyTitle">Название</label>
+            <label for="companyEmail">Email</label>
+            <input type="text" th:field="*{email}" class="form-control" id="companyEmail" placeholder="Введите адресс электронной почты">
+            <label for="companyFax">Fax</label>
+            <input type="text" th:field="*{fax}" class="form-control" id="companyFax" placeholder="Введите номер факса">
+            <label >Military Representation</label>
+            <input type="text" th:field="*{militaryRepresentation}" class="form-control" id="militaryRepresentation" placeholder="Введите номер военного представительства">
         </div>
 
         <button type="submit" class="btn btn-primary">Сохранить</button>
