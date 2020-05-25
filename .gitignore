@@ -144,3 +144,5 @@ Desktop.ini
 ######################
 .eslintcache
 /pom.xml
+/pom.xml
+/src/main/resources/db/migration/V20200525141945__my.sql
