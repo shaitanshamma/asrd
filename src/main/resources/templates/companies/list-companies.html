@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
 <head th:replace="layouts :: header"></head>
-
+<meta charset="utf-8">
 <body>
 
 <nav th:replace="layouts :: navbar(Companies)"></nav>
@@ -11,9 +10,9 @@
     <br>
     <h1>Каталог предприятий</h1>
     <hr>
-    <div>
+    <div >
         <a th:href="@{companies/0}"
-           class="btn btn-primary btn-sm mb-3">
+           class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
         </a>
     </div>
@@ -24,16 +23,15 @@
         <tr>
             <th>№ п/п</th>
             <th>Название</th>
-            <th>Доп. информация(TODO)</th>
+            <th>Доп. информация</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="company, iterator : ${companies}" th:attr="sys_id=${company.id}"
-            th:onclick="'window.location.href=\'companies/' + ${company.id} + '\'; return false'">
+        <tr th:each="company, iterator : ${companies}" th:attr="sys_id=${company.id}">
             <td th:text="${iterator.count}"></td>
             <td th:text="${company.title}"></td>
             <td>
-                <a th:href="@{'/info/' + ${company.id}}">"Информация"</a>
+                <a th:href="@{'/companies/info/' + ${company.id}}">"Информация"</a>
             </td>
         </tr>
         </tbody>

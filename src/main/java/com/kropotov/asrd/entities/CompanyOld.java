@@ -12,5 +12,5 @@ import javax.persistence.Table;
 @Table(name = "companies")
 @Getter
 @Setter
-public class Company extends TitleEntity {
+public class CompanyOld extends TitleEntity {
 }

@@ -11,13 +11,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!--bootstrap date-time picker CC-->
-    <link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet" />
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap-datepicker.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
 
 </head>
 
 
-<nav th:fragment = "navbar(activeTab)" class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark ">
+<nav th:fragment="navbar(activeTab)" class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark ">
     <a class="navbar-brand" th:href="@{/}">АСУП</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,9 @@
         <ul class="navbar-nav">
             <li class="nav-item" th:classappend="${activeTab == 'Home' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/}">Главная<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" th:classappend="${activeTab == 'Company' ? 'active' : ''}">
+                <a class="nav-link" th:href="@{/companies}">Компании<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item" th:classappend="${activeTab == 'Systems' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/systems}">Системы<span class="sr-only">(current)</span></a>
@@ -40,8 +43,10 @@
             <li class="nav-item" th:classappend="${activeTab == 'Acts' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/acts}">Вх. контроль<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')" th:classappend="${activeTab == 'Admin' ? 'active' : ''}">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')"
+                th:classappend="${activeTab == 'Admin' ? 'active' : ''}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
                     Админка
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -56,7 +61,8 @@
             <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${activeTab == 'Login' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/login}">Войти<span class="sr-only">(current)</span></a>
             </li>
-            <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${activeTab == 'Register' ? 'active' : ''}">
+            <li sec:authorize="isAnonymous()" class="nav-item"
+                th:classappend="${activeTab == 'Register' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/register}">Регистрация<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
@@ -85,7 +91,7 @@
     <script th:src="@{/js/bootstrap-datepicker.ru.min.js}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.form-date').datepicker({
                 format: "dd.mm.yyyy",
                 todayBtn: "linked",

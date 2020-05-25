@@ -1,7 +1,7 @@
 package com.kropotov.asrd.entities.docs;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.kropotov.asrd.entities.Company;
+import com.kropotov.asrd.entities.CompanyOld;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.common.DocEntity;
 import com.kropotov.asrd.entities.enums.Status;
@@ -28,7 +28,7 @@ public class Invoice extends DocEntity {
     @Builder
     public Invoice(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt, String path,
                    @NotNull(message = "is required") @Size(min = 1, message = "Number length must be greater then 4 symbols") String number,
-                   LocalDate date, @NotNull Company from, @NotNull Company destination, String description, User user,
+                   LocalDate date, @NotNull CompanyOld from, @NotNull CompanyOld destination, String description, User user,
                    List<ControlSystem> systems, List<Device> devices) {
 
         super(id, entityStatus, createdAt, updatedAt, path);
@@ -55,12 +55,12 @@ public class Invoice extends DocEntity {
     @ManyToOne
     @JoinColumn(name = "from_company_id")
     @NotNull
-    private Company from;
+    private CompanyOld from;
 
     @ManyToOne
     @JoinColumn(name = "destination_id")
     @NotNull
-    private Company destination;
+    private CompanyOld destination;
 
     @Column(name = "description")
     private String description;
