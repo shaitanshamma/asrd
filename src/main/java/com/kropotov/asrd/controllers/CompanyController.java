@@ -38,23 +38,39 @@ public class CompanyController {
         model.addAttribute("company", companiesService.findById(id).orElse(new Company()));
         return "companies/edit-company";
     }
+    @GetMapping("/add/")
+    public String addCompanyPage(Model model) {
+        Company company = new Company();
+        model.addAttribute("company", company);
+        return "companies/add-company";
+    }
 
+    @PostMapping("/add/")
+    public String addCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model) {
+        if (saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
+        return "redirect:/companies/";
+    }
     // @Valid проверяет в соответствии с аннотациями сущности
     // результаты проверки приходят в BindingResult
     @PostMapping("/edit/{id}")
     public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model,@PathVariable("id") Long id) {
+        if (saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
+        return "redirect:/companies/info/{id}";
+    }
+
+    private boolean saveOrEditCompany(@ModelAttribute("company") @Valid Company company, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("companyCreationError", "BindingResult error!");
-            return "companies/edit-company";
+            return true;
         }
         Company existing = companiesService.findOneByTitle(company.getTitle());
         if (existing != null && !existing.getId().equals(company.getId())) {
             model.addAttribute("company", company);
             model.addAttribute("companyCreationError", "CompanyOld title already exists");
-            return "companies/edit-company";
+            return true;
         }
         companiesService.save(company);
-        return "redirect:/companies/info/{id}";
+        return false;
     }
 
     @GetMapping("/info/{id}")

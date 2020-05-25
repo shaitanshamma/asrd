@@ -10,6 +10,10 @@
 
 <div class="container">
     <br>
+    <a th:href="@{/companies}"
+       class="btn btn-primary btn-sm mb-3">
+        К списку компаний
+    </a>
     <h1>Информация о предприятии</h1>
     <hr>
     <table class="table table-hover">
@@ -45,6 +49,7 @@
             <th>№ п/п</th>
             <th>Телефон</th>
             <th>Описание</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
         </tr>
         </thead>
         <tbody>
@@ -53,6 +58,9 @@
             <td th:text="${iterator.count}"></td>
             <td th:text="${phon.phone}"></td>
             <td th:text="${phon.description}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -68,6 +76,7 @@
             <th>Улица</th>
             <th>Дом</th>
             <th>Описание</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
         </tr>
         </thead>
         <tbody>
@@ -79,6 +88,9 @@
             <td th:text="${address.street}"></td>
             <td th:text="${address.place}"></td>
             <td th:text="${address.description}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -96,6 +108,7 @@
             <th>E-mail</th>
             <th>Рабочий телефон</th>
             <th>Мобильный телефон</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
         </tr>
         </thead>
         <tbody>
@@ -109,6 +122,9 @@
             <td th:text="${emp.email}"></td>
             <td th:text="${emp.workPhone}"></td>
             <td th:text="${emp.mobilPhone}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
         </tr>
         </tbody>
     </table>

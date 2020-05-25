@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Companies)"></nav>
+
+<div class="container">
+    <div class="form-group">
+        <div class="col-xs-15">
+<!--            <div th:if="${companyCreationError != null}">-->
+<!--                <div class="alert alert-danger col-xs-offset-1 col-xs-10">-->
+<!--                    <span th:text="${companyCreationError}" ></span>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+
+    <form th:action="@{'/companies/add/'}" th:object="${company}" method="post">
+        <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
+
+        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>
+
+        <div class="form-group">
+            <label for="companyTitle">Название</label>
+            <input type="text" th:field="*{title}" class="form-control" id="companyTitle" placeholder="Введите название компании">
+            <label for="companyEmail">Email</label>
+            <input type="text" th:field="*{email}" class="form-control" id="companyEmail" placeholder="Введите адресс электронной почты">
+            <label for="companyFax">Fax</label>
+            <input type="text" th:field="*{fax}" class="form-control" id="companyFax" placeholder="Введите номер факса">
+            <label >Military Representation</label>
+            <input type="text" th:field="*{militaryRepresentation}" class="form-control" id="militaryRepresentation" placeholder="Введите номер военного представительства">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>
