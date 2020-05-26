@@ -2,7 +2,9 @@ package com.kropotov.asrd.controllers;
 
 import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
+import com.kropotov.asrd.entities.company.CompanyPhone;
 import com.kropotov.asrd.services.springdatajpa.titles.company.AddressService;
+import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyPhoneService;
 import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private final AddressService addressService;
+    private final CompanyPhoneService companyPhoneService;
 
     @GetMapping("")
     public String showCompany(Model model) {
@@ -74,6 +77,20 @@ public class CompanyController {
                                          @PathVariable("id") Long id) {
         addressService.save(address);
         String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(address.getCompany().getId().toString()));
+        return url;
+    }
+
+    @GetMapping("/edit/phone/{id}")
+    public String editCompanyPhonePage(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("phone", companyPhoneService.getById(id).get());
+        return "companies/edit-company-phone";
+    }
+
+    @PostMapping("/edit/phone/{id}")
+    public String editCompanyPhonePage(@Valid @ModelAttribute("phone")CompanyPhone phone, BindingResult bindingResult, Model model,
+                                       @PathVariable("id") Long id) {
+        companyPhoneService.save(phone);
+        String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(phone.getCompany().getId().toString()));
         return url;
     }
 
