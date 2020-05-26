@@ -80,8 +80,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${address.id}"
-            th:onclick="'window.location.href=\'companies/' + ${address.id} + '\'; return false'">
+        <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${address.id}">
+<!--            th:onclick="'window.location.href=\'companies/' + ${address.id} + '\'; return false'"-->
+        >
             <td th:text="${iterator.count}"></td>
             <td th:text="${address.zipCode}"></td>
             <td th:text="${address.city}"></td>
@@ -89,7 +90,7 @@
             <td th:text="${address.place}"></td>
             <td th:text="${address.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+                <a th:href="@{'/companies/edit/address/'+${address.id}}">Edit</a>
             </td>
         </tr>
         </tbody>
