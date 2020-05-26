@@ -1,6 +1,8 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
+import com.kropotov.asrd.services.springdatajpa.titles.company.AddressService;
 import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 public class CompanyController {
 
     private final CompanyService companyService;
+    private final AddressService addressService;
 
     @GetMapping("")
     public String showCompany(Model model) {
@@ -29,6 +32,8 @@ public class CompanyController {
         model.addAttribute("company", companyService.getById(id).orElse(new Company()));
         return "companies/edit-company";
     }
+
+
     @GetMapping("/add/")
     public String addCompanyPage(Model model) {
         model.addAttribute("company", new Company());
@@ -40,10 +45,11 @@ public class CompanyController {
         if (saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
         return "redirect:/companies/";
     }
+
     // @Valid проверяет в соответствии с аннотациями сущности
     // результаты проверки приходят в BindingResult
     @PostMapping("/edit/{id}")
-    public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model,@PathVariable("id") Long id) {
+    public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model, @PathVariable("id") Long id) {
         if (saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
         return "redirect:/companies/info/{id}";
     }
@@ -56,6 +62,21 @@ public class CompanyController {
         model.addAttribute("addresses", companyService.getById(id).get().getAddress());
         return "companies/info";
     }
+
+    @GetMapping("/edit/address/{id}")
+    public String editCompanyAddressPage(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("address", addressService.getById(id).get());
+        return "companies/edit-company-address";
+    }
+
+    @PostMapping("/edit/address/{id}")
+    public String editCompanyAddressPage(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult, Model model,
+                                         @PathVariable("id") Long id) {
+        addressService.save(address);
+        String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(address.getCompany().getId().toString()));
+        return url;
+    }
+
     private boolean saveOrEditCompany(@ModelAttribute("company") @Valid Company company, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("companyCreationError", "BindingResult error!");
