@@ -23,12 +23,30 @@
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
-            <th>Номер</th>
-            <th>Дата</th>
-            <th>Файл</th>
-            <th>Отправитель</th>
-            <th>Получатель</th>
-            <th>Описание</th>
+            <th>
+                Номер
+                <span th:replace="~{layouts :: sortButtons(number)}"></span>
+            </th>
+            <th>
+                Дата
+                <span th:replace="~{layouts :: sortButtons(date)}"></span>
+            </th>
+            <th>
+                Файл
+                <span th:replace="~{layouts :: sortButtons(path)}"></span>
+            </th>
+            <th>
+                Отправитель
+                <span th:replace="~{layouts :: sortButtons(from)}"></span>
+            </th>
+            <th>
+                Получатель
+                <span th:replace="~{layouts :: sortButtons(destination)}"></span>
+            </th>
+            <th>
+                Описание
+                <span th:replace="~{layouts :: sortButtons(description)}"></span>
+            </th>
         </tr>
         </thead>
         <tbody>
