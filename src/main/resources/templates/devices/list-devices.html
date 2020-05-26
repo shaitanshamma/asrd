@@ -19,9 +19,18 @@
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
-            <th>Дата изготовления</th>
-            <th>Название прибора</th>
-            <th>Номер</th>
+            <th>
+                Дата изготовления
+                <span th:replace="~{layouts :: sortButtons(vintage)}"></span>
+            </th>
+            <th>
+                Название прибора
+                <span th:replace="~{layouts :: sortButtons(title)}"></span>
+            </th>
+            <th>
+                Номер
+                <span th:replace="~{layouts :: sortButtons(number)}"></span>
+            </th>
         </tr>
         </thead>
         <tbody>
