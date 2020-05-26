@@ -53,13 +53,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${phon.id}"
-            th:onclick="'window.location.href=\'companies/' + ${phon.id} + '\'; return false'">
+        <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${phon.id}">
+<!--            th:onclick="'window.location.href=\'companies/' + ${phon.id} + '\'; return false'">-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${phon.phone}"></td>
             <td th:text="${phon.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+                <a th:href="@{'/companies/edit/phone/'+${phon.id}}">Edit</a>
             </td>
         </tr>
         </tbody>
