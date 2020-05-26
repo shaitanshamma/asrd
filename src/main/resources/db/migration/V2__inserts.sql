@@ -12,6 +12,9 @@ VALUES (1, 1),
        (1, 2),
        (1, 3);
 
+INSERT INTO companies (title)
+VALUES ('тест 1'),
+       ('тест 2');
 
 INSERT INTO invoices (number, invoice_date, path, from_company_id, destination_id, description, entity_status, user_id)
 VALUES  ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
@@ -145,12 +148,6 @@ VALUES ('СЧ 1 1', 1),
        ('СЧ 3 1', 1),
        ('СЧ 1 2', 2),
        ('СЧ 2 2', 2);
-
-INSERT INTO companies (title)
-VALUES ('тест 1'),
-       ('тест 2');
-
-
 
 INSERT INTO systems (title_system_id, number, purpose, purpose_passport, vintage, vp_number, accept_otk_date, accept_vp_date, user_id)
 VALUES  ('1', '0354501', 'Testing', 'not to crash', '2001-3-1', 45, '2001-3-1', '2000-1-1', '1'),
