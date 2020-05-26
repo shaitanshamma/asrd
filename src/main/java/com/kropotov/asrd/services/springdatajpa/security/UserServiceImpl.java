@@ -4,6 +4,7 @@ import com.kropotov.asrd.entities.Role;
 import com.kropotov.asrd.entities.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.repositories.RoleRepository;
+import com.kropotov.asrd.repositories.StatusUserRepository;
 import com.kropotov.asrd.repositories.UserRepository;
 import com.kropotov.asrd.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
 	private BCryptPasswordEncoder passwordEncoder;
+	private StatusUserRepository statusUserRepository;
+
+	@Autowired
+	public void setStatusUserRepository(StatusUserRepository statusUserRepository) {
+		this.statusUserRepository = statusUserRepository;
+	}
 
 	@Autowired
 	public void setUserRepository(UserRepository userRepository) {
@@ -64,7 +71,10 @@ public class UserServiceImpl implements UserService {
 			user.setRoles(systemUser.getRoles());
 		}
 		else
-		user.setRoles(Collections.singletonList(roleRepository.findOneByName("ROLE_NEW_USER")));
+		user.setRoles(Collections.singletonList(roleRepository.findOneByName("ROLE_USER")));
+		user.setWorkPhone(systemUser.getWorkPhone());
+		user.setMobilePhone(systemUser.getMobilePhone());
+		user.setStatusUser(systemUser.getStatusUser());
 		userRepository.save(user);
 	}
 
@@ -94,7 +104,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean isManagerRole() {
-		return false;
+	public long allNewUsersConfirmedEmail() {
+		return userRepository.findAll().stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).count();
 	}
+
+	@Override
+	public void activeUser(Long id) {
+		User user = userRepository.findById(id).orElse(new User());
+		if(user.getId() != null) {
+			user.setStatusUser(statusUserRepository.findOneByName("active"));
+			userRepository.save(user);
+		}
+	}
+
 }

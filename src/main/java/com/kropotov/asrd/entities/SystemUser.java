@@ -48,4 +48,10 @@ public class SystemUser {
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String email;
+
+    private String workPhone;
+
+    private String mobilePhone;
+
+    private StatusUser statusUser;
 }

@@ -20,28 +20,28 @@
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">
                     <div class="form-group">
-                        <label for="user_name">Имя</label>
-                        <input th:field="*{userName}" type="text" class="form-control" id="user_name" placeholder="Введте логин" required>
+                        <label for="user_name">Login</label>
+                        <input th:field="*{userName}" type="text" maxlength="255" class="form-control" id="user_name" placeholder="Введте логин" required>
                     </div>
                     <div class="form-group">
                         <label for="user_first_name">Имя</label>
-                        <input th:field="*{firstName}" type="text" class="form-control" id="user_first_name" placeholder="Введите имя" required>
+                        <input th:field="*{firstName}" type="text" maxlength="255" class="form-control" id="user_first_name" placeholder="Введите имя" required>
                     </div>
                     <div class="form-group">
                         <label for="user_last_name">Фамилия</label>
-                        <input th:field="*{lastName}" type="text" class="form-control" id="user_last_name" placeholder="Введите фамилию" required>
+                        <input th:field="*{lastName}" type="text" maxlength="255" class="form-control" id="user_last_name" placeholder="Введите фамилию" required>
                     </div>
                     <div class="form-group">
                         <label for="number_phone">Отчество</label>
-                        <input th:field="*{patronymic}" type="text" class="form-control" id="number_phone" placeholder="Введите Отчество" required>
+                        <input th:field="*{patronymic}" type="text" maxlength="255" class="form-control" id="number_phone" placeholder="Введите Отчество" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Пароль</label>
-                        <input th:field="*{password}" type="password" class="form-control" id="password" placeholder="Пароль" required>
+                        <input th:field="*{password}" type="password" maxlength="80" class="form-control" id="password" placeholder="Пароль" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input th:field="*{email}" type="text" class="form-control" id="email" placeholder="Введите почту" required>
+                        <input th:field="*{email}" type="email" maxlength="255" class="form-control" id="email" placeholder="Введите почту" required>
                     </div>
                     <div class="form-group">
                         <label for="roles">Роли</label>
@@ -49,6 +49,23 @@
                             <option th:each="role : ${allRoles}"
                                     th:text="${role.name}"
                                     th:value="${role.id}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="workphon">Рабочий телефон</label>
+                        <input th:field="*{workPhone}" type="number" class="form-control" id="workphon" placeholder="Введите номер телефона">
+                    </div>
+                    <div class="form-group">
+                        <label for="mobiphon">Мобильный телефон</label>
+                        <input th:field="*{mobilePhone}" type="number" class="form-control" id="mobiphon" placeholder="Введите номер телефона">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Статус пользователя</label>
+                        <select class="form-control" id="status" th:field="*{statusUser}" required>
+                            <option th:each="statusUser : ${allStatusUser}"
+                                    th:text="${statusUser.name}"
+                                    th:value="${statusUser.id}">
                             </option>
                         </select>
                     </div>

@@ -1,5 +1,14 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+CREATE TABLE status_user
+(
+    id   TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
@@ -11,8 +20,13 @@ CREATE TABLE users
     last_name  VARCHAR(255) NOT NULL,
     patronymic VARCHAR(255) NOT NULL,
     email      VARCHAR(255) NOT NULL,
-    phone      VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (id)
+    work_phone      VARCHAR(255) DEFAULT NULL,
+    mobile_phone      VARCHAR(255) DEFAULT NULL,
+    status_user_id      TINYINT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT FK_USER_SERVICE_USER FOREIGN KEY (status_user_id)
+        REFERENCES status_user (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
@@ -20,6 +34,17 @@ CREATE TABLE users
 DROP TABLE IF EXISTS roles;
 
 CREATE TABLE roles
+(
+    id   TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  DEFAULT CHARSET = utf8;
+
+  DROP TABLE IF EXISTS status_user;
+
+CREATE TABLE status_user
 (
     id   TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) DEFAULT NULL,
@@ -732,9 +757,16 @@ VALUES ('ROLE_USER'),
        ('ROLE_EMPLOYEE'),
        ('ROLE_ADMIN');
 
-INSERT INTO users (username, password, first_name, last_name, patronymic, email, phone)
+INSERT INTO status_user (name)
+VALUES ('active'),
+       ('inactive'),
+       ('confirmed'),
+       ('not confirmed');
+
+
+INSERT INTO users (username, password, first_name, last_name, patronymic, email, work_phone, mobile_phone, status_user_id)
 VALUES ('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'Admin', 'Admin', 'Adminovich',
-        'admin@gmail.com', '+79881111111');
+        'admin@gmail.com', '565685', '+79881111111', 1);
 
 INSERT INTO users_roles (user_id, role_id)
 VALUES (1, 1),

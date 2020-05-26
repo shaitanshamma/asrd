@@ -13,7 +13,8 @@ public interface UserService extends UserDetailsService {
     User findByUserName(String userName);
     void save(SystemUser systemUser);
     Optional<User> getById(Long id);
-    boolean isManagerRole();
     List<User> getAll();
     void delete(Long id);
+    long allNewUsersConfirmedEmail();
+    void activeUser(Long id);
 }

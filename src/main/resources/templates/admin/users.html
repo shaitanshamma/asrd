@@ -14,6 +14,8 @@
     <div class="content p-4">
         <h2 class="mb-4">Пользователи</h2>
 
+        <div class="error" th:if="${error}"> Произошла ошибка при совершении действия над пользователем. Обратитесь к администратору.</div>
+
         <div class="card mb-4">
 
             <div class="card-body">
@@ -31,6 +33,9 @@
                     <th>Отчество</th>
                     <th>Роли</th>
                     <th>Email</th>
+                    <th>Рабочий телефон</th>
+                    <th>Мобильный телефон</th>
+                    <th>Статус пользователя</th>
                     <th>Действия</th>
                 </tr>
                 </thead>
@@ -47,9 +52,15 @@
                         </th:block>
                     </td>
                     <td th:text="${usr.email}"></td>
+                    <td th:text="${usr.workPhone}"></td>
+                    <td th:text="${usr.mobilePhone}"></td>
+                    <td th:text="${usr.statusUser.name}"></td>
                     <td>
-                        <a th:href="@{user/{id}/edit(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit"><i class="fa fa-fw fa-edit"></i></a>
-                        <a th:href="@{user/{id}/delete(id=${usr.id})}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete"><i class="fa fa-fw fa-trash"></i></a>
+                        <span th:if="${usr.statusUser.name} == confirmed" title="Активировать">
+                            <a th:href="@{user/{id}/active(id=${usr.id})}" class="btn btn-icon btn-pill btn-outline-danger" data-toggle="tooltip" title="Активировать"><i class="fa"></i>Activ</a>
+                        </span>
+                        <a th:href="@{user/{id}/edit(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Редактировать"><i class="fa fa-fw fa-edit"></i></a>
+                        <a th:href="@{user/{id}/delete(id=${usr.id})}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Удалить"><i class="fa fa-fw fa-trash"></i></a>
                     </td>
                 </tr>
                 </tbody>
