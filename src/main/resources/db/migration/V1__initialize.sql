@@ -725,9 +725,9 @@ CREATE TABLE device_component_leter
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS file_type;
+DROP TABLE IF EXISTS file_types;
 
-CREATE TABLE file_type (
+CREATE TABLE file_types (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `directory` varchar(255) NOT NULL,
@@ -736,14 +736,14 @@ CREATE TABLE file_type (
 
  DROP TABLE IF EXISTS file;
 
-CREATE TABLE file (
+CREATE TABLE files (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `type_id` int(11) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_file_type_id_idx` (`type_id`),
-  CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_type` (`id`)
+  KEY `fk_file_types_id_idx` (`type_id`),
+  CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
  DROP TABLE IF EXISTS system_files;
@@ -753,8 +753,8 @@ CREATE TABLE system_files (
   `file_id` int(11) NOT NULL,
   PRIMARY KEY (`system_id`,`file_id`),
   KEY `fk_system_files_file_id_idx` (`file_id`),
-  CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`) REFERENCES `systems` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`) REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
  DROP TABLE IF EXISTS device_files;
@@ -764,8 +764,8 @@ CREATE TABLE `device_files` (
   `file_id` int(11) NOT NULL,
   PRIMARY KEY (`device_id`,`file_id`),
   KEY `fk_device_files_file_id_idx` (`file_id`),
-  CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`) ON DELETE NO ACTION ON UPDATE RESTRICT,
-  CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `file` (`id`) ON DELETE NO ACTION ON UPDATE RESTRICT
+  CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
