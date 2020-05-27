@@ -3,9 +3,11 @@ package com.kropotov.asrd.controllers;
 import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
+import com.kropotov.asrd.entities.company.Employee;
 import com.kropotov.asrd.services.springdatajpa.titles.company.AddressService;
 import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyPhoneService;
 import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
+import com.kropotov.asrd.services.springdatajpa.titles.company.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ public class CompanyController {
     private final CompanyService companyService;
     private final AddressService addressService;
     private final CompanyPhoneService companyPhoneService;
+    private final EmployeeService employeeService;
 
     @GetMapping("")
     public String showCompany(Model model) {
@@ -91,6 +94,20 @@ public class CompanyController {
                                        @PathVariable("id") Long id) {
         companyPhoneService.save(phone);
         String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(phone.getCompany().getId().toString()));
+        return url;
+    }
+
+    @GetMapping("/edit/employee/{id}")
+    public String editCompanyEmployeePage(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("employee", employeeService.getById(id).get());
+        return "companies/edit-company-employee";
+    }
+
+    @PostMapping("/edit/employee/{id}")
+    public String editCompanyEmployeePage(@Valid @ModelAttribute("phone") Employee employee, BindingResult bindingResult, Model model,
+                                          @PathVariable("id") Long id) {
+        employeeService.save(employee);
+        String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(employee.getCompany().getId().toString()));
         return url;
     }
 
