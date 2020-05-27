@@ -7,6 +7,8 @@ import com.kropotov.asrd.entities.titles.DeviceTitle;
 import com.kropotov.asrd.repositories.DeviceRepository;
 import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,10 @@ public class DeviceService implements CrudService<Device, Long> {
     @Override
     public List<Device> getAll() {
         return (List<Device>)(deviceRepository.findAll());
+    }
+
+    public Page<Device> getAll(Pageable pageable) {
+        return deviceRepository.findAll(pageable);
     }
 
     @Override

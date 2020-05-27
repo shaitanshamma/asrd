@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 
 <head th:replace="layouts :: header"></head>
@@ -12,23 +13,30 @@
     <h1>Каталог приборов</h1>
     <hr>
 
-    <div th:if="${devices.size() == 0}" >
-        Приборов нет<hr>
-    </div>
+    <span th:if="${page.items.size() == 0}" th:text="'Приборов нет'"></span>
 
-    <table th:unless="${devices.size() == 0}" class="table table-hover">
+    <table th:unless="${page.items.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
-            <th>Дата изготовления</th>
-            <th>Название прибора</th>
-            <th>Номер</th>
+            <th>
+                Дата изготовления
+                <span th:replace="~{layouts :: sortButtons(vintage)}"></span>
+            </th>
+            <th>
+                Название прибора
+                <span th:replace="~{layouts :: sortButtons(title)}"></span>
+            </th>
+            <th>
+                Номер
+                <span th:replace="~{layouts :: sortButtons(number)}"></span>
+            </th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="device, i : ${devices}" th:attr="sys_id=${device.id}"
+        <tr th:each="device, i : ${page.content}" th:attr="sys_id=${device.id}"
             th:onclick="'window.location.href=\'devices/' + ${device.id} + '/show\'; return false'">
-            <td th:text="${i.count}"/>
+            <td th:text="${(page.number - 1) * page.size + i.count}"/>
             <td th:text="${device.vintage}"/>
             <td th:text="${device.title.getTitle()}"/>
             <td th:text="${device.number}"/>
@@ -36,8 +44,8 @@
         </tbody>
     </table>
 
-    <div>
-        <form th:action="@{/devices/0/update}" method="get">
+    <div class="d-flex">
+        <form class="mr-auto" th:action="@{/devices/0/update}" method="get">
             <div class="form-row align-items-center">
             <div class="col-auto">
                 <label class="sr-only" for="topic-id">Выберите тему</label>
@@ -82,6 +90,9 @@
             <button type="submit" class="btn btn-primary mb-2">Добавить</button>
             </div>
         </form>
+
+        <nav th:replace="layouts :: pagination"></nav>
+
     </div>
 </div>
 <div th:replace="layouts :: footer"></div>

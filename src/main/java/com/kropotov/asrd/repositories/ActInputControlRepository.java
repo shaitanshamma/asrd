@@ -1,7 +1,7 @@
 package com.kropotov.asrd.repositories;
 
 import com.kropotov.asrd.entities.docs.ActInputControl;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ActInputControlRepository extends CrudRepository<ActInputControl, Long> {
+public interface ActInputControlRepository extends PagingAndSortingRepository<ActInputControl, Long> {
 }

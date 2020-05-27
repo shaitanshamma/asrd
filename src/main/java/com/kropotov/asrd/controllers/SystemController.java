@@ -1,5 +1,7 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.controllers.util.PageValues;
+import com.kropotov.asrd.controllers.util.PageWrapper;
 import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.converters.items.ControlSystemToDto;
 import com.kropotov.asrd.converters.items.DtoToControlSystem;
@@ -10,13 +12,13 @@ import com.kropotov.asrd.services.springdatajpa.items.SystemService;
 import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 
 @Controller
@@ -33,9 +35,11 @@ public class SystemController {
     private final UserToSimple userToSimple;
 
     @GetMapping
-    public String displaySystems(Model model) {
-        List<ControlSystem> systems = systemService.getAll();
-        model.addAttribute("systems", systems);
+    public String displaySystems(Model model, Pageable pageable) {
+        pageable = PageValues.getPageableOrDefault(pageable);
+        PageWrapper<ControlSystem> page = new PageWrapper<>(systemService.getAll(pageable.previousOrFirst()), "/systems");
+
+        PageValues.addContentToModel(model, page);
         model.addAttribute("topicTitleList", topicService.getAll());
 
         return "systems/list-systems";
