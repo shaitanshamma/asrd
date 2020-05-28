@@ -57,7 +57,7 @@ public class DtoToInvoice implements Converter<InvoiceDto, Invoice> {
         } else if (source.getId() != null) {
             //todo сделать как-то по умному без лишних обращений к БД
             invoiceService.getById(source.getId()).ifPresent(invoiceFromDB -> invoice.setPath(invoiceFromDB.getPath()));
-            //invoice.setPath(invoiceService.findById(source.getId()).orElse(null).getPath());
+            //invoice.setPath(invoiceService.getById(source.getId()).orElse(null).getPath());
         }
 
         if (source.getSystems() != null && source.getSystems().size() > 0) {

@@ -1,8 +1,9 @@
 package com.kropotov.asrd.converters;
 
 import com.kropotov.asrd.dto.CompanyDto;
-import com.kropotov.asrd.entities.Company;
-import com.kropotov.asrd.services.springdatajpa.titles.CompanyService;
+
+import com.kropotov.asrd.entities.company.Company;
+import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;

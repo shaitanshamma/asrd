@@ -1,9 +1,9 @@
 package com.kropotov.asrd.entities.docs;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.kropotov.asrd.entities.Company;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.common.DocEntity;
+import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.items.Device;

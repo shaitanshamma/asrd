@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+<meta charset="utf-8">
+<body>
+
+<nav th:replace="layouts :: navbar(Companies)"></nav>
+
+<div class="container">
+    <br>
+    <a th:href="@{/companies}"
+       class="btn btn-primary btn-sm mb-3">
+        К списку компаний
+    </a>
+    <h1>Информация о предприятии</h1>
+    <hr>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Название</th>
+            <th>E-mail</th>
+            <th>Факс</th>
+            <th>Военное представительство</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comp, iterator : ${company}" th:attr="sys_id=${company.id}">
+            <td th:text="${iterator.count}"></td>
+            <td th:text="${company.title}"></td>
+            <td th:text="${company.email}"></td>
+            <td th:text="${company.fax}"></td>
+            <td th:text="${company.militaryRepresentation}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1>Телефоны</h1>
+    <hr>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Телефон</th>
+            <th>Описание</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${phon.id}"
+            th:onclick="'window.location.href=\'companies/' + ${phon.id} + '\'; return false'">
+            <td th:text="${iterator.count}"></td>
+            <td th:text="${phon.phone}"></td>
+            <td th:text="${phon.description}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1>Адресс</h1>
+    <hr>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Индекс</th>
+            <th>Город</th>
+            <th>Улица</th>
+            <th>Дом</th>
+            <th>Описание</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${address.id}"
+            th:onclick="'window.location.href=\'companies/' + ${address.id} + '\'; return false'">
+            <td th:text="${iterator.count}"></td>
+            <td th:text="${address.zipCode}"></td>
+            <td th:text="${address.city}"></td>
+            <td th:text="${address.street}"></td>
+            <td th:text="${address.place}"></td>
+            <td th:text="${address.description}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h1>Информация о сотрудниках</h1>
+    <table  class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>№ п/п</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Отчество</th>
+            <th>Должность</th>
+            <th>E-mail</th>
+            <th>Рабочий телефон</th>
+            <th>Мобильный телефон</th>
+            <th sec:authorize="hasRole('ADMIN')">Изменить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="emp, iterator : ${employees}" th:attr="sys_id=${emp.id}"
+            th:onclick="'window.location.href=\'companies/' + ${emp.id} + '\'; return false'">
+            <td th:text="${iterator.count}"></td>
+            <td th:text="${emp.name}"></td>
+            <td th:text="${emp.lastName}"></td>
+            <td th:text="${emp.patronymic}"></td>
+            <td th:text="${emp.position}"></td>
+            <td th:text="${emp.email}"></td>
+            <td th:text="${emp.workPhone}"></td>
+            <td th:text="${emp.mobilPhone}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>
