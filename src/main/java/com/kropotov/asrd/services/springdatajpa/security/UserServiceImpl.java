@@ -7,6 +7,7 @@ import com.kropotov.asrd.repositories.RoleRepository;
 import com.kropotov.asrd.repositories.StatusUserRepository;
 import com.kropotov.asrd.repositories.UserRepository;
 import com.kropotov.asrd.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
@@ -53,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getAll() {
-		return userRepository.findAll();
+		return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
 	}
 
 	@Override
@@ -99,17 +102,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void deleteById(Long id) {
 		userRepository.deleteById(id);
 	}
 
 	@Override
 	public long allNewUsersConfirmedEmail() {
-		return userRepository.findAll().stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).count();
+		return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList())
+				.stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).count();
 	}
 
 	@Override
-	public void activeUser(Long id) {
+	public void activateUser(Long id) {
 		User user = userRepository.findById(id).orElse(new User());
 		if(user.getId() != null) {
 			user.setStatusUser(statusUserRepository.findOneByName("active"));

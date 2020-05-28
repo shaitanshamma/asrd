@@ -25,7 +25,7 @@ public class SystemUser {
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String password;
-
+//
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String matchingPassword;
@@ -54,4 +54,18 @@ public class SystemUser {
     private String mobilePhone;
 
     private StatusUser statusUser;
+
+    public SystemUser(User user) {
+        this.id = user.getId();
+        this.userName = user.getUserName();
+        this.password = user.getPassword();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.patronymic = user.getPatronymic();
+        this.roles = user.getRoles();
+        this.email = user.getEmail();
+        this.workPhone = user.getWorkPhone();
+        this.mobilePhone = user.getMobilePhone();
+        this.statusUser = user.getStatusUser();
+    }
 }

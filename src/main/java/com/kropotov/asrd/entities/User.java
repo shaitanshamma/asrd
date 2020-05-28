@@ -41,7 +41,7 @@ public class User extends BaseEntity {
 	@JoinColumn(name = "status_user_id")
 	private StatusUser statusUser;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles",
 	joinColumns = @JoinColumn(name = "user_id"),
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -69,5 +69,18 @@ public class User extends BaseEntity {
 		this.email = email;
 		this.roles = roles;
 	}
+
+	public User(SystemUser systemUser) {
+		this.userName = systemUser.getUserName();
+		this.password = systemUser.getPassword();
+		this.firstName = systemUser.getFirstName();
+		this.lastName = systemUser.getLastName();
+		this.patronymic = systemUser.getPatronymic();
+		this.email = systemUser.getEmail();
+		this.roles = systemUser.getRoles();
+		this.statusUser = systemUser.getStatusUser();
+	}
+
+
 
 }

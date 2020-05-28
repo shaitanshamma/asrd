@@ -57,9 +57,9 @@
                     <td th:text="${usr.statusUser.name}"></td>
                     <td>
                         <span th:if="${usr.statusUser.name} == confirmed" title="Активировать">
-                            <a th:href="@{user/{id}/active(id=${usr.id})}" class="btn btn-icon btn-pill btn-outline-danger" data-toggle="tooltip" title="Активировать"><i class="fa"></i>Activ</a>
+                            <a th:href="@{user/{id}/activate(id=${usr.id})}" class="btn btn-icon btn-pill btn-outline-danger" data-toggle="tooltip" title="Активировать"><i class="fa"></i>Activ</a>
                         </span>
-                        <a th:href="@{user/{id}/edit(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Редактировать"><i class="fa fa-fw fa-edit"></i></a>
+                        <a th:href="@{user/{id}/update(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Редактировать"><i class="fa fa-fw fa-edit"></i></a>
                         <a th:href="@{user/{id}/delete(id=${usr.id})}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Удалить"><i class="fa fa-fw fa-trash"></i></a>
                     </td>
                 </tr>

@@ -12,8 +12,8 @@
     <div th:replace="admin/fragments/sidebar :: sidebar"></div>
 
     <div class="content p-4">
-        <h2 class="mb-4" th:if="${edit}" >Edit user</h2>
-        <h2 class="mb-4" th:if="${create}" >Create user</h2>
+        <h2 class="mb-4" th:if="${update}" >Редактирования данных пользователя</h2>
+        <h2 class="mb-4" th:if="${create}" >Создание нового пользователя</h2>
 
         <form th:object="${user}" method="post" th:action="@{/admin/user}">
             <div class="card mb-4">

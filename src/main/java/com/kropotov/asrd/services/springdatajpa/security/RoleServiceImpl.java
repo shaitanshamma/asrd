@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
@@ -24,7 +26,7 @@ public class RoleServiceImpl implements RoleService<Role, Long> {
 
     @Override
     public List<Role> getAll() {
-        return roleRepository.findAll();
+        return StreamSupport.stream(roleRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
     @Override

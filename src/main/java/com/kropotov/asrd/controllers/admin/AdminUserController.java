@@ -49,10 +49,10 @@ public class AdminUserController {
         return "admin/user_form";
     }
 
-    @GetMapping("/user/{id}/edit")
+    @GetMapping("/user/{id}/update")
     public String editUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("activePage", "Users");
-        model.addAttribute("edit", true);
+        model.addAttribute("update", true);
         model.addAttribute("user", userService.getById(id).orElse(new User()));
         model.addAttribute("allRoles", roleServiceImpl.getAll());
         model.addAttribute("allStatusUser", statusUserService.getAll());
@@ -77,7 +77,7 @@ public class AdminUserController {
     @GetMapping("/user/{id}/delete")
     public String deleteUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try{
-            userService.delete(id);
+            userService.deleteById(id);
         } catch (Exception ex) {
             log.error("Failed to delete an object by id = {}!!!", id);
             redirectAttributes.addFlashAttribute("error", true);
@@ -92,10 +92,10 @@ public class AdminUserController {
         return "admin/users";
     }
 
-    @GetMapping("/user/{id}/active")
+    @GetMapping("/user/{id}/activate")
     public String activUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try{
-            userService.activeUser(id);
+            userService.activateUser(id);
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("error", true);
             log.error("The user's id = {} status could not be changed to active", id);

@@ -1,6 +1,5 @@
 package com.kropotov.asrd.services;
 
-
 import com.kropotov.asrd.entities.SystemUser;
 import com.kropotov.asrd.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +13,7 @@ public interface UserService extends UserDetailsService {
     void save(SystemUser systemUser);
     Optional<User> getById(Long id);
     List<User> getAll();
-    void delete(Long id);
+    void deleteById(Long id);
     long allNewUsersConfirmedEmail();
-    void activeUser(Long id);
+    void activateUser(Long id);
 }

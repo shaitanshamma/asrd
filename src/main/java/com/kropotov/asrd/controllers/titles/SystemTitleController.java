@@ -14,18 +14,11 @@ import javax.validation.Valid;
 
 @RequestMapping("/titles/systems")
 @Controller
+@RequiredArgsConstructor
 public class SystemTitleController {
     private static final String SYSTEM_TITLE_FORM = "titles/systems/form";
 
     private final SystemTitleService systemTitleService;
-
-    private final UserService userService;
-
-    @Autowired
-    public SystemTitleController(SystemTitleService systemTitleService, UserService userService) {
-        this.systemTitleService = systemTitleService;
-        this.userService = userService;
-    }
 
     @GetMapping
     public String displayDevices(Model model) {
