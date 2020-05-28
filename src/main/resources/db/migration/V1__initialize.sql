@@ -514,6 +514,7 @@ CREATE TABLE invoices
     number          VARCHAR(255)  NOT NULL,
     invoice_date    DATE         NOT NULL,
     path            VARCHAR(255) DEFAULT NULL,
+--     Здесь поменял тип ключа
 --     from_company_id INT      NOT NULL,
 --     destination_id  INT      NOT NULL,
     from_company_id smallint(5) unsigned     NOT NULL,
@@ -919,12 +920,6 @@ VALUES ('СЧ 1 1', 1),
        ('СЧ 1 2', 2),
        ('СЧ 2 2', 2);
 
-INSERT INTO companies (title, email)
-VALUES ('тест 1', '1@bb'),
-       ('тест 2', '2@bb');
-
-
-
 INSERT INTO systems (title_system_id, number, purpose, purpose_passport, vintage, vp_number, accept_otk_date, accept_vp_date, user_id)
 VALUES ('1', '0354552', 'Испытания', 'не падать', '2000-1-1', 45, '2000-1-1', '2000-1-1', '1');
 DROP TABLE IF EXISTS file_types;
@@ -970,5 +965,26 @@ CREATE TABLE `device_files` (
   CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+-- Добавил стартовые данные
+INSERT INTO companies (title, email)
+VALUES ('тест 1', '1@bb'),
+       ('тест 2', '2@bb');
+
+INSERT INTO addresses (zip_code, city, street, place, company_id, description)
+VALUES ('123', 'Moscow', 'Tverskay', '125',1, 'test'),
+        ('222', 'Kaliningrad', 'First', '1',2, 'test');
+
+INSERT INTO company_phones (company_id, phone, description)
+VALUES (1,'22566','test'),
+        (1,'22222566','test2'),
+        (2,'2222566','test3');
+
+
+INSERT INTO employees (name, last_name, patronymic, position, email, work_phone, mobil_phone, company_id)
+VALUES ('Vasyl', 'Petrov', 'Ivanych', 'boss','123@bb', '123456','2232445',1),
+('Vasyl', 'Petrov', 'Ivanych', 'boss','123@bb', '123456','2232445',1),
+('Oleg', 'Ivanov', 'Evgenyevich', 'small boss','23665@aa', '54664','1233445',1),
+('Veeeasyl', 'Petrowev', 'Ivaneewch', 'beeoss','1wwe23@bb', '1224243456','2232222',2);
 
 SET FOREIGN_KEY_CHECKS = 1;
