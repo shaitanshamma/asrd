@@ -46,7 +46,7 @@ public class SystemTitleService implements TitleService<SystemTitle, Long> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         systemTitleRepository.deleteById(id);
     }
 }

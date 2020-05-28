@@ -63,7 +63,7 @@ public class AdminRoleController {
     public String deleteRole(@PathVariable("id") Long id, Model model) {
         model.addAttribute("activePage", "Roles");
         try {
-            roleService.delete(id);
+            roleService.deleteById(id);
         } catch (Exception ex) {
             log.info("failed to delete the role = {}! {}", id, ex);
         }

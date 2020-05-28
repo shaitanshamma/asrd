@@ -39,7 +39,7 @@ public class SystemComponentTitleService implements TitleService<SystemComponent
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         systemComponentTitleRepository.deleteById(id);
     }
 }

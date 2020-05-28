@@ -52,7 +52,7 @@ public class DeviceService implements CrudService<Device, Long> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         deviceRepository.deleteById(id);
     }
 }
