@@ -1,5 +1,7 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.controllers.util.PageValues;
+import com.kropotov.asrd.controllers.util.PageWrapper;
 import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.converters.docs.DtoToInvoice;
 import com.kropotov.asrd.dto.docs.InvoiceDto;
@@ -15,6 +17,7 @@ import com.kropotov.asrd.services.springdatajpa.titles.DeviceTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.SystemTitleService;
 import com.kropotov.asrd.services.springdatajpa.titles.TopicService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -46,9 +48,13 @@ public class InvoiceController {
     private static final String INVOICE_CREATE_OR_UPDATE_FORM = "invoices/edit-invoice";
 
     @GetMapping
-    public String invoicePage(Model model) {
-        List<Invoice> invoices = invoiceService.getAll();
-        model.addAttribute("invoices", invoices);
+    public String invoicePage(Model model, Pageable pageable) {
+        pageable = PageValues.getPageableOrDefault(pageable);
+        PageWrapper<Invoice> page = new PageWrapper<>(invoiceService.getAll(pageable.previousOrFirst()), "/invoices");
+
+        PageValues.addContentToModel(model, page);
+        model.addAttribute("topicTitleList", topicService.getAll());
+
         return "invoices/list-invoices";
     }
 

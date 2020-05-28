@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 
 <head th:replace="layouts :: header"></head>
@@ -16,23 +17,38 @@
        class="btn btn-primary btn-sm mb-3">
         Добавить
     </a>
-    <span th:if="${acts.size() == 0}" th:text="'Накладных нет'" ></span>
+    <span th:if="${page.items.size() == 0}" th:text="'Накладных нет'" ></span>
 
-    <table th:unless="${acts.size() == 0}" class="table table-hover">
+    <table th:unless="${page.items.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
-            <th>Номер</th>
-            <th>Дата</th>
-            <th>Файл</th>
-            <th>Результат</th>
-            <th>Описание</th>
+            <th>
+                Номер
+                <span th:replace="~{layouts :: sortButtons(number)}"></span>
+            </th>
+            <th>
+                Дата
+                <span th:replace="~{layouts :: sortButtons(date)}"></span>
+            </th>
+            <th>
+                Файл
+                <span th:replace="~{layouts :: sortButtons(path)}"></span>
+            </th>
+            <th>
+                Результат
+                <span th:replace="~{layouts :: sortButtons(result)}"></span>
+            </th>
+            <th>
+                Описание
+                <span th:replace="~{layouts :: sortButtons(description)}"></span>
+            </th>
         </tr>
         </thead>
         <tbody>
 <!--        th:onclick="'window.location.href=\'invoices/' + ${invoice.id} + '\'; return false'"-->
-        <tr th:each="act, iterator : ${acts}">
-            <td th:text="${iterator.count}"></td>
+        <tr th:each="act, i : ${page.content}">
+            <td th:text="${i.count}"></td>
             <td><a href="#" th:href="@{'/acts/' + ${act.id} + '/show'}" th:text="${act.number}"></a></td>
             <td th:text="${act.date}"></td>
             <td>
@@ -43,6 +59,11 @@
         </tr>
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-end">
+        <nav th:replace="layouts :: pagination"></nav>
+    </div>
+
 </div>
 <div th:replace="layouts :: footer"></div>
 </body>

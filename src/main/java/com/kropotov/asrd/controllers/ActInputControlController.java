@@ -1,5 +1,7 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.controllers.util.PageValues;
+import com.kropotov.asrd.controllers.util.PageWrapper;
 import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.converters.docs.DtoToActInputControl;
 import com.kropotov.asrd.dto.docs.ActInputControlDto;
@@ -9,6 +11,7 @@ import com.kropotov.asrd.services.ActInputControlService;
 import com.kropotov.asrd.services.StorageService;
 import com.kropotov.asrd.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,8 +50,11 @@ public class ActInputControlController {
     }
 
     @GetMapping
-    public String displayAll(Model model) {
-        model.addAttribute("acts", actService.getAll());
+    public String displayAll(Model model, Pageable pageable) {
+        pageable = PageValues.getPageableOrDefault(pageable);
+        PageWrapper<ActInputControl> page = new PageWrapper<>(actService.getAll(pageable.previousOrFirst()), "/acts");
+
+        PageValues.addContentToModel(model, page);
         return "acts/list-acts";
     }
 
