@@ -9,4 +9,6 @@ public interface CrudService<T, ID> {
     Optional<T> getById(ID id);
 
     T save(T object);
+
+    void delete(ID id);
 }

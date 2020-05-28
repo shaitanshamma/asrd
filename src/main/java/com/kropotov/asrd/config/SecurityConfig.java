@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -47,24 +47,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/devices/*").authenticated()
-                    .antMatchers("/systems/*").authenticated()
-                    .antMatchers("/invoices/*").authenticated()
-                    .antMatchers("/companies/*").authenticated()
-                    .antMatchers("/acts/*").authenticated()
-                    //.antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers( "/", "/**", "/static").permitAll()
-                    .anyRequest().authenticated()
+                .antMatchers("/devices/*").authenticated()
+                .antMatchers("/systems/*").authenticated()
+                .antMatchers("/invoices/*").authenticated()
+                .antMatchers("/companies/*").authenticated()
+                .antMatchers("/acts/*").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/", "/**", "/static").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
+                .formLogin()
+                .loginPage("/login")
 //                    .loginProcessingUrl("/authenticateTheUser")
-                    .successHandler(customAuthenticationSuccessHandler)
-                    .permitAll()
+                .successHandler(customAuthenticationSuccessHandler)
+                .permitAll()
                 .and()
-                    .logout()
-                    .logoutSuccessUrl("/")
-                    .permitAll();
+                .logout()
+                .logoutSuccessUrl("/")
+                .permitAll();
     }
 
     // шифрование паролей BCrypt

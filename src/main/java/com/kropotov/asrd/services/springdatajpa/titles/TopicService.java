@@ -34,4 +34,9 @@ public class TopicService implements TitleService<Topic, Long> {
     public Topic getByTitle(String title) {
         return topicRepository.findByTitle(title);
     }
+
+    @Override
+    public void delete(Long id) {
+        topicRepository.deleteById(id);
+    }
 }

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="admin/fragments/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="admin/fragments/header :: header"></div>
+
+<div class="d-flex">
+    <div th:replace="admin/fragments/sidebar :: sidebar"></div>
+
+    <div class="content p-4">
+        <h2 class="mb-4">Здравствуйте <span sec:authentication="name"></span></h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                Это панель администратора. Выберите интересующее Вас меню с лева.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="admin/fragments/footer :: scripts"></script>
+
+</body>
+</html>

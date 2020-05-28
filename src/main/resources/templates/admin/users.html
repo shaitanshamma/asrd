@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="admin/fragments/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="admin/fragments/header :: header"></div>
+
+<div class="d-flex">
+    <div th:replace="admin/fragments/sidebar :: sidebar"></div>
+
+    <div class="content p-4">
+        <h2 class="mb-4">Пользователи</h2>
+
+        <div class="error" th:if="${error}"> Произошла ошибка при совершении действия над пользователем. Обратитесь к администратору.</div>
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+                <form class="form-group" th:action="@{/admin/user/create}">
+                    <button type="submit" class="btn btn-primary">Добавить пользователя</button>
+                </form>
+
+                <table id="users" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Логин</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Отчество</th>
+                    <th>Роли</th>
+                    <th>Email</th>
+                    <th>Рабочий телефон</th>
+                    <th>Мобильный телефон</th>
+                    <th>Статус пользователя</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usr : ${users}">
+                    <td th:text="${usr.id}"></td>
+                    <td th:text="${usr.userName}"></td>
+                    <td th:text="${usr.firstName}">Admin</td>
+                    <td th:text="${usr.lastName}"></td>
+                    <td th:text="${usr.patronymic}"></td>
+                    <td>
+                        <th:block th:each="roles : ${usr.roles}">
+                            <div th:text="${roles.name}"></div>
+                        </th:block>
+                    </td>
+                    <td th:text="${usr.email}"></td>
+                    <td th:text="${usr.workPhone}"></td>
+                    <td th:text="${usr.mobilePhone}"></td>
+                    <td th:text="${usr.statusUser.name}"></td>
+                    <td>
+                        <span th:if="${usr.statusUser.name} == confirmed" title="Активировать">
+                            <a th:href="@{user/{id}/activate(id=${usr.id})}" class="btn btn-icon btn-pill btn-outline-danger" data-toggle="tooltip" title="Активировать"><i class="fa"></i>Activ</a>
+                        </span>
+                        <a th:href="@{user/{id}/update(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Редактировать"><i class="fa fa-fw fa-edit"></i></a>
+                        <a th:href="@{user/{id}/delete(id=${usr.id})}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Удалить"><i class="fa fa-fw fa-trash"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="admin/fragments/footer :: scripts"></script>
+<script th:src="@{/admin/js/datatables.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('#users').DataTable();
+    });
+</script>
+
+</body>
+</html>

@@ -31,7 +31,17 @@ public class User extends BaseEntity {
 	@Column(name = "email")
 	private String email;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@Column(name = "work_phone")
+	private String workPhone;
+
+	@Column(name = "mobile_phone")
+	private String mobilePhone;
+
+	@ManyToOne()
+	@JoinColumn(name = "status_user_id")
+	private StatusUser statusUser;
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles",
 	joinColumns = @JoinColumn(name = "user_id"),
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -59,5 +69,18 @@ public class User extends BaseEntity {
 		this.email = email;
 		this.roles = roles;
 	}
+
+	public User(SystemUser systemUser) {
+		this.userName = systemUser.getUserName();
+		this.password = systemUser.getPassword();
+		this.firstName = systemUser.getFirstName();
+		this.lastName = systemUser.getLastName();
+		this.patronymic = systemUser.getPatronymic();
+		this.email = systemUser.getEmail();
+		this.roles = systemUser.getRoles();
+		this.statusUser = systemUser.getStatusUser();
+	}
+
+
 
 }

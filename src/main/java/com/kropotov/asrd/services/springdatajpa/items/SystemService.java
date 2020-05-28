@@ -48,4 +48,9 @@ public class SystemService {
     public ControlSystemDto getDtoById(Long id) {
         return controlSystemToDto.convert(getById(id).orElse(new ControlSystem()));
     }
+
+    @Override
+    public void delete(Long id) {
+        systemRepository.deleteById(id);
+    }
 }

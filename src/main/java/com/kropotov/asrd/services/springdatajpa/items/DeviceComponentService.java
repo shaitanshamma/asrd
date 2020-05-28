@@ -50,4 +50,8 @@ public class DeviceComponentService implements CrudService<DeviceComponent, Long
 //                .collect(Collectors.toList());
     }
 
+    @Override
+    public void delete(Long id) {
+        deviceComponentRepository.deleteById(id);
+    }
 }
