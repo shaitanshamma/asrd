@@ -61,7 +61,7 @@ public class ActInputControlSDService implements ActInputControlService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         actInputControlRepository.findById(id);
     }
 }

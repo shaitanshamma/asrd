@@ -63,7 +63,7 @@ public class InvoiceService implements CrudService<Invoice, Long> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         invoiceRepository.deleteById(id);
     }
 }

@@ -38,7 +38,7 @@ public class SystemComponentService implements CrudService<SystemComponent, Long
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         systemComponentRepository.deleteById(id);
     }
 }

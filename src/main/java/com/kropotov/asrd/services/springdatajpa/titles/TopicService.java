@@ -36,7 +36,7 @@ public class TopicService implements TitleService<Topic, Long> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         topicRepository.deleteById(id);
     }
 }

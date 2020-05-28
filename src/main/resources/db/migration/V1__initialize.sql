@@ -970,4 +970,5 @@ CREATE TABLE `device_files` (
   CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
 SET FOREIGN_KEY_CHECKS = 1;
