@@ -395,21 +395,7 @@ CREATE TABLE device_components_docs
   DEFAULT CHARSET = utf8;
 
 
-DROP TABLE IF EXISTS `addresses`;
-CREATE TABLE `addresses` (
-                             `id` smallint unsigned NOT NULL AUTO_INCREMENT,
-                             `zip_code` varchar(255) NOT NULL,
-                             `city` varchar(255) NOT NULL,
-                             `street` varchar(255) NOT NULL,
-                             `place` varchar(255) NOT NULL,
-                             `company_id` smallint unsigned NOT NULL,
-                             `description` varchar(255) DEFAULT NULL,
-                             PRIMARY KEY (`id`),
-                             KEY `company_id_to_addresses_idx` (`company_id`),
-                             CONSTRAINT `company_id_to_addresses` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
-)ENGINE = InnoDB
- AUTO_INCREMENT = 1
- DEFAULT CHARSET = utf8;
+
 
 
 DROP TABLE IF EXISTS `companies`;
@@ -425,6 +411,21 @@ CREATE TABLE `companies` (
  AUTO_INCREMENT = 1
  DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS `addresses`;
+CREATE TABLE `addresses` (
+                             `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+                             `zip_code` varchar(255) NOT NULL,
+                             `city` varchar(255) NOT NULL,
+                             `street` varchar(255) NOT NULL,
+                             `place` varchar(255) NOT NULL,
+                             `company_id` smallint unsigned NOT NULL,
+                             `description` varchar(255) DEFAULT NULL,
+                             PRIMARY KEY (`id`),
+                             CONSTRAINT `company_id_to_addresses` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
+
 
 DROP TABLE IF EXISTS `company_phones`;
 
@@ -434,8 +435,7 @@ CREATE TABLE `company_phones` (
                                   `phone` varchar(255) NOT NULL,
                                   `description` varchar(255) DEFAULT NULL,
                                   PRIMARY KEY (`id`),
-                                  KEY `FK_company_phone_company` (`company_id`),
-                                  CONSTRAINT `copmany_id_to_phone` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+                                  CONSTRAINT `FK_company_phone_company` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
 )ENGINE = InnoDB
  AUTO_INCREMENT = 1
  DEFAULT CHARSET = utf8;
@@ -484,8 +484,8 @@ CREATE TABLE invoices
     path            VARCHAR(255) DEFAULT NULL,
 --     from_company_id INT      NOT NULL,
 --     destination_id  INT      NOT NULL,
-    from_company_id smallint(5) unsigned     NOT NULL,
-    destination_id  smallint(5) unsigned      NOT NULL,
+    from_company_id smallint unsigned     NOT NULL,
+    destination_id  smallint unsigned      NOT NULL,
     description     VARCHAR(255) ,
     entity_status   TINYINT               DEFAULT 1,
     created_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -797,7 +797,7 @@ CREATE TABLE device_letter
 
 DROP TABLE IF EXISTS device_component_letter;
 
-CREATE TABLE device_component_leter
+CREATE TABLE device_component_letter
 (
     letter_id INT NOT NULL,
     device_component_id INT NOT NULL,
@@ -815,6 +815,7 @@ CREATE TABLE device_component_leter
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
+DROP TABLE IF EXISTS file_types;
 
 CREATE TABLE file_types (
                             `id` int(11) NOT NULL,
@@ -823,7 +824,7 @@ CREATE TABLE file_types (
                             PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS file;
+DROP TABLE IF EXISTS files;
 
 CREATE TABLE files (
                        `id` int(11) NOT NULL,
@@ -831,7 +832,6 @@ CREATE TABLE files (
                        `type_id` int(11) DEFAULT NULL,
                        `description` varchar(255) DEFAULT NULL,
                        PRIMARY KEY (`id`),
-                       KEY `fk_file_types_id_idx` (`type_id`),
                        CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -841,7 +841,6 @@ CREATE TABLE system_files (
                               `system_id` int(11) NOT NULL,
                               `file_id` int(11) NOT NULL,
                               PRIMARY KEY (`system_id`,`file_id`),
-                              KEY `fk_system_files_file_id_idx` (`file_id`),
                               CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
                               CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`) REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -852,11 +851,9 @@ CREATE TABLE `device_files` (
                                 `device_id` int(11) NOT NULL,
                                 `file_id` int(11) NOT NULL,
                                 PRIMARY KEY (`device_id`,`file_id`),
-                                KEY `fk_device_files_file_id_idx` (`file_id`),
                                 CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
                                 CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 INSERT INTO roles (name)
 VALUES ('ROLE_USER'),
@@ -879,13 +876,6 @@ VALUES (1, 1),
        (1, 2),
        (1, 3);
 
-
-INSERT INTO invoices (number, invoice_date, path, from_company_id, destination_id, description, entity_status, user_id)
-VALUES ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1');
-
-INSERT INTO acts_input_control (number, invoice_id, act_date, path, result, description, user_id)
-VALUES ('000', 1, '2019-1-12', '/home/intruder/invoice.pdf', 1, 'Все ок', 1);
-
 INSERT INTO topics (title, path)
 VALUES ('Тема 1', 'тема_1'),
        ('Тема 2', 'тема_2');
@@ -893,7 +883,24 @@ VALUES ('Тема 1', 'тема_1'),
 INSERT INTO system_titles (title, path)
 VALUES ('Система 1', 'система_1'),
        ('Система 2', 'система_2'),
-       ('Система 3', 'система_3');
+       ('Система 3', 'система_3'),
+       ('Система 4', 'система_3'),
+       ('Система 5', 'система_3'),
+       ('Система 6', 'система_3'),
+       ('Система 7', 'система_3'),
+       ('Система 8', 'система_3'),
+       ('Система 9', 'система_3'),
+       ('Система 10', 'система_3'),
+       ('Система 11', 'система_3'),
+       ('Система 12', 'система_3'),
+       ('Система 13', 'система_3'),
+       ('Система 14', 'система_3'),
+       ('Система 15', 'система_3'),
+       ('Система 16', 'система_3'),
+       ('Система 17', 'система_3'),
+       ('Система 18', 'система_3'),
+       ('Система 19', 'система_3'),
+       ('Система 20', 'система_3');
 
 INSERT INTO topic_system_title
 VALUES (1, 1),
@@ -1002,6 +1009,7 @@ VALUES  (1, 666148838500, 'Testing', 'not to crash', 1, '2000-1-2', 14, '2000-1-
         (6, 666148838521, 'Testing', 'not to crash', 1, '2000-1-2', 14, '2000-1-1', '2000-1-1', 0, 1, '2000-1-1', '2000-1-1', 1),
         (7, 666148838522, 'Testing', 'not to crash', 1, '2000-1-2', 14, '2000-1-1', '2000-1-1', 0, 1, '2000-1-1', '2000-1-1', 1);
 
+
 INSERT INTO invoices (number, invoice_date, path, from_company_id, destination_id, description, entity_status, user_id)
 VALUES  ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
         ('001', '2019-1-1', '/home/intruder/invoice1.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
@@ -1078,6 +1086,7 @@ VALUES ('Система 1', 'система_1'),
        ('Система 18', 'система_18'),
        ('Система 19', 'система_19'),
        ('Система 20', 'система_20');
+
 
 SET FOREIGN_KEY_CHECKS = 1;
 
