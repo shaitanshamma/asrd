@@ -5,6 +5,7 @@ import com.kropotov.asrd.dto.items.ControlSystemDto;
 import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.entities.titles.SystemTitle;
 import com.kropotov.asrd.repositories.SystemRepository;
+import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class SystemService {
+public class SystemService implements CrudService<ControlSystem, Long> {
 
     private final SystemRepository systemRepository;
     private final ControlSystemToDto controlSystemToDto;
@@ -50,7 +51,7 @@ public class SystemService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         systemRepository.deleteById(id);
     }
 }

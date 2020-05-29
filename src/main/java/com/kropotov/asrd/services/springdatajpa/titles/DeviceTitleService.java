@@ -43,7 +43,7 @@ public class DeviceTitleService implements TitleService<DeviceTitle, Long> {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         deviceTitleRepository.deleteById(id);
     }
 }
