@@ -27,6 +27,9 @@ public class CompanyToDto implements Converter<Company, CompanyDto> {
         final CompanyDto companyDto = CompanyDto.builder()
                 .id(source.getId())
                 .title(source.getTitle())
+                .email(source.getEmail())
+                .fax(source.getFax())
+                .militaryRepresentation(source.getMilitaryRepresentation())
             .build();
 
         return companyDto;

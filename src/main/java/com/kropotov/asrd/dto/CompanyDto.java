@@ -10,4 +10,7 @@ import lombok.*;
 public class CompanyDto {
     private Long id;
     private String title;
+    private String email;
+    private String fax;
+    private String militaryRepresentation;
 }

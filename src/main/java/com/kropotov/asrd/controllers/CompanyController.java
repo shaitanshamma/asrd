@@ -28,10 +28,17 @@ public class CompanyController {
 
     @GetMapping("/company/{id}/update")
     public String editCompanyPage(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("company", companyFasade.getCompanyById(id));
+        model.addAttribute("company", companyFasade.getCompanyDTOById(id));
         return "companies/edit-company";
     }
 
+    // @Valid проверяет в соответствии с аннотациями сущности
+    // результаты проверки приходят в BindingResult
+    @PostMapping("/company/{id}/update")
+    public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model, @PathVariable("id") Long id) {
+        if (companyFasade.saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
+        return "redirect:/companies/company/{id}/show";
+    }
 
     @GetMapping("/company/add/")
     public String addCompanyPage(Model model) {
@@ -45,17 +52,9 @@ public class CompanyController {
         return "redirect:/companies/";
     }
 
-    // @Valid проверяет в соответствии с аннотациями сущности
-    // результаты проверки приходят в BindingResult
-    @PostMapping("/company/{id}/update")
-    public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model, @PathVariable("id") Long id) {
-        if (companyFasade.saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
-        return "redirect:/companies/info/{id}";
-    }
-
     @GetMapping("/company/{id}/show")
     public String companyInfoPage(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("company", companyFasade.getCompanyById(id));
+        model.addAttribute("company", companyFasade.getCompanyDTOById(id));
         model.addAttribute("employees", companyFasade.getCompanyById(id).getEmployee());
         model.addAttribute("phones", companyFasade.getCompanyById(id).getCompanyPhones());
         model.addAttribute("addresses", companyFasade.getCompanyById(id).getAddress());

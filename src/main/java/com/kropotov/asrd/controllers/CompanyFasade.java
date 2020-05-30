@@ -39,7 +39,7 @@ public class CompanyFasade {
     }
 
     public CompanyDto getCompanyDTOById(Long id) {
-        return companyService.getDtoById(id);
+        return companyToDto.convert(companyService.getById(id).get());
     }
     public Company addCompany() {
         return new Company();
