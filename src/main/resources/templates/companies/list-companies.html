@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
 <head th:replace="layouts :: header"></head>
 <meta charset="utf-8">
@@ -16,18 +17,21 @@
             Добавить
         </a>
     </div>
-    <span th:if="${companies.size() == 0}" th:text="'Компаний нет'"></span>
+    <span th:if="${page.items.size() == 0}" th:text="'Компаний нет'"></span>
 
-    <table th:unless="${companies.size() == 0}" class="table table-hover">
+    <table th:unless="${page.items.size() == 0}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
-            <th>Название</th>
+            <th>
+                Название
+                <span th:replace="~{layouts :: sortButtons(title)}"></span>
+            </th>
             <th>Доп. информация</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="company, iterator : ${companies}" th:attr="sys_id=${company.id}">
+        <tr th:each="company, iterator : ${page.content}" th:attr="sys_id=${company.id}">
             <td th:text="${iterator.count}"></td>
             <td th:text="${company.title}"></td>
             <td>
@@ -36,6 +40,10 @@
         </tr>
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-end">
+        <nav th:replace="layouts :: pagination"></nav>
+    </div>
 </div>
 <div th:replace="layouts :: footer"></div>
 </body>

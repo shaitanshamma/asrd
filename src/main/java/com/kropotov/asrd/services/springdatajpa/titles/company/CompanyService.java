@@ -3,6 +3,8 @@ package com.kropotov.asrd.services.springdatajpa.titles.company;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.repositories.company.CompanyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,10 @@ public class CompanyService {
 
     public List<Company> getAll() {
         return companyRepository.findAll();
+    }
+
+    public Page<Company> getAll(Pageable pageable) {
+        return companyRepository.findAll(pageable);
     }
 
     public Company getOneByTitle(String title) {
