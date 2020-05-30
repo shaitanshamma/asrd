@@ -1,6 +1,6 @@
 package com.kropotov.asrd.controllers.util;
 
-import com.kropotov.asrd.entities.common.InfoEntity;
+import com.kropotov.asrd.entities.common.PageableEntity;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,7 +18,7 @@ public final class PageValues {
 		return pageable;
 	}
 
-	public static void addContentToModel(Model model, PageWrapper<? extends InfoEntity> page) {
+	public static void addContentToModel(Model model, PageWrapper<? extends PageableEntity> page) {
 		model.addAttribute("page", page);
 		model.addAttribute("pageSizes", PAGE_SIZES);
 	}
