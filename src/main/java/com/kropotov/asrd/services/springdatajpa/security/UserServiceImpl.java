@@ -1,13 +1,12 @@
 package com.kropotov.asrd.services.springdatajpa.security;
 
-import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.Role;
+import com.kropotov.asrd.entities.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.repositories.RoleRepository;
 import com.kropotov.asrd.repositories.StatusUserRepository;
 import com.kropotov.asrd.repositories.UserRepository;
 import com.kropotov.asrd.services.UserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,20 +17,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-	private final UserRepository userRepository;
-	private final RoleRepository roleRepository;
+	private UserRepository userRepository;
+	private RoleRepository roleRepository;
 	private BCryptPasswordEncoder passwordEncoder;
-	private final StatusUserRepository statusUserRepository;
+	private StatusUserRepository statusUserRepository;
 
-	// TODO Алексей Токарев Тут возникает циклическая зависимость без сеттера.
-	// Лучше вынести преобразования к dto в отдельный конвертер чтобы не было циклических зависимостей
+	@Autowired
+	public void setStatusUserRepository(StatusUserRepository statusUserRepository) {
+		this.statusUserRepository = statusUserRepository;
+	}
+
+	@Autowired
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	@Autowired
+	public void setRoleRepository(RoleRepository roleRepository) {
+		this.roleRepository = roleRepository;
+	}
+
 	@Autowired
 	public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
@@ -42,6 +57,10 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findOneByUserName(userName);
 	}
 
+	@Override
+	public List<User> getAll() {
+		return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
+	}
 
 	@Override
 	@Transactional
@@ -66,16 +85,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<List<User>> getAll() {
-			return Optional.ofNullable(userRepository.findAll());
-	}
-
-	@Override
 	public Optional<User> getById(Long id) {
 		return userRepository.findById(id);
 	}
 
-	// TODO Алексей Токарев
+	// Реализация Алексей Токарев
 	@Override
 	public User save(User user) {
 		return null;
@@ -103,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public long allNewUsersConfirmedEmail() {
-		return new ArrayList<>(userRepository.findAll())
+		return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList())
 				.stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).count();
 	}
 
