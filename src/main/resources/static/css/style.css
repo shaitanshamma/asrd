@@ -1,0 +1,4 @@
+.table thead th {
+    white-space: nowrap;
+    vertical-align: middle;
+}
