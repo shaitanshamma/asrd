@@ -41,12 +41,13 @@ public class SystemRepositoryTest {
 
     @Test
     public void ifNewControlSystemSaved_thenSuccess() {
+        int newSize = systemRepository.findAll().size() + 1;
         ControlSystem newControlSystem = new ControlSystem();
         newControlSystem.setNumber("90453");
         newControlSystem.setUser(user);
         newControlSystem.setTitle(systemTitle);
         systemRepository.save(newControlSystem);
 
-        assertEquals(22, systemRepository.findAll().size());
+        assertEquals(newSize, systemRepository.findAll().size());
     }
 }
