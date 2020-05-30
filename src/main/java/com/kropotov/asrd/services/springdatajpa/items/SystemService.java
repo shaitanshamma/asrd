@@ -26,7 +26,7 @@ public class SystemService implements CrudService<ControlSystem, Long> {
 
     public List<ControlSystem> getAll() {
         log.info("Get all systems");
-        return (List<ControlSystem>) (systemRepository.findAll());
+        return systemRepository.findAll();
     }
 
     public Page<ControlSystem> getAll(Pageable pageable) {
