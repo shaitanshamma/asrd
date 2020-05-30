@@ -26,20 +26,20 @@ public class CompanyController {
         return "companies/list-companies";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/company/{id}/update")
     public String editCompanyPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("company", companyFasade.getCompanyById(id));
         return "companies/edit-company";
     }
 
 
-    @GetMapping("/add/")
+    @GetMapping("/company/add/")
     public String addCompanyPage(Model model) {
         model.addAttribute("company", companyFasade.addCompany());
         return "companies/add-company";
     }
 
-    @PostMapping("/add/")
+    @PostMapping("/company/add/")
     public String addCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model) {
         if (companyFasade.saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
         return "redirect:/companies/";
@@ -47,13 +47,13 @@ public class CompanyController {
 
     // @Valid проверяет в соответствии с аннотациями сущности
     // результаты проверки приходят в BindingResult
-    @PostMapping("/edit/{id}")
+    @PostMapping("/company/{id}/update")
     public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model, @PathVariable("id") Long id) {
         if (companyFasade.saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
         return "redirect:/companies/info/{id}";
     }
 
-    @GetMapping("/info/{id}")
+    @GetMapping("/company/{id}/show")
     public String companyInfoPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("company", companyFasade.getCompanyById(id));
         model.addAttribute("employees", companyFasade.getCompanyById(id).getEmployee());
@@ -62,37 +62,37 @@ public class CompanyController {
         return "companies/info";
     }
 
-    @GetMapping("/edit/address/{id}")
+    @GetMapping("/address/{id}/update")
     public String editCompanyAddressPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("address", companyFasade.getAddressById(id));
         return "companies/edit-company-address";
     }
 
-    @PostMapping("/edit/address/{id}")
+    @PostMapping("/address/{id}/update")
     public String editCompanyAddressPage(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult, Model model,
                                          @PathVariable("id") Long id) {
         return companyFasade.saveAddress(address);
     }
 
-    @GetMapping("/edit/phone/{id}")
+    @GetMapping("/phone/{id}/update")
     public String editCompanyPhonePage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("phone", companyFasade.getPhoneById(id));
         return "companies/edit-company-phone";
     }
 
-    @PostMapping("/edit/phone/{id}")
+    @PostMapping("/phone/{id}/update")
     public String editCompanyPhonePage(@Valid @ModelAttribute("phone") CompanyPhone phone, BindingResult bindingResult, Model model,
                                        @PathVariable("id") Long id) {
         return companyFasade.savePhone(phone);
     }
 
-    @GetMapping("/edit/employee/{id}")
+    @GetMapping("/employee/{id}/update")
     public String editCompanyEmployeePage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("employee", companyFasade.getEmployeeById(id));
         return "companies/edit-company-employee";
     }
 
-    @PostMapping("/edit/employee/{id}")
+    @PostMapping("/employee/{id}/update")
     public String editCompanyEmployeePage(@Valid @ModelAttribute("employee") Employee employee,
                                           @PathVariable("id") Long id) {
         return companyFasade.saveEmployee(employee);

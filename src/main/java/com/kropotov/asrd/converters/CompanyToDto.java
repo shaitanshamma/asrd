@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CompanyToDto implements Converter<Company, CompanyDto> {
 
-    private final CompanyService companyService;
+//    private final CompanyService companyService;
 
     @Synchronized
     @Nullable

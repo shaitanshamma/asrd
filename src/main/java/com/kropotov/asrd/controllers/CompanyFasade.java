@@ -1,5 +1,7 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.converters.CompanyToDto;
+import com.kropotov.asrd.dto.CompanyDto;
 import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
@@ -9,14 +11,12 @@ import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyPhoneServi
 import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import com.kropotov.asrd.services.springdatajpa.titles.company.EmployeeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,16 +28,19 @@ public class CompanyFasade {
     private final AddressService addressService;
     private final CompanyPhoneService companyPhoneService;
     private final EmployeeService employeeService;
-
+    private final CompanyToDto companyToDto;
 
     public List<Company> showCompanies() {
          return companyService.getAll();
     }
 
     public Company getCompanyById(Long id) {
-        return companyService.getById(id).orElse(new Company());
+        return companyService.getById(id).get();
     }
 
+    public CompanyDto getCompanyDTOById(Long id) {
+        return companyService.getDtoById(id);
+    }
     public Company addCompany() {
         return new Company();
     }
@@ -64,7 +67,7 @@ public class CompanyFasade {
 //
     public String saveAddress(Address address) {
         addressService.save(address);
-        String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(address.getCompany().getId().toString()));
+        String url = String.valueOf(new StringBuilder("redirect:/companies/company/").append(address.getCompany().getId().toString())+"/show");
         return url;
     }
 //
@@ -75,7 +78,7 @@ public class CompanyFasade {
 //
     public String savePhone(CompanyPhone phone) {
         companyPhoneService.save(phone);
-        String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(phone.getCompany().getId().toString()));
+        String url = String.valueOf(new StringBuilder("redirect:/companies/company/").append(phone.getCompany().getId().toString())+"/show");
         return url;
     }
 //
@@ -86,7 +89,7 @@ public class CompanyFasade {
 
     public String saveEmployee(Employee employee) {
         employeeService.save(employee);
-        String url = String.valueOf(new StringBuilder("redirect:/companies/info/").append(employee.getCompany().getId().toString()));
+        String url = String.valueOf(new StringBuilder("redirect:/companies/company/").append(employee.getCompany().getId().toString())+"/show");
         return url;
     }
 //
