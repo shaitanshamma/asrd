@@ -17,7 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -61,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public void save(SystemUser systemUser) {
+	public void saveDto(SystemUser systemUser) {
 		User user = new User();
 		user.setId(systemUser.getId());
 		user.setUserName(systemUser.getUserName());
@@ -84,6 +87,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<User> getById(Long id) {
 		return userRepository.findById(id);
+	}
+
+	// Реализация Алексей Токарев
+	@Override
+	public User save(User user) {
+		return null;
 	}
 
 	@Override

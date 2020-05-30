@@ -3,12 +3,14 @@ package com.kropotov.asrd.admin;
 import com.kropotov.asrd.entities.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -41,7 +43,7 @@ public class UserServiceTest {
     void saveUserTest() {
         SystemUser systemUser = new SystemUser(Objects.requireNonNull(userService.getById(1L).orElse(null)));
         systemUser.setFirstName("test");
-        userService.save(systemUser);
+        userService.saveDto(systemUser);
         assertEquals("test", userService.getById(1L).orElse(new User()).getFirstName());
     }
 }
