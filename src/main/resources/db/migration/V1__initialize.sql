@@ -1,5 +1,7 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS status_user;
+
 CREATE TABLE status_user
 (
     id   TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -42,17 +44,6 @@ CREATE TABLE roles
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-  DROP TABLE IF EXISTS status_user;
-
-CREATE TABLE status_user
-(
-    id   TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) DEFAULT NULL,
-    PRIMARY KEY (id)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
-  DEFAULT CHARSET = utf8;
-
 DROP TABLE IF EXISTS users_roles;
 
 CREATE TABLE users_roles
@@ -70,6 +61,7 @@ CREATE TABLE users_roles
         REFERENCES roles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
 -- Создание таблиц с названиями
@@ -155,6 +147,7 @@ CREATE TABLE topic_system_title
         REFERENCES system_titles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
 DROP TABLE IF EXISTS system_titles_system_components_titles;
@@ -195,6 +188,7 @@ CREATE TABLE system_titles_device_titles
         REFERENCES device_titles (id)
         ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
 
@@ -400,111 +394,85 @@ CREATE TABLE device_components_docs
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
 
-DROP TABLE IF EXISTS companies;
-
--- CREATE TABLE companies
--- (
---     id    INT     NOT NULL AUTO_INCREMENT,
---     title VARCHAR(255) NOT NULL UNIQUE,
---     PRIMARY KEY (id)
--- ) ENGINE = InnoDB
---   AUTO_INCREMENT = 1
---   DEFAULT CHARSET = utf8;
---
--- Table structure for table `addresses`
---
 
 DROP TABLE IF EXISTS `addresses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `addresses` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `zip_code` varchar(255) NOT NULL,
-  `city` varchar(255) NOT NULL,
-  `street` varchar(255) NOT NULL,
-  `place` varchar(255) NOT NULL,
-  `company_id` smallint(5) unsigned NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `company_id_to_addresses_idx` (`company_id`),
-  CONSTRAINT `company_id_to_addresses` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+                             `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+                             `zip_code` varchar(255) NOT NULL,
+                             `city` varchar(255) NOT NULL,
+                             `street` varchar(255) NOT NULL,
+                             `place` varchar(255) NOT NULL,
+                             `company_id` smallint unsigned NOT NULL,
+                             `description` varchar(255) DEFAULT NULL,
+                             PRIMARY KEY (`id`),
+                             KEY `company_id_to_addresses_idx` (`company_id`),
+                             CONSTRAINT `company_id_to_addresses` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
 
---
--- Table structure for table `companies`
---
 
 DROP TABLE IF EXISTS `companies`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `companies` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `military_representation` varchar(255) DEFAULT NULL,
-  `fax` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `company_phones`
---
+CREATE TABLE `companies` (
+                             `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+                             `title` varchar(255) NOT NULL,
+                             `email` varchar(255) NOT NULL,
+                             `military_representation` varchar(255) DEFAULT NULL,
+                             `fax` varchar(255) DEFAULT NULL,
+                             PRIMARY KEY (`id`)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
+
 
 DROP TABLE IF EXISTS `company_phones`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `company_phones` (
-  `id` smallint(6) NOT NULL AUTO_INCREMENT,
-  `company_id` smallint(6) unsigned NOT NULL,
-  `phone` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `copmany_id_to_phone_idx` (`company_id`),
-  CONSTRAINT `copmany_id_to_phone` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `employee_phones`
---
-
-DROP TABLE IF EXISTS `employee_phones`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `employee_phones` (
-  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
-  `phone` varchar(255) NOT NULL,
-  `employees_id` smallint(5) unsigned NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `employees_id_to_mobil_idx` (`employees_id`),
-  CONSTRAINT `FK_employee_phones_employees` FOREIGN KEY (`employees_id`) REFERENCES `employees` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `employees`
---
+                                  `id` smallint NOT NULL AUTO_INCREMENT,
+                                  `company_id` smallint unsigned NOT NULL,
+                                  `phone` varchar(255) NOT NULL,
+                                  `description` varchar(255) DEFAULT NULL,
+                                  PRIMARY KEY (`id`),
+                                  KEY `FK_company_phone_company` (`company_id`),
+                                  CONSTRAINT `copmany_id_to_phone` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
 
 DROP TABLE IF EXISTS `employees`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `employees` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `patronymic` varchar(255) DEFAULT NULL,
-  `position` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `work_phone` varchar(255) NOT NULL,
-  `mobil_phone` varchar(255) NOT NULL,
-  `company_id` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `company_to_empl_idx` (`company_id`),
-  CONSTRAINT `company_to_empl` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                             `id` smallint unsigned NOT NULL AUTO_INCREMENT,
+                             `name` varchar(255) NOT NULL,
+                             `last_name` varchar(255) NOT NULL,
+                             `patronymic` varchar(255) DEFAULT NULL,
+                             `position` varchar(255) DEFAULT NULL,
+                             `email` varchar(255) DEFAULT NULL,
+                             `work_phone` varchar(255) NOT NULL,
+                             `mobil_phone` varchar(255) NOT NULL,
+                             `company_id` smallint unsigned NOT NULL,
+                             PRIMARY KEY (`id`),
+                             CONSTRAINT `employee_company`
+                                 FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
+
+
+DROP TABLE IF EXISTS `employee_phones`;
+
+CREATE TABLE `employee_phones` (
+                                   `id` mediumint NOT NULL AUTO_INCREMENT,
+                                   `phone` varchar(255) NOT NULL,
+                                   `employees_id` smallint unsigned NOT NULL,
+                                   `description` varchar(255) DEFAULT NULL,
+                                   PRIMARY KEY (`id`),
+                                   CONSTRAINT `FK_employee_phone_employee`
+                                       FOREIGN KEY (`employees_id`) REFERENCES `employees` (`id`)
+)ENGINE = InnoDB
+ AUTO_INCREMENT = 1
+ DEFAULT CHARSET = utf8;
 
 DROP TABLE IF EXISTS invoices;
 
@@ -514,11 +482,10 @@ CREATE TABLE invoices
     number          VARCHAR(255)  NOT NULL,
     invoice_date    DATE         NOT NULL,
     path            VARCHAR(255) DEFAULT NULL,
---     Здесь поменял тип ключа
 --     from_company_id INT      NOT NULL,
 --     destination_id  INT      NOT NULL,
-    from_company_id smallint(5) unsigned     NOT NULL,
-    destination_id  smallint(5) unsigned      NOT NULL,
+    from_company_id smallint unsigned     NOT NULL,
+    destination_id  smallint unsigned      NOT NULL,
     description     VARCHAR(255) ,
     entity_status   TINYINT               DEFAULT 1,
     created_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -847,8 +814,51 @@ CREATE TABLE device_component_leter
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8;
-  
-  INSERT INTO roles (name)
+
+
+CREATE TABLE file_types (
+                            `id` int(11) NOT NULL,
+                            `title` varchar(255) NOT NULL,
+                            `directory` varchar(255) NOT NULL,
+                            PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS file;
+
+CREATE TABLE files (
+                       `id` int(11) NOT NULL,
+                       `title` varchar(255) NOT NULL,
+                       `type_id` int(11) DEFAULT NULL,
+                       `description` varchar(255) DEFAULT NULL,
+                       PRIMARY KEY (`id`),
+                       KEY `fk_file_types_id_idx` (`type_id`),
+                       CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_types` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS system_files;
+
+CREATE TABLE system_files (
+                              `system_id` int(11) NOT NULL,
+                              `file_id` int(11) NOT NULL,
+                              PRIMARY KEY (`system_id`,`file_id`),
+                              KEY `fk_system_files_file_id_idx` (`file_id`),
+                              CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                              CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`) REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS device_files;
+
+CREATE TABLE `device_files` (
+                                `device_id` int(11) NOT NULL,
+                                `file_id` int(11) NOT NULL,
+                                PRIMARY KEY (`device_id`,`file_id`),
+                                KEY `fk_device_files_file_id_idx` (`file_id`),
+                                CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO roles (name)
 VALUES ('ROLE_USER'),
        ('ROLE_EMPLOYEE'),
        ('ROLE_ADMIN');
@@ -883,12 +893,46 @@ VALUES ('Тема 1', 'тема_1'),
 INSERT INTO system_titles (title, path)
 VALUES ('Система 1', 'система_1'),
        ('Система 2', 'система_2'),
-       ('Система 3', 'система_3');
+       ('Система 3', 'система_3'),
+       ('Система 4', 'система_3'),
+       ('Система 5', 'система_3'),
+       ('Система 6', 'система_3'),
+       ('Система 7', 'система_3'),
+       ('Система 8', 'система_3'),
+       ('Система 9', 'система_3'),
+       ('Система 10', 'система_3'),
+       ('Система 11', 'система_3'),
+       ('Система 12', 'система_3'),
+       ('Система 13', 'система_3'),
+       ('Система 14', 'система_3'),
+       ('Система 15', 'система_3'),
+       ('Система 16', 'система_3'),
+       ('Система 17', 'система_3'),
+       ('Система 18', 'система_3'),
+       ('Система 19', 'система_3'),
+       ('Система 20', 'система_3');
 
 INSERT INTO topic_system_title
 VALUES (1, 1),
        (2, 2),
-       (2, 3);
+       (2, 3),
+       (1, 4),
+       (1, 5),
+       (1, 6),
+       (1, 7),
+       (1, 8),
+       (1, 9),
+       (1, 10),
+       (1, 11),
+       (1, 12),
+       (1, 13),
+       (1, 14),
+       (1, 15),
+       (1, 16),
+       (1, 17),
+       (1, 18),
+       (1, 19),
+       (1, 20);
 
 INSERT INTO system_component_titles (title, path)
 VALUES ('Компонент Системы', 'компонент_системы/');
@@ -920,53 +964,6 @@ VALUES ('СЧ 1 1', 1),
        ('СЧ 1 2', 2),
        ('СЧ 2 2', 2);
 
-INSERT INTO systems (title_system_id, number, purpose, purpose_passport, vintage, vp_number, accept_otk_date, accept_vp_date, user_id)
-VALUES ('1', '0354552', 'Испытания', 'не падать', '2000-1-1', 45, '2000-1-1', '2000-1-1', '1');
-DROP TABLE IF EXISTS file_types;
-
-CREATE TABLE file_types (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `directory` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
- DROP TABLE IF EXISTS file;
-
-CREATE TABLE files (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `type_id` int(11) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_file_types_id_idx` (`type_id`),
-  CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_types` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
- DROP TABLE IF EXISTS system_files;
-
-CREATE TABLE system_files (
-  `system_id` int(11) NOT NULL,
-  `file_id` int(11) NOT NULL,
-  PRIMARY KEY (`system_id`,`file_id`),
-  KEY `fk_system_files_file_id_idx` (`file_id`),
-  CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`) REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
- DROP TABLE IF EXISTS device_files;
-
-CREATE TABLE `device_files` (
-  `device_id` int(11) NOT NULL,
-  `file_id` int(11) NOT NULL,
-  PRIMARY KEY (`device_id`,`file_id`),
-  KEY `fk_device_files_file_id_idx` (`file_id`),
-  CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
--- Добавил стартовые данные
 INSERT INTO companies (title, email)
 VALUES ('тест 1', '1@bb'),
        ('тест 2', '2@bb');
@@ -980,6 +977,33 @@ VALUES (1,'22566','test'),
         (1,'22222566','test2'),
         (2,'2222566','test3');
 
+INSERT INTO invoices (number, invoice_date, path, from_company_id, destination_id, description, entity_status, user_id)
+VALUES  ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('001', '2019-1-1', '/home/intruder/invoice1.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('002', '2019-1-2', '/home/intruder/invoice3.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('003', '2019-1-3', '/home/intruder/invoice5.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('004', '2019-1-4', '/home/intruder/invoice7.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('005', '2019-1-5', '/home/intruder/invoice12.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('006', '2019-1-6', '/home/intruder/invoice2.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('007', '2019-1-7', '/home/intruder/invoice4.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('008', '2019-1-8', '/home/intruder/invoice5.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('009', '2019-1-9', '/home/intruder/invoice6.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('010', '2019-1-10', '/home/intruder/invoice87.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('011', '2019-1-11', '/home/intruder/invoice12.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('012', '2019-1-12', '/home/intruder/invoice35.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('013', '2019-1-13', '/home/intruder/invoice12.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('014', '2019-1-14', '/home/intruder/invoice56.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('015', '2019-1-15', '/home/intruder/invoice78.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('016', '2019-1-16', '/home/intruder/invoice12.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('017', '2019-1-17', '/home/intruder/invoice511234.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('018', '2019-1-18', '/home/intruder/invoice1234.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('019', '2019-1-19', '/home/intruder/invoice12341.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('020', '2019-1-20', '/home/intruder/invoice7565.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('021', '2019-1-21', '/home/intruder/invoice3434.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('022', '2019-1-22', '/home/intruder/invoice3452.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('023', '2019-1-23', '/home/intruder/invoice6776.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
+        ('024', '2019-1-24', '/home/intruder/invoice5675.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
+        ('025', '2019-1-25', '/home/intruder/invoice5567.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1');
 
 INSERT INTO employees (name, last_name, patronymic, position, email, work_phone, mobil_phone, company_id)
 VALUES ('Vasyl', 'Petrov', 'Ivanych', 'boss','123@bb', '123456','2232445',1),
@@ -987,4 +1011,6 @@ VALUES ('Vasyl', 'Petrov', 'Ivanych', 'boss','123@bb', '123456','2232445',1),
 ('Oleg', 'Ivanov', 'Evgenyevich', 'small boss','23665@aa', '54664','1233445',1),
 ('Veeeasyl', 'Petrowev', 'Ivaneewch', 'beeoss','1wwe23@bb', '1224243456','2232222',2);
 
+
 SET FOREIGN_KEY_CHECKS = 1;
+
