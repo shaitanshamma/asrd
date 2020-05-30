@@ -62,7 +62,7 @@ public class AdminUserController {
     @PostMapping("/user")
     public String saveUser(SystemUser user, RedirectAttributes redirectAttributes) {
         try {
-            userService.save(user);
+            userService.saveDto(user);
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("error", true);
             log.error("Failed to save the 'user' object with the username '{}'", user.getUserName());
