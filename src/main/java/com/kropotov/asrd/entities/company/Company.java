@@ -1,5 +1,6 @@
 package com.kropotov.asrd.entities.company;
 
+import com.kropotov.asrd.entities.common.PageableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "companies")
-public class Company {
+public class Company implements PageableEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

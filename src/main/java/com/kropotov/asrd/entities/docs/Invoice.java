@@ -3,6 +3,7 @@ package com.kropotov.asrd.entities.docs;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.common.DocEntity;
+import com.kropotov.asrd.entities.common.PageableEntity;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.enums.Status;
 import com.kropotov.asrd.entities.items.ControlSystem;
@@ -23,7 +24,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Invoice extends DocEntity {
+public class Invoice extends DocEntity implements PageableEntity {
 
     @Builder
     public Invoice(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt, String path,

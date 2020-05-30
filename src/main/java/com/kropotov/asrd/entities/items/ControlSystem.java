@@ -2,6 +2,7 @@ package com.kropotov.asrd.entities.items;
 
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.common.ItemEntity;
+import com.kropotov.asrd.entities.common.PageableEntity;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.entities.enums.Location;
@@ -22,7 +23,7 @@ import java.util.List;
 @Table(name = "systems")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ControlSystem extends ItemEntity {
+public class ControlSystem extends ItemEntity implements PageableEntity {
 
     @Builder
     public ControlSystem(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,

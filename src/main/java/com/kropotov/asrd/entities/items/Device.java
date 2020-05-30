@@ -3,6 +3,7 @@ package com.kropotov.asrd.entities.items;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.entities.common.ItemEntity;
+import com.kropotov.asrd.entities.common.PageableEntity;
 import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.entities.enums.Location;
@@ -24,7 +25,7 @@ import java.util.List;
 @Table(name = "devices")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Device extends ItemEntity {
+public class Device extends ItemEntity implements PageableEntity {
 
     @Builder
     public Device(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
