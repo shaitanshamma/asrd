@@ -3,6 +3,7 @@ package com.kropotov.asrd.services.springdatajpa.titles.company;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
 import com.kropotov.asrd.repositories.company.CompanyPhoneRepository;
+import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyPhoneService {
+public class CompanyPhoneService implements CrudService<CompanyPhone, Long> {
 
     private final CompanyPhoneRepository companyPhoneRepository;
 
@@ -33,7 +34,9 @@ public class CompanyPhoneService {
         return companyPhoneRepository.save(companyPhone);
     }
 
-    public void delete(Long id) {
+    @Override
+    public void deleteById(Long id) {
         companyPhoneRepository.deleteById(id);
     }
+
 }

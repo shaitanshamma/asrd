@@ -3,6 +3,7 @@ package com.kropotov.asrd.services.springdatajpa.titles.company;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.Employee;
 import com.kropotov.asrd.repositories.company.EmployeeRepository;
+import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeService {
+public class EmployeeService implements CrudService<Employee, Long> {
 
     private final EmployeeRepository employeeRepository;
 
@@ -31,7 +32,8 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public void delete(Long id){
+    @Override
+    public void deleteById(Long id) {
         employeeRepository.deleteById(id);
     }
 
