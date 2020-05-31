@@ -818,22 +818,22 @@ CREATE TABLE device_component_letter
 DROP TABLE IF EXISTS file_types;
 
 CREATE TABLE file_types (
-                            `id` int(11) NOT NULL,
+                            `id` int(11) NOT NULL AUTO_INCREMENT,
                             `title` varchar(255) NOT NULL,
                             `directory` varchar(255) NOT NULL,
                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS files;
 
 CREATE TABLE files (
-                       `id` int(11) NOT NULL,
+                       `id` int(11) NOT NULL AUTO_INCREMENT,
                        `title` varchar(255) NOT NULL,
                        `type_id` int(11) DEFAULT NULL,
                        `description` varchar(255) DEFAULT NULL,
                        PRIMARY KEY (`id`),
                        CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_types` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS system_files;
 
@@ -841,8 +841,10 @@ CREATE TABLE system_files (
                               `system_id` int(11) NOT NULL,
                               `file_id` int(11) NOT NULL,
                               PRIMARY KEY (`system_id`,`file_id`),
-                              CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                              CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`) REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                              CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`)
+                               REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                              CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`)
+                               REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS device_files;
@@ -851,8 +853,10 @@ CREATE TABLE `device_files` (
                                 `device_id` int(11) NOT NULL,
                                 `file_id` int(11) NOT NULL,
                                 PRIMARY KEY (`device_id`,`file_id`),
-                                CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                                CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                                CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`)
+                                 REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`)
+                                 REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO roles (name)
