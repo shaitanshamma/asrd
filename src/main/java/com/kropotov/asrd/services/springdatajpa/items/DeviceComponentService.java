@@ -17,9 +17,14 @@ public class DeviceComponentService implements CrudService<DeviceComponent, Long
 
     private final DeviceComponentRepository deviceComponentRepository;
 
+
     @Override
-    public List<DeviceComponent> getAll() {
-        return deviceComponentRepository.findAll();
+    public Optional<List<DeviceComponent>> getAll() {
+        if (deviceComponentRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(deviceComponentRepository.findAll());
+        }
     }
 
     @Override

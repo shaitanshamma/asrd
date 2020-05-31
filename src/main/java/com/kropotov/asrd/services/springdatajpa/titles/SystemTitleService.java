@@ -17,11 +17,14 @@ public class SystemTitleService implements TitleService<SystemTitle, Long> {
 
     private final SystemTitleRepository systemTitleRepository;
 
+
     @Override
-    public List<SystemTitle> getAll(){
-        List<SystemTitle> list = new ArrayList<>();
-        systemTitleRepository.findAll().iterator().forEachRemaining(list::add);
-        return list;
+    public Optional<List<SystemTitle>> getAll() {
+        if (systemTitleRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(systemTitleRepository.findAll());
+        }
     }
 
     @Override

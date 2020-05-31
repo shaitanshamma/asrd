@@ -46,7 +46,7 @@ public class DeviceController {
         PageWrapper<Device> page = new PageWrapper<>(deviceService.getAll(pageable.previousOrFirst()), "/devices");
 
         PageValues.addContentToModel(model, page);
-        model.addAttribute("topicTitleList", topicService.getAll());
+        model.addAttribute("topicTitleList", topicService.getAll().get());
 
         return "devices/list-devices";
     }

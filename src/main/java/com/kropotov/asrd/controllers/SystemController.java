@@ -40,7 +40,7 @@ public class SystemController {
         PageWrapper<ControlSystem> page = new PageWrapper<>(systemService.getAll(pageable.previousOrFirst()), "/systems");
 
         PageValues.addContentToModel(model, page);
-        model.addAttribute("topicTitleList", topicService.getAll());
+        model.addAttribute("topicTitleList", topicService.getAll().get());
 
         return "systems/list-systems";
     }

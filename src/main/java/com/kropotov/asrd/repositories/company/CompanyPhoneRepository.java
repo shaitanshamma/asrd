@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CompanyPhoneRepository extends JpaRepository<CompanyPhone, Long> {
     List<CompanyPhone> findAllByCompany(Company company);
+    List<CompanyPhone> findAll();
 }

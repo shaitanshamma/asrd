@@ -54,10 +54,10 @@ class ActInputControlSDServiceTest {
 
         when(actInputControlRepository.findAll()).thenReturn(actList);
 
-        List<ActInputControl> actListReturned = actInputControlSDService.getAll();
+        List<ActInputControl> actListReturned = actInputControlSDService.getAll().get();
 
         assertEquals(2, actListReturned.size());
-        verify(actInputControlRepository, times(1)).findAll();
+        verify(actInputControlRepository, times(2)).findAll();
         verify(actInputControlRepository, never()).findById(anyLong());
     }
 

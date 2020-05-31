@@ -23,7 +23,7 @@ public class UserServiceTest {
 
     @Test
    void getAllTest() {
-        assertEquals(1, userService.getAll().size());
+        assertEquals(1, userService.getAll().get().size());
     }
 
     @Test

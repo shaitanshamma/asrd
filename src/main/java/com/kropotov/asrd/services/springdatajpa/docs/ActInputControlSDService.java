@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +23,12 @@ public class ActInputControlSDService implements ActInputControlService {
     private final ActInputControlToDto actInputControlToDto;
 
     @Override
-    public List<ActInputControl> getAll() {
-        List<ActInputControl> actInputControlList = new ArrayList<>();
-        actInputControlRepository.findAll().forEach(actInputControlList::add);
-        return actInputControlList;
+    public Optional<List<ActInputControl>> getAll() {
+        if (actInputControlRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(actInputControlRepository.findAll());
+        }
     }
 
     public Page<ActInputControl> getAll(Pageable pageable) {

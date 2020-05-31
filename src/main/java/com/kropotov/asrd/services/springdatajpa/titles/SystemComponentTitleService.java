@@ -6,7 +6,6 @@ import com.kropotov.asrd.services.TitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +20,14 @@ public class SystemComponentTitleService implements TitleService<SystemComponent
         return systemComponentTitleRepository.findByTitle(title);
     }
 
+
     @Override
-    public List<SystemComponentTitle> getAll() {
-        List<SystemComponentTitle> list = new ArrayList<>();
-        systemComponentTitleRepository.findAll().iterator().forEachRemaining(list::add);
-        return list;
+    public Optional<List<SystemComponentTitle>> getAll() {
+        if (systemComponentTitleRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(systemComponentTitleRepository.findAll());
+        }
     }
 
     @Override

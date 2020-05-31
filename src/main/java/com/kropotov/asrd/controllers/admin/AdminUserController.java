@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -35,7 +37,7 @@ public class AdminUserController {
     @GetMapping("/users")
     public String usersPage(Model model) {
         model.addAttribute("activePage", "Users");
-        model.addAttribute("users", userService.getAll());
+        model.addAttribute("users", userService.getAll().get());
         return "admin/users";
     }
 
@@ -85,10 +87,13 @@ public class AdminUserController {
         return "redirect:/admin/users";
     }
 
+    // TODO Алексей Токарев обрати внимание тут изменился код. Я просто сделал его рабочим после изменения CrudService
     @GetMapping("/usersNew")
     public String newUsersPage(Model model) {
+        List<User> users = new ArrayList<>();
+        userService.getAll().ifPresent(users::addAll);
         model.addAttribute("activePage", "NewUsers");
-        model.addAttribute("users", userService.getAll().stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).collect(Collectors.toList()));
+        model.addAttribute("users", users.stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).collect(Collectors.toList()));
         return "admin/users";
     }
 

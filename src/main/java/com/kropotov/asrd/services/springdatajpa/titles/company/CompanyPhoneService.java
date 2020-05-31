@@ -1,27 +1,34 @@
 package com.kropotov.asrd.services.springdatajpa.titles.company;
 
-import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
 import com.kropotov.asrd.repositories.company.CompanyPhoneRepository;
+import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyPhoneService {
+public class CompanyPhoneService implements CrudService<CompanyPhone, Long> {
 
     private final CompanyPhoneRepository companyPhoneRepository;
 
-    public List<CompanyPhone> getAll() {
-        return companyPhoneRepository.findAll();
+
+    @Override
+    public Optional<List<CompanyPhone>> getAll() {
+        if (companyPhoneRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(companyPhoneRepository.findAll());
+        }
     }
 
-    public List<CompanyPhone> getAllByCompany(Company company) {
-        return companyPhoneRepository.findAllByCompany(company);
+    @Override
+    public Optional<CompanyPhone> getById(Long id) {
+        return companyPhoneRepository.findById(id);
     }
 
     @Transactional
@@ -29,7 +36,9 @@ public class CompanyPhoneService {
         return companyPhoneRepository.save(companyPhone);
     }
 
-    public void delete(Long id) {
+    @Override
+    public void deleteById(Long id) {
         companyPhoneRepository.deleteById(id);
     }
+
 }
