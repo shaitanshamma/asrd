@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-//@Controller
-//@RequestMapping("/companies")
 public class CompanyFasade {
 
     private final CompanyService companyService;
@@ -30,8 +30,10 @@ public class CompanyFasade {
     private final EmployeeService employeeService;
     private final CompanyToDto companyToDto;
 
-    public List<Company> showCompanies() {
-         return companyService.getAll();
+    public List<CompanyDto> showCompanies() {
+        List<CompanyDto> companyDtos;
+        companyDtos = companyService.getAll().stream().map(company -> companyToDto.convert(company)).collect(Collectors.toList());
+        return companyDtos;
     }
 
     public Company getCompanyById(Long id) {
@@ -41,6 +43,7 @@ public class CompanyFasade {
     public CompanyDto getCompanyDTOById(Long id) {
         return companyToDto.convert(companyService.getById(id).get());
     }
+
     public Company addCompany() {
         return new Company();
     }
@@ -64,10 +67,11 @@ public class CompanyFasade {
     public Address getAddressById(Long id) {
         return addressService.getById(id).get();
     }
-//
+
+    //
     public String saveAddress(Address address) {
         addressService.save(address);
-        String url = String.valueOf(new StringBuilder("redirect:/companies/company/").append(address.getCompany().getId().toString())+"/show");
+        String url = String.format("redirect:/companies/company/%s/show", address.getCompany().getId().toString());
         return url;
     }
 //
@@ -75,13 +79,15 @@ public class CompanyFasade {
     public CompanyPhone getPhoneById(Long id) {
         return companyPhoneService.getById(id).get();
     }
-//
+
+    //
     public String savePhone(CompanyPhone phone) {
         companyPhoneService.save(phone);
-        String url = String.valueOf(new StringBuilder("redirect:/companies/company/").append(phone.getCompany().getId().toString())+"/show");
+        String url = String.format("redirect:/companies/company/%s/show", phone.getCompany().getId().toString());
         return url;
     }
-//
+
+    //
     public Employee getEmployeeById(Long id) {
         return employeeService.getById(id).get();
     }
@@ -89,10 +95,11 @@ public class CompanyFasade {
 
     public String saveEmployee(Employee employee) {
         employeeService.save(employee);
-        String url = String.valueOf(new StringBuilder("redirect:/companies/company/").append(employee.getCompany().getId().toString())+"/show");
+        String url = String.format("redirect:/companies/company/%s/show", employee.getCompany().getId().toString());
         return url;
     }
-//
+
+    //
     public boolean saveOrEditCompany(Company company, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("companyCreationError", "BindingResult error!");
