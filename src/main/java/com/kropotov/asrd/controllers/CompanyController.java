@@ -61,39 +61,39 @@ public class CompanyController {
         return "companies/info";
     }
 
-    @GetMapping("/address/{id}/update")
-    public String editCompanyAddressPage(Model model, @PathVariable("id") Long id) {
+    @GetMapping("company/{companyId}/address/{id}/update")
+    public String editCompanyAddressPage(Model model, @PathVariable("id") Long id,@PathVariable("companyId") Long companyId) {
         model.addAttribute("address", companyFasade.getAddressById(id));
         return "companies/edit-company-address";
     }
 
-    @PostMapping("/address/{id}/update")
+    @PostMapping("company/{companyId}/address/{id}/update")
     public String editCompanyAddressPage(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult, Model model,
-                                         @PathVariable("id") Long id) {
+                                         @PathVariable("id") Long id,@PathVariable("companyId") Long companyId) {
         return companyFasade.saveAddress(address);
     }
 
-    @GetMapping("/phone/{id}/update")
-    public String editCompanyPhonePage(Model model, @PathVariable("id") Long id) {
+    @GetMapping("company/{companyId}/phone/{id}/update")
+    public String editCompanyPhonePage(Model model, @PathVariable("id") Long id,@PathVariable("companyId") Long companyId) {
         model.addAttribute("phone", companyFasade.getPhoneById(id));
         return "companies/edit-company-phone";
     }
 
-    @PostMapping("/phone/{id}/update")
+    @PostMapping("company/{companyId}/phone/{id}/update")
     public String editCompanyPhonePage(@Valid @ModelAttribute("phone") CompanyPhone phone, BindingResult bindingResult, Model model,
-                                       @PathVariable("id") Long id) {
+                                       @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
         return companyFasade.savePhone(phone);
     }
 
-    @GetMapping("/employee/{id}/update")
-    public String editCompanyEmployeePage(Model model, @PathVariable("id") Long id) {
+    @GetMapping("company/{companyId}/employee/{id}/update")
+    public String editCompanyEmployeePage(Model model, @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
         model.addAttribute("employee", companyFasade.getEmployeeById(id));
         return "companies/edit-company-employee";
     }
 
-    @PostMapping("/employee/{id}/update")
+    @PostMapping("company/{companyId}/employee/{id}/update")
     public String editCompanyEmployeePage(@Valid @ModelAttribute("employee") Employee employee,
-                                          @PathVariable("id") Long id) {
+                                          @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
         return companyFasade.saveEmployee(employee);
     }
 
