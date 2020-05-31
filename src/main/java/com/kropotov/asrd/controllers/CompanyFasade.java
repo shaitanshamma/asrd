@@ -1,7 +1,7 @@
 package com.kropotov.asrd.controllers;
 
-import com.kropotov.asrd.converters.CompanyToDto;
-import com.kropotov.asrd.dto.CompanyDto;
+import com.kropotov.asrd.converters.company.CompanyToDto;
+import com.kropotov.asrd.dto.company.CompanyDto;
 import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

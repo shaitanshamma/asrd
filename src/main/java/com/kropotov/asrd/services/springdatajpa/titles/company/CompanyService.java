@@ -1,10 +1,8 @@
 package com.kropotov.asrd.services.springdatajpa.titles.company;
 
-import com.kropotov.asrd.converters.CompanyToDto;
-import com.kropotov.asrd.dto.CompanyDto;
-import com.kropotov.asrd.dto.items.ControlSystemDto;
+import com.kropotov.asrd.converters.company.CompanyToDto;
+import com.kropotov.asrd.dto.company.CompanyDto;
 import com.kropotov.asrd.entities.company.Company;
-import com.kropotov.asrd.entities.items.ControlSystem;
 import com.kropotov.asrd.repositories.company.CompanyRepository;
 import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;

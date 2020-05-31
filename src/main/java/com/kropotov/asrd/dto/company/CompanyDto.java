@@ -1,4 +1,4 @@
-package com.kropotov.asrd.dto;
+package com.kropotov.asrd.dto.company;
 
 import lombok.*;
 
