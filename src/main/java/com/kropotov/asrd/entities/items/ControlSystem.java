@@ -1,9 +1,11 @@
 package com.kropotov.asrd.entities.items;
 
 import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.common.IFiles;
 import com.kropotov.asrd.entities.common.ItemEntity;
 import com.kropotov.asrd.entities.common.PageableEntity;
 import com.kropotov.asrd.entities.docs.ActInputControl;
+import com.kropotov.asrd.entities.docs.File;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.enums.Status;
@@ -23,7 +25,7 @@ import java.util.List;
 @Table(name = "systems")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ControlSystem extends ItemEntity implements PageableEntity {
+public class ControlSystem extends ItemEntity implements PageableEntity, IFiles {
 
     @Builder
     public ControlSystem(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
@@ -60,6 +62,14 @@ public class ControlSystem extends ItemEntity implements PageableEntity {
     @OneToMany(mappedBy = "system", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private List<Device> devices;
 
+    @ManyToMany
+    @JoinTable(
+            name = "system_files",
+            joinColumns = @JoinColumn(name = "system_id"),
+            inverseJoinColumns = @JoinColumn(name = "file_id")
+    )
+    private List<File> files;
+
     public void addDevice(Device device) {
         if (devices == null) {
             devices = new ArrayList<>();
@@ -67,4 +77,13 @@ public class ControlSystem extends ItemEntity implements PageableEntity {
         devices.add(device);
     }
 
+    @Override
+    public boolean addFile(File file) {
+        return files.add(file);
+    }
+
+    @Override
+    public boolean removeFile(File file) {
+        return files.remove(file);
+    }
 }
