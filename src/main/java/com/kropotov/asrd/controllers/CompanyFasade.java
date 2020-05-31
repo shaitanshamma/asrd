@@ -1,7 +1,10 @@
 package com.kropotov.asrd.controllers;
 
-import com.kropotov.asrd.converters.company.CompanyToDto;
+import com.kropotov.asrd.converters.company.*;
+import com.kropotov.asrd.dto.company.AddressDto;
 import com.kropotov.asrd.dto.company.CompanyDto;
+import com.kropotov.asrd.dto.company.CompanyPhoneDto;
+import com.kropotov.asrd.dto.company.EmployeeDto;
 import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
@@ -16,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,11 +31,37 @@ public class CompanyFasade {
     private final CompanyPhoneService companyPhoneService;
     private final EmployeeService employeeService;
     private final CompanyToDto companyToDto;
+    private final EmployeeToDto employeeToDto;
+    private final AddressToDto addressToDto;
+    private final CompanyPhoneToDto companyPhoneToDto;
+    private final DtoAddressToCompany dtoAddressToCompany;
+    private List<CompanyDto> companyDtos;
+    private List<EmployeeDto> employeeDtos;
+    private List<AddressDto> addressDtos;
+    private List<CompanyPhoneDto> companyPhoneDtos;
 
     public List<CompanyDto> showCompanies() {
-        List<CompanyDto> companyDtos;
+
         companyDtos = companyService.getAll().stream().map(company -> companyToDto.convert(company)).collect(Collectors.toList());
         return companyDtos;
+    }
+
+    public List<EmployeeDto> showEmployeesByCompanyId(Long id) {
+
+        employeeDtos = companyService.getById(id).get().getEmployee().stream().map(employee -> employeeToDto.convert(employee)).collect(Collectors.toList());
+        return employeeDtos;
+    }
+
+    public List<AddressDto> showAddressByCompanyId(Long id) {
+
+        addressDtos = companyService.getById(id).get().getAddress().stream().map(address -> addressToDto.convert(address)).collect(Collectors.toList());
+        return addressDtos;
+    }
+
+    public List<CompanyPhoneDto> showPhoneByCompanyId(Long id) {
+
+        companyPhoneDtos = companyService.getById(id).get().getCompanyPhones().stream().map(phone -> companyPhoneToDto.convert(phone)).collect(Collectors.toList());
+        return companyPhoneDtos;
     }
 
     public Company getCompanyById(Long id) {
@@ -62,14 +92,16 @@ public class CompanyFasade {
 //
 //
 
-    public Address getAddressById(Long id) {
-        return addressService.getById(id).get();
+    public AddressDto getAddressById(Long id) {
+        if(addressDtos.stream().findAny().get().getId() == id);
+        return addressDtos.stream().findAny().get();
     }
 
     //
-    public String saveAddress(Address address) {
+    public String saveAddress(AddressDto addressDto, Long companyId) {
+        Address address = dtoAddressToCompany.convert(addressDto);
         addressService.save(address);
-        String url = String.format("redirect:/companies/company/%s/show", address.getCompany().getId().toString());
+        String url = String.format("redirect:/companies/company/%s/show",companyId);
         return url;
     }
 //

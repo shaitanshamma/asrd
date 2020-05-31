@@ -54,13 +54,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${phon.id}">
+        <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${company.id}">
 <!--            th:onclick="'window.location.href=\'companies/' + ${phon.id} + '\'; return false'">-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${phon.phone}"></td>
             <td th:text="${phon.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/company/' +${phon.getCompany().id}+'/phone/'+${phon.id}+'/update/'}"
+                <a th:href="@{'/companies/company/' +${company.id}+'/phone/'+${phon.id}+'/update/'}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
         </tr>
@@ -82,7 +82,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${address.id}">
+        <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${company.id}">
 <!--            th:onclick="'window.location.href=\'companies/' + ${address.id} + '\'; return false'"-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${address.zipCode}"></td>
@@ -91,7 +91,7 @@
             <td th:text="${address.place}"></td>
             <td th:text="${address.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/company/' +${address.getCompany().id}+'/address/'+${address.id}+'/update/'}"
+                <a th:href="@{'/companies/company/' +${company.id}+'/address/'+${address.id}+'/update/'}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
         </tr>
@@ -115,7 +115,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="emp, iterator : ${employees}" th:attr="sys_id=${emp.id}">
+        <tr th:each="emp, iterator : ${employees}" th:attr="sys_id=${company.id}">
             <td th:text="${iterator.count}"></td>
             <td th:text="${emp.name}"></td>
             <td th:text="${emp.lastName}"></td>
@@ -125,7 +125,7 @@
             <td th:text="${emp.workPhone}"></td>
             <td th:text="${emp.mobilPhone}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/company/' +${emp.getCompany().id}+'/employee/'+${emp.id}+'/update/'}"
+                <a th:href="@{'/companies/company/' +${company.id}+'/employee/'+${emp.id}+'/update/'}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
         </tr>

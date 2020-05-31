@@ -19,7 +19,8 @@
         </div>
     </div>
 
-    <form th:action="@{'/companies/company/' +${address.getCompany().id}+'/address/'+${address.id}+'/update/'}" th:object="${address}" method="post">
+    <form th:action="@{'/companies/company/' +${company.id}+'/address/'+${address.id}+'/update/'}"
+          th:object="${address}" method="post">
         <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
 
 <!--        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>-->
@@ -35,7 +36,7 @@
             <input type="text" th:field="*{place}" class="form-control" id="place" placeholder="Введите номер дома">
             <label >Описание</label>
             <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Описание">
-            <input type="hidden" th:field="*{company}" th:value="${address.company.id}">
+<!--            <input type="hidden" th:field="*{company}" th:value="${address.company.id}">-->
 
 <!--            <input type="text" th:field="*{company.id}" class="form-control" id="idCompany" placeholder="Введите номер военного представительства">-->
         </div>

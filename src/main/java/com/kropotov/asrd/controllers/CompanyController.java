@@ -1,5 +1,6 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.dto.company.AddressDto;
 import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
@@ -55,22 +56,23 @@ public class CompanyController {
     @GetMapping("/company/{id}/show")
     public String companyInfoPage(Model model, @PathVariable("id") Long id) {
         model.addAttribute("company", companyFasade.getCompanyDTOById(id));
-        model.addAttribute("employees", companyFasade.getCompanyById(id).getEmployee());
-        model.addAttribute("phones", companyFasade.getCompanyById(id).getCompanyPhones());
-        model.addAttribute("addresses", companyFasade.getCompanyById(id).getAddress());
+        model.addAttribute("employees", companyFasade.showEmployeesByCompanyId(id));
+        model.addAttribute("phones", companyFasade.showPhoneByCompanyId(id));
+        model.addAttribute("addresses", companyFasade.showAddressByCompanyId(id));
         return "companies/info";
     }
 
     @GetMapping("company/{companyId}/address/{id}/update")
     public String editCompanyAddressPage(Model model, @PathVariable("id") Long id,@PathVariable("companyId") Long companyId) {
         model.addAttribute("address", companyFasade.getAddressById(id));
+        model.addAttribute("company", companyFasade.getCompanyDTOById(companyId));
         return "companies/edit-company-address";
     }
 
     @PostMapping("company/{companyId}/address/{id}/update")
-    public String editCompanyAddressPage(@Valid @ModelAttribute("address") Address address, BindingResult bindingResult, Model model,
-                                         @PathVariable("id") Long id,@PathVariable("companyId") Long companyId) {
-        return companyFasade.saveAddress(address);
+    public String editCompanyAddressPage(@Valid @ModelAttribute("address") AddressDto addressDto, BindingResult bindingResult, Model model,
+                                         @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
+        return companyFasade.saveAddress(addressDto, companyId);
     }
 
     @GetMapping("company/{companyId}/phone/{id}/update")
