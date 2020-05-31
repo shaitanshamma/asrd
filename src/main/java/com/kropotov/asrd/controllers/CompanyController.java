@@ -1,6 +1,8 @@
 package com.kropotov.asrd.controllers;
 
 import com.kropotov.asrd.dto.company.AddressDto;
+import com.kropotov.asrd.dto.company.CompanyPhoneDto;
+import com.kropotov.asrd.dto.company.EmployeeDto;
 import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.CompanyPhone;
@@ -78,25 +80,27 @@ public class CompanyController {
     @GetMapping("company/{companyId}/phone/{id}/update")
     public String editCompanyPhonePage(Model model, @PathVariable("id") Long id,@PathVariable("companyId") Long companyId) {
         model.addAttribute("phone", companyFasade.getPhoneById(id));
+        model.addAttribute("company", companyFasade.getCompanyDTOById(companyId));
         return "companies/edit-company-phone";
     }
 
     @PostMapping("company/{companyId}/phone/{id}/update")
-    public String editCompanyPhonePage(@Valid @ModelAttribute("phone") CompanyPhone phone, BindingResult bindingResult, Model model,
+    public String editCompanyPhonePage(@Valid @ModelAttribute("phone") CompanyPhoneDto phoneDto, BindingResult bindingResult, Model model,
                                        @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
-        return companyFasade.savePhone(phone);
+        return companyFasade.savePhone(phoneDto,companyId);
     }
 
     @GetMapping("company/{companyId}/employee/{id}/update")
     public String editCompanyEmployeePage(Model model, @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
         model.addAttribute("employee", companyFasade.getEmployeeById(id));
+        model.addAttribute("company", companyFasade.getCompanyDTOById(companyId));
         return "companies/edit-company-employee";
     }
 
     @PostMapping("company/{companyId}/employee/{id}/update")
-    public String editCompanyEmployeePage(@Valid @ModelAttribute("employee") Employee employee,
+    public String editCompanyEmployeePage(@Valid @ModelAttribute("employee") EmployeeDto employeeDto,
                                           @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
-        return companyFasade.saveEmployee(employee);
+        return companyFasade.saveEmployee(employeeDto, companyId);
     }
 
 }

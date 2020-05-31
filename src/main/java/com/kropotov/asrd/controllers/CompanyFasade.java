@@ -35,6 +35,8 @@ public class CompanyFasade {
     private final AddressToDto addressToDto;
     private final CompanyPhoneToDto companyPhoneToDto;
     private final DtoAddressToCompany dtoAddressToCompany;
+    private final DtoCompanyPhoneToCompanyPhone dtoCompanyPhoneToCompanyPhone;
+    private final DtoEmployeeToCompany dtoEmployeeToCompany;
     private List<CompanyDto> companyDtos;
     private List<EmployeeDto> employeeDtos;
     private List<AddressDto> addressDtos;
@@ -93,8 +95,7 @@ public class CompanyFasade {
 //
 
     public AddressDto getAddressById(Long id) {
-        if(addressDtos.stream().findAny().get().getId() == id);
-        return addressDtos.stream().findAny().get();
+        return addressDtos.stream().filter(addressDto -> addressDto.getId() == id).findFirst().get();
     }
 
     //
@@ -106,14 +107,15 @@ public class CompanyFasade {
     }
 //
 
-    public CompanyPhone getPhoneById(Long id) {
-        return companyPhoneService.getById(id).get();
+    public CompanyPhoneDto getPhoneById(Long id) {
+        return companyPhoneDtos.stream().filter(phoneDto ->phoneDto.getId() == id).findFirst().get();
     }
 
     //
-    public String savePhone(CompanyPhone phone) {
-        companyPhoneService.save(phone);
-        String url = String.format("redirect:/companies/company/%s/show", phone.getCompany().getId().toString());
+    public String savePhone(CompanyPhoneDto phoneDto, Long companyId) {
+        CompanyPhone companyPhone = dtoCompanyPhoneToCompanyPhone.convert(phoneDto);
+        companyPhoneService.save(companyPhone);
+        String url = String.format("redirect:/companies/company/%s/show", companyId);
         return url;
     }
 
@@ -123,9 +125,10 @@ public class CompanyFasade {
     }
 //
 
-    public String saveEmployee(Employee employee) {
+    public String saveEmployee(EmployeeDto employeeDto,Long companyId) {
+        Employee employee = dtoEmployeeToCompany.convert(employeeDto);
         employeeService.save(employee);
-        String url = String.format("redirect:/companies/company/%s/show", employee.getCompany().getId().toString());
+        String url = String.format("redirect:/companies/company/%s/show", companyId);
         return url;
     }
 

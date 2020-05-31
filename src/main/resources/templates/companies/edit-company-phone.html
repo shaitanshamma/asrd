@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form th:action="@{'/companies/company/' +${phone.getCompany().id}+'/phone/'+${phone.id}+'/update/'}" th:object="${phone}" method="post">
+    <form th:action="@{'/companies/company/' +${company.id}+'/phone/'+${phone.id}+'/update/'}" th:object="${phone}" method="post">
         <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
 
 <!--        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>-->
@@ -29,7 +29,7 @@
             <input type="text" th:field="*{phone}" class="form-control" id="phone" placeholder="Введите номер телефона">
             <label >Описание</label>
             <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Описание">
-            <input type="hidden" th:field="*{company}" th:value="${phone.company.id}">
+<!--            <input type="hidden" th:field="*{company}" th:value="${phone.company.id}">-->
         </div>
 
         <button type="submit" class="btn btn-primary">Сохранить</button>

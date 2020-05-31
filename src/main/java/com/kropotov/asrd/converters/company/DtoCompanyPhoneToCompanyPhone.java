@@ -9,6 +9,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class DtoCompanyPhoneToCompanyPhone implements Converter<CompanyPhoneDto, CompanyPhone> {
@@ -21,6 +23,9 @@ public class DtoCompanyPhoneToCompanyPhone implements Converter<CompanyPhoneDto,
         if (phoneDto == null) {
             return null;
         }
-        return companyPhoneService.getById(phoneDto.getId()).orElseThrow(() -> new RuntimeException("Нет такого телефона"));
+        Optional<CompanyPhone> companyPhone = companyPhoneService.getById(phoneDto.getId());
+        companyPhone.get().setDescription(phoneDto.getDescription());
+        companyPhone.get().setPhone(phoneDto.getPhone());
+        return companyPhone.get();
     }
 }
