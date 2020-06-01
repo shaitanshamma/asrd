@@ -2,9 +2,11 @@ package com.kropotov.asrd.entities.items;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kropotov.asrd.entities.User;
+import com.kropotov.asrd.entities.common.IFiles;
 import com.kropotov.asrd.entities.common.ItemEntity;
 import com.kropotov.asrd.entities.common.PageableEntity;
 import com.kropotov.asrd.entities.docs.ActInputControl;
+import com.kropotov.asrd.entities.docs.File;
 import com.kropotov.asrd.entities.docs.Invoice;
 import com.kropotov.asrd.entities.enums.Location;
 import com.kropotov.asrd.entities.enums.Status;
@@ -25,7 +27,7 @@ import java.util.List;
 @Table(name = "devices")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Device extends ItemEntity implements PageableEntity {
+public class Device extends ItemEntity implements PageableEntity, IFiles {
 
     @Builder
     public Device(Long id, Status entityStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
@@ -66,10 +68,28 @@ public class Device extends ItemEntity implements PageableEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToMany
+    @JoinTable(
+            name = "device_files",
+            joinColumns = @JoinColumn(name = "device_id"),
+            inverseJoinColumns = @JoinColumn(name = "file_id")
+    )
+    private List<File> files;
+
     public void addComponent(DeviceComponent deviceComponent) {
         if (components == null) {
             components = new ArrayList<>();
         }
         components.add(deviceComponent);
+    }
+
+    @Override
+    public boolean addFile(File file) {
+        return files.add(file);
+    }
+
+    @Override
+    public boolean removeFile(File file) {
+       return files.remove(file);
     }
 }
