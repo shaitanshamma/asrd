@@ -1,8 +1,6 @@
 package com.kropotov.asrd.services.email;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.File;
 import java.util.List;
@@ -10,6 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
 public class EmailMessage extends Message {
 
     private String mailSubject;  // тема письма
