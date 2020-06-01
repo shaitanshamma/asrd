@@ -1,6 +1,6 @@
 package com.kropotov.asrd.controllers.admin;
 
-import com.kropotov.asrd.entities.SystemUser;
+import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
 import com.kropotov.asrd.services.springdatajpa.security.RoleServiceImpl;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class AdminUserController {
     @GetMapping("/users")
     public String usersPage(Model model) {
         model.addAttribute("activePage", "Users");
-        model.addAttribute("users", userService.getAll().get());
+        model.addAttribute("users", userService.getAll().orElse(Collections.emptyList()));
         return "admin/users";
     }
 
@@ -46,8 +47,8 @@ public class AdminUserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("create", true);
         model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleServiceImpl.getAll());
-        model.addAttribute("allStatusUser", statusUserService.getAll());
+        model.addAttribute("allRoles", roleServiceImpl.getAll().orElse(Collections.emptyList()));
+        model.addAttribute("allStatusUser", statusUserService.getAll().orElse(Collections.emptyList()));
         return "admin/user_form";
     }
 
@@ -56,8 +57,8 @@ public class AdminUserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("update", true);
         model.addAttribute("user", userService.getById(id).orElse(new User()));
-        model.addAttribute("allRoles", roleServiceImpl.getAll());
-        model.addAttribute("allStatusUser", statusUserService.getAll());
+        model.addAttribute("allRoles", roleServiceImpl.getAll().orElse(Collections.emptyList()));
+        model.addAttribute("allStatusUser", statusUserService.getAll().orElse(Collections.emptyList()));
         return "admin/user_form";
     }
 
@@ -87,7 +88,6 @@ public class AdminUserController {
         return "redirect:/admin/users";
     }
 
-    // TODO Алексей Токарев обрати внимание тут изменился код. Я просто сделал его рабочим после изменения CrudService
     @GetMapping("/usersNew")
     public String newUsersPage(Model model) {
         List<User> users = new ArrayList<>();

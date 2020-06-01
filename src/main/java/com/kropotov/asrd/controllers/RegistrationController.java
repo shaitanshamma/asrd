@@ -1,7 +1,7 @@
 package com.kropotov.asrd.controllers;
 
 
-import com.kropotov.asrd.entities.SystemUser;
+import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
 import org.slf4j.Logger;
