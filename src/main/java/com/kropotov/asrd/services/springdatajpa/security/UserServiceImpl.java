@@ -1,7 +1,7 @@
 package com.kropotov.asrd.services.springdatajpa.security;
 
 import com.kropotov.asrd.entities.Role;
-import com.kropotov.asrd.entities.SystemUser;
+import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.repositories.RoleRepository;
 import com.kropotov.asrd.repositories.StatusUserRepository;
@@ -18,10 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -111,7 +108,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public long allNewUsersConfirmedEmail() {
-		return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList())
+		return new ArrayList<>(userRepository.findAll())
 				.stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).count();
 	}
 

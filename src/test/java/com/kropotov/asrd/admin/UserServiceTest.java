@@ -1,6 +1,6 @@
 package com.kropotov.asrd.admin;
 
-import com.kropotov.asrd.entities.SystemUser;
+import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.util.Collections;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,7 +24,7 @@ public class UserServiceTest {
 
     @Test
    void getAllTest() {
-        assertEquals(1, userService.getAll().get().size());
+        assertEquals(1, userService.getAll().orElse(Collections.emptyList()).size());
     }
 
     @Test

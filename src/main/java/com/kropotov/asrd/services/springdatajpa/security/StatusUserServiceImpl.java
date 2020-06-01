@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class StatusUserServiceImpl implements StatusUserService {
     private final StatusUserRepository statusUserRepository;
 
     @Override
-    public List<StatusUser> getAll() {
-        return StreamSupport.stream(statusUserRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    public Optional<List<StatusUser>> getAll() {
+        return Optional.of(statusUserRepository.findAll());
     }
 }

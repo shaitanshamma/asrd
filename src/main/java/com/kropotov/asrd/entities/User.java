@@ -1,7 +1,10 @@
 package com.kropotov.asrd.entities;
 
+import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.common.BaseEntity;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +13,7 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "users")
 public class User extends BaseEntity {
 
@@ -47,8 +51,6 @@ public class User extends BaseEntity {
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Collection<Role> roles;
 
-	public User() {
-	}
 
 	public User(String userName, String password, String firstName, String lastName, String patronymic, String email) {
 		this.userName = userName;
@@ -80,7 +82,4 @@ public class User extends BaseEntity {
 		this.roles = systemUser.getRoles();
 		this.statusUser = systemUser.getStatusUser();
 	}
-
-
-
 }
