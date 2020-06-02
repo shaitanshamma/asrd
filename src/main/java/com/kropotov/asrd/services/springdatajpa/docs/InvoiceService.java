@@ -22,22 +22,19 @@ public class InvoiceService implements CrudService<Invoice, Long> {
     private final InvoiceToDto invoiceToDto;
 
 
-
     public Page<Invoice> getAll(Pageable pageable) {
         return invoiceRepository.findAll(pageable);
     }
 
     @Override
     public Optional<List<Invoice>> getAll() {
-        if (invoiceRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(invoiceRepository.findAll());
-        }
+        return Optional.ofNullable(invoiceRepository.findAll());
     }
 
     @Override
-    public Optional<Invoice> getById(Long id) { return invoiceRepository.findById(id); }
+    public Optional<Invoice> getById(Long id) {
+        return invoiceRepository.findById(id);
+    }
 
     public boolean isInvoiceWithNumberExists(String number) {
         return invoiceRepository.findOneByNumber(number) != null;

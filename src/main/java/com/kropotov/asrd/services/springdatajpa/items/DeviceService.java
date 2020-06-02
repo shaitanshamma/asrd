@@ -23,18 +23,13 @@ public class DeviceService implements CrudService<Device, Long> {
     private final DeviceToDto deviceToDto;
 
 
-
     public Page<Device> getAll(Pageable pageable) {
         return deviceRepository.findAll(pageable);
     }
 
     @Override
     public Optional<List<Device>> getAll() {
-        if (deviceRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(deviceRepository.findAll());
-        }
+        return Optional.ofNullable(deviceRepository.findAll());
     }
 
     @Override

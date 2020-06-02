@@ -19,7 +19,7 @@ public class EmployeeService implements CrudService<Employee, Long> {
 
     @Override
     public Optional<List<Employee>> getAll() {
-        return Optional.empty();
+        return Optional.ofNullable(employeeRepository.findAll());
     }
 
     public Optional<Employee> getById(Long id) {

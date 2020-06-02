@@ -27,11 +27,7 @@ public class CompanyService implements CrudService<Company, Long> {
 
     @Override
     public Optional<List<Company>> getAll() {
-        if (companyRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(companyRepository.findAll());
-        }
+        return Optional.ofNullable(companyRepository.findAll());
     }
 
     public Page<Company> getAll(Pageable pageable) {
