@@ -32,7 +32,7 @@
         </thead>
         <tbody>
         <tr th:each="company, iterator : ${page.content}" th:attr="sys_id=${company.id}">
-            <td th:text="${iterator.count}"></td>
+            <td th:text="${(page.number - 1) * page.size + iterator.count}"></td>
             <td th:text="${company.title}"></td>
             <td>
                 <a th:href="@{'/companies/info/' + ${company.id}}">"Информация"</a>
