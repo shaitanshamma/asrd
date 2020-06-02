@@ -16,10 +16,6 @@
 
         <div class="panel panel-primary">
 
-<!--            <div class="panel-heading">
-                <div class="panel-title">Регистрация нового пользователя</div>
-            </div>-->
-
             <div style="padding-top: 30px" class="panel-body">
                 <form th:action="@{/register/processRegistrationForm}"
                       th:object="${systemUser}" method="post" class="form-horizontal">
@@ -35,49 +31,64 @@
                     </div>
 
                     <!-- User name -->
-                    <div class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" />
+                    <div class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{userName}" placeholder="Логин (*)" class="form-control"/>
+                        <input th:field="*{userName}" type="text" pattern="[^а-яёА-ЯЁ]{3,}" maxlength="255" placeholder="Логин (*)" title="Логин может быть не менее 3 символов, состоять из латинских букв и цифр" class="form-control" required/>
                     </div>
 
                     <!-- Password -->
-                    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" />
+                    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" th:field="*{password}" placeholder="Пароль (*)" class="form-control"/>
+                        <input type="password" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{5,}" th:field="*{password}" placeholder="Пароль (*****)" title="Пароль может быть не менее 5 символов, состоять из цифр и букв и не менее одной заглавной буквы" class="form-control" required/>
                     </div>
 
-                    <div class="error" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" />
+<!--                    Repeat password-->
+                    <div class="error" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" th:field="*{matchingPassword}" placeholder="Повторите пароль (*)" class="form-control"/>
+                            <input type="password" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{5,}" th:field="*{matchingPassword}" placeholder="Повторите пароль (*****)" title="Введите пароль повторно" class="form-control" required/>
                     </div>
 
-                    <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" />
+<!--                    Name-->
+                    <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{firstName}" placeholder="Имя (*)" class="form-control"/>
+                            <input th:field="*{firstName}" type="text" pattern="[а-яёА-ЯЁ]{3,}" maxlength="255" placeholder="Имя (*)" title="Введите имя на русском языке" class="form-control" required/>
                     </div>
 
-                    <div class="error" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{firstName}" />
+<!--                    Patronymic-->
+                    <div class="error" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{firstName}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{patronymic}" placeholder="Отчество (*)" class="form-control"/>
+                            <input th:field="*{patronymic}" type="text" pattern="[а-яёА-ЯЁ]{3,}" maxlength="255" placeholder="Отчество (*)" title="Введите отчество на русском языке" class="form-control" required/>
                     </div>
 
                     <!-- Last name -->
-                    <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" />
+                    <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{lastName}" placeholder="Фамилия (*)" class="form-control"/>
+                            <input th:field="*{lastName}" type="text" pattern="[а-яёА-ЯЁ]{3,}"  maxlength="255" placeholder="Фамилия (*)" title="Введите фамилию на русском языке" class="form-control" required/>
                     </div>
 
                     <!-- Email -->
-                    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" />
+                    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{email}" placeholder="email (*)" class="form-control"/>
+                            <input th:field="*{email}" type="email" placeholder="email (*)" title="" class="form-control" required/>
+                    </div>
+
+                    <!-- Work phone -->
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input th:field="*{workPhone}" type="tel" pattern="\d{2}[-]{0,1}\d{2}" placeholder="Рабочий номер телефона 12-34" title="Рабочий номер телефона в формате 12-34" class="form-control"/>
+                    </div>
+
+                    <!-- Mobile phone -->
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input th:field="*{mobilePhone}" type="tel" pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}" placeholder="Сотовый +7 (900) 123-45-67" title="Сотовый в формате +7 (900) 123-45-67" class="form-control"/>
                     </div>
 
                     <div style="margin-top: 10px" class="form-group">

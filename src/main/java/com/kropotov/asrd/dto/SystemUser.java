@@ -45,8 +45,6 @@ public class SystemUser {
     @Size(min = 1, message = "is required")
     private String patronymic;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
     private Collection<Role> roles;
 
     @ValidEmail
@@ -58,8 +56,6 @@ public class SystemUser {
 
     private String mobilePhone;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
     private StatusUser statusUser;
 
     public SystemUser(User user) {
