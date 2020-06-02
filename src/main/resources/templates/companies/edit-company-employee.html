@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Companies)"></nav>
+
+<div class="container">
+    <div class="form-group">
+        <div class="col-xs-15">
+<!--            <div th:if="${companyCreationError != null}">-->
+<!--                <div class="alert alert-danger col-xs-offset-1 col-xs-10">-->
+<!--                    <span th:text="${companyCreationError}" ></span>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+
+    <form th:action="@{'/companies/' +${company.id}+'/employee/'+${employee.id}+'/update/'}" th:object="${employee}" method="post">
+        <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
+
+<!--        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>-->
+
+        <div class="form-group">
+            <label for="name">Имя</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Введите имя сотрудника">
+            <label for="lastName">Фамилия</label>
+            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Введите фамилию сотрудника">
+            <label for="patronymic">Отчество</label>
+            <input type="text" th:field="*{patronymic}" class="form-control" id="patronymic" placeholder="Введите отчество сотрудника">
+            <label >Должность</label>
+            <input type="text" th:field="*{position}" class="form-control" id="position" placeholder="Введите должность сотрудника">
+            <label >Электронная почта</label>
+            <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Введите адресс электронной почты">
+            <label >Рабочий телефон</label>
+            <input type="text" th:field="*{workPhone}" class="form-control" id="workPhone" placeholder="Введите номер рабочего телефона">
+            <label >Мобильный телефон</label>
+            <input type="text" th:field="*{mobilPhone}" class="form-control" id="mobilPhone" placeholder="Введите номер мобильного телефона">
+            <input type="hidden" th:field="*{company}" th:value="${employee.company.id}">
+
+<!--            <input type="text" th:field="*{company.id}" class="form-control" id="idCompany" placeholder="Введите номер военного представительства">-->
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

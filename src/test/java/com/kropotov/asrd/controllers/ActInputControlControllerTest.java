@@ -59,6 +59,7 @@ class ActInputControlControllerTest {
     }
 
     // Этот тест не проходит потому, что неправильно реализована функциональность в классе. Должна возвращаться ошибка 404.
+    // Переделать на фасад весь тест
     @Test
     void showByIdNotFound() throws Exception {
         ActInputControl act = new ActInputControl();

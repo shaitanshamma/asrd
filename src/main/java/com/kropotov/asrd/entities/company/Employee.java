@@ -47,7 +47,6 @@ public class Employee {
 
     @OneToMany(
             mappedBy = "employee",
-            orphanRemoval = true,
             cascade = CascadeType.ALL)
     private List<EmployeePhone> employeePhones;
 }
