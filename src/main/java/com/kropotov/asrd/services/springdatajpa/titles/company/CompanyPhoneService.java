@@ -19,12 +19,7 @@ public class CompanyPhoneService implements CrudService<CompanyPhone, Long> {
 
     @Override
     public Optional<List<CompanyPhone>> getAll() {
-        if (companyPhoneRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(companyPhoneRepository.findAll());
-        }
-
+            return Optional.ofNullable(companyPhoneRepository.findAll());
     }
 
     @Override
