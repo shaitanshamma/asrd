@@ -28,7 +28,7 @@ public class ActInputControlFacade {
 
     // todo продумать обращение по несуществующему id
     public ActInputControlDto getDtoById(Long id) {
-        return actService.getDtoById(id);
+        return id == null ? new ActInputControlDto() : actService.getDtoById(id);
     }
 
     public void fillPage(Model model, Pageable pageable) {

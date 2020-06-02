@@ -1,5 +1,6 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.controllers.errors.CustomErrorController;
 import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.facades.docs.ActInputControlFacade;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import java.security.Principal;
 @Controller
 @RequestMapping("acts")
 @RequiredArgsConstructor
-public class ActInputControlController {
+public class ActInputControlController extends CustomErrorController {
     private final ActInputControlFacade actFacade;
 
     @GetMapping("/{id}/show")
