@@ -12,7 +12,7 @@
     <h1>Каталог предприятий</h1>
     <hr>
     <div >
-        <a th:href="@{companies/add/}"
+        <a th:href="@{companies/create/}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
         </a>
@@ -35,7 +35,7 @@
             <td th:text="${(page.number - 1) * page.size + iterator.count}"></td>
             <td th:text="${company.title}"></td>
             <td>
-                <a th:href="@{'/companies/info/' + ${company.id}}">"Информация"</a>
+                <a th:href="@{'/companies/' + ${company.id} + '/show'}">"Информация"</a>
             </td>
         </tr>
         </tbody>

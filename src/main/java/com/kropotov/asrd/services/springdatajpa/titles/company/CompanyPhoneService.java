@@ -24,6 +24,7 @@ public class CompanyPhoneService implements CrudService<CompanyPhone, Long> {
         } else {
             return Optional.of(companyPhoneRepository.findAll());
         }
+
     }
 
     @Override

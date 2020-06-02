@@ -1,6 +1,6 @@
 package com.kropotov.asrd.dto.docs;
 
-import com.kropotov.asrd.dto.CompanyDto;
+import com.kropotov.asrd.dto.company.CompanyDto;
 import com.kropotov.asrd.dto.SimpleUser;
 import com.kropotov.asrd.dto.items.SimpleControlSystem;
 import com.kropotov.asrd.dto.items.SimpleDevice;
