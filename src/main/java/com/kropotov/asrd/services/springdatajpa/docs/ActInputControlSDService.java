@@ -26,11 +26,8 @@ public class ActInputControlSDService implements ActInputControlService {
 
     @Override
     public Optional<List<ActInputControl>> getAll() {
-        if (actInputControlRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(actInputControlRepository.findAll());
-        }
+        return Optional.ofNullable(actInputControlRepository.findAll());
+
     }
 
     public Page<ActInputControl> getAll(Pageable pageable) {

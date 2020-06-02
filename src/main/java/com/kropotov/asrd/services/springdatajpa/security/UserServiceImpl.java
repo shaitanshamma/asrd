@@ -1,7 +1,7 @@
 package com.kropotov.asrd.services.springdatajpa.security;
 
-import com.kropotov.asrd.entities.Role;
 import com.kropotov.asrd.dto.SystemUser;
+import com.kropotov.asrd.entities.Role;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.repositories.RoleRepository;
 import com.kropotov.asrd.repositories.StatusUserRepository;
@@ -67,11 +67,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<List<User>> getAll() {
-		if (userRepository.findAll() == null) {
-			return Optional.empty();
-		} else {
-			return Optional.of(userRepository.findAll());
-		}
+			return Optional.ofNullable(userRepository.findAll());
 	}
 
 	@Override
