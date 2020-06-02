@@ -46,8 +46,8 @@
         </thead>
         <tbody>
 <!--        th:onclick="'window.location.href=\'invoices/' + ${invoice.id} + '\'; return false'"-->
-        <tr th:each="act, i : ${page.content}">
-            <td th:text="${i.count}"></td>
+        <tr th:each="act, iterator : ${page.content}">
+            <td th:text="${(page.number - 1) * page.size + iterator.count}"></td>
             <td><a href="#" th:href="@{'/acts/' + ${act.id} + '/show'}" th:text="${act.number}"></a></td>
             <td th:text="${act.date}"></td>
             <td>
