@@ -82,8 +82,8 @@ public class InvoiceController {
 
 
         model.addAttribute("invoice", invoiceDto);
-        model.addAttribute("topicTitleList", topicService.getAll());
-        model.addAttribute("companies", companyService.getAll());
+        model.addAttribute("topicTitleList", topicService.getAll().get());
+        model.addAttribute("companies", companyService.getAll().get());
         return INVOICE_CREATE_OR_UPDATE_FORM;
     }
 

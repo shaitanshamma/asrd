@@ -3,15 +3,16 @@ package com.kropotov.asrd.services.springdatajpa.docs;
 import com.kropotov.asrd.converters.docs.ActInputControlToDto;
 import com.kropotov.asrd.dto.docs.ActInputControlDto;
 import com.kropotov.asrd.entities.docs.ActInputControl;
+import com.kropotov.asrd.exceptions.NotFoundException;
 import com.kropotov.asrd.repositories.ActInputControlRepository;
 import com.kropotov.asrd.services.ActInputControlService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +25,12 @@ public class ActInputControlSDService implements ActInputControlService {
     private final ActInputControlToDto actInputControlToDto;
 
     @Override
-    public List<ActInputControl> getAll() {
-        List<ActInputControl> actInputControlList = new ArrayList<>();
-        actInputControlRepository.findAll().forEach(actInputControlList::add);
-        return actInputControlList;
+    public Optional<List<ActInputControl>> getAll() {
+        if (actInputControlRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(actInputControlRepository.findAll());
+        }
     }
 
     public Page<ActInputControl> getAll(Pageable pageable) {
@@ -35,8 +38,8 @@ public class ActInputControlSDService implements ActInputControlService {
     }
 
     @Override
-    public Optional<ActInputControl> getById(Long id) {
-        return id == null ? Optional.empty() : actInputControlRepository.findById(id);
+    public Optional<ActInputControl> getById(@NonNull Long id) {
+        return actInputControlRepository.findById(id);
     }
 
     @Override
@@ -57,7 +60,9 @@ public class ActInputControlSDService implements ActInputControlService {
     @Override
     @Transactional
     public ActInputControlDto getDtoById(Long id) {
-        return actInputControlToDto.convert(getById(id).orElse(new ActInputControl()));
+        return actInputControlToDto.convert(getById(id).orElseThrow(
+                () -> new NotFoundException("ActInputControl with id = " + id + " not found")
+        ));
     }
 
     @Override

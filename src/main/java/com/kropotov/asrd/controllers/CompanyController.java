@@ -1,8 +1,11 @@
 package com.kropotov.asrd.controllers;
 
+import com.kropotov.asrd.controllers.util.PageValues;
+import com.kropotov.asrd.controllers.util.PageWrapper;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.services.springdatajpa.titles.company.CompanyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,8 +22,11 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping("")
-    public String showCompany(Model model) {
-        model.addAttribute("companies", companyService.getAll());
+    public String showCompany(Model model, Pageable pageable) {
+        pageable = PageValues.getPageableOrDefault(pageable);
+        PageWrapper<Company> page = new PageWrapper<>(companyService.getAll(pageable.previousOrFirst()), "/companies");
+
+        PageValues.addContentToModel(model, page);
         return "companies/list-companies";
     }
 

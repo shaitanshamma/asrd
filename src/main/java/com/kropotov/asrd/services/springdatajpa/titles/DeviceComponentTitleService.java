@@ -6,7 +6,6 @@ import com.kropotov.asrd.services.TitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +15,14 @@ public class DeviceComponentTitleService implements TitleService<DeviceComponent
 
     private final DeviceComponentTitleRepository deviceComponentTitleRepository;
 
+
     @Override
-    public List<DeviceComponentTitle> getAll() {
-        List<DeviceComponentTitle> list = new ArrayList<>();
-        deviceComponentTitleRepository.findAll().iterator().forEachRemaining(list::add);
-        return list;
+    public Optional<List<DeviceComponentTitle>> getAll() {
+        if (deviceComponentTitleRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(deviceComponentTitleRepository.findAll());
+        }
     }
 
     @Override

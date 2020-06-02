@@ -26,7 +26,7 @@
         </h4>
     </header>
 
-    <form th:action="@{/acts/edit}" th:object="${act}" enctype="multipart/form-data" method="post">
+    <form th:action="@{/acts/update}" th:object="${act}" enctype="multipart/form-data" method="post">
         <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
 
         <!--<div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>-->

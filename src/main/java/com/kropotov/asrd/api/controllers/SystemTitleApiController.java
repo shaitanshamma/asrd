@@ -29,7 +29,7 @@ public class SystemTitleApiController {
     @GetMapping
     public List<SystemTitle> getSystemTitlesByTopic(@RequestParam(value = "topicId", required = false) Long topicId) {
         if (topicId == null) {
-            return systemTitleService.getAll();
+            return systemTitleService.getAll().get();
         }
         Topic topic = topicService.getById(topicId).orElse(new Topic());
         return topic.getSystemTitles();

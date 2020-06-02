@@ -1,16 +1,22 @@
 package com.kropotov.asrd.admin;
 
-import com.kropotov.asrd.entities.SystemUser;
+import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.util.Collections;
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest
+@SqlGroup({@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {"classpath:schema.sql", "classpath:data.sql"})})
 public class UserServiceTest {
 
     @Autowired
@@ -18,7 +24,7 @@ public class UserServiceTest {
 
     @Test
    void getAllTest() {
-        assertEquals(1, userService.getAll().size());
+        assertEquals(1, userService.getAll().orElse(Collections.emptyList()).size());
     }
 
     @Test
@@ -41,7 +47,7 @@ public class UserServiceTest {
     void saveUserTest() {
         SystemUser systemUser = new SystemUser(Objects.requireNonNull(userService.getById(1L).orElse(null)));
         systemUser.setFirstName("test");
-        userService.save(systemUser);
+        userService.saveDto(systemUser);
         assertEquals("test", userService.getById(1L).orElse(new User()).getFirstName());
     }
 }

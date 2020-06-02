@@ -2,7 +2,10 @@ package com.kropotov.asrd.services.springdatajpa.titles.company;
 
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.repositories.company.CompanyRepository;
+import com.kropotov.asrd.services.CrudService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyService {
+public class CompanyService implements CrudService<Company, Long> {
 
     private final CompanyRepository companyRepository;
 
@@ -19,8 +22,17 @@ public class CompanyService {
         return companyRepository.findById(id);
     }
 
-    public List<Company> getAll() {
-        return companyRepository.findAll();
+    @Override
+    public Optional<List<Company>> getAll() {
+        if (companyRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(companyRepository.findAll());
+        }
+    }
+
+    public Page<Company> getAll(Pageable pageable) {
+        return companyRepository.findAll(pageable);
     }
 
     public Company getOneByTitle(String title) {
@@ -32,7 +44,8 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public void delete(Long id) {
+    @Override
+    public void deleteById(Long id) {
         companyRepository.deleteById(id);
     }
 

@@ -21,13 +21,19 @@ public class InvoiceService implements CrudService<Invoice, Long> {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceToDto invoiceToDto;
 
-    @Override
-    public List<Invoice> getAll() {
-        return (List<Invoice>) (invoiceRepository.findAll());
-    }
+
 
     public Page<Invoice> getAll(Pageable pageable) {
         return invoiceRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<List<Invoice>> getAll() {
+        if (invoiceRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(invoiceRepository.findAll());
+        }
     }
 
     @Override

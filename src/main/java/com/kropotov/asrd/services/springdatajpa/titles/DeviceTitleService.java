@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +18,14 @@ public class DeviceTitleService implements TitleService<DeviceTitle, Long> {
     private final DeviceTitleRepository deviceTitleRepository;
     private final DeviceTitleToDto deviceTitleToDto;
 
+
     @Override
-    public List<DeviceTitle> getAll() {
-        List<DeviceTitle> list = new ArrayList<>();
-        deviceTitleRepository.findAll().forEach(list::add);
-        return list;
+    public Optional<List<DeviceTitle>> getAll() {
+        if (deviceTitleRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(deviceTitleRepository.findAll());
+        }
     }
 
     @Override

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Error)"></nav>
+
+
+<!--    <p th:if="${exception} != null" ></p>-->
+<img th:src="@{/images/404error.png}" width="100%" height="100%" align="center">
+
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

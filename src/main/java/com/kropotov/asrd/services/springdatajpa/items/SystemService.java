@@ -24,13 +24,19 @@ public class SystemService implements CrudService<ControlSystem, Long> {
     private final SystemRepository systemRepository;
     private final ControlSystemToDto controlSystemToDto;
 
-    public List<ControlSystem> getAll() {
-        log.info("Get all systems");
-        return (List<ControlSystem>) (systemRepository.findAll());
-    }
+
 
     public Page<ControlSystem> getAll(Pageable pageable) {
         return systemRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<List<ControlSystem>> getAll() {
+        if (systemRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(systemRepository.findAll());
+        }
     }
 
     public Optional<ControlSystem> getById(Long id) {

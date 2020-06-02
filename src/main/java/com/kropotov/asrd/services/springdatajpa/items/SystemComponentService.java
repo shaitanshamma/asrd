@@ -17,9 +17,14 @@ public class SystemComponentService implements CrudService<SystemComponent, Long
 
     private final SystemComponentRepository systemComponentRepository;
 
+
     @Override
-    public List<SystemComponent> getAll() {
-        return null;
+    public Optional<List<SystemComponent>> getAll() {
+        if (systemComponentRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(systemComponentRepository.findAll());
+        }
     }
 
     @Override

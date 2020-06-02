@@ -11,4 +11,5 @@ public interface InvoiceRepository extends PagingAndSortingRepository<Invoice, L
     Invoice findOneByNumber(String number);
     List<Invoice> findAllByNumberLike(String number);
     List<Invoice> findAllByNumber(String number);
+    List<Invoice> findAll();
 }

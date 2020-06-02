@@ -27,7 +27,7 @@ public class DeviceApiController {
     @GetMapping("/titles")
     public Iterable<DeviceTitle> getDeviceTitlesBySystemTitleId(@RequestParam(value = "systemTitleId", required = false) Long systemTitleId) {
         if (systemTitleId == null) {
-            return deviceTitleService.getAll();
+            return deviceTitleService.getAll().get();
         }
         SystemTitle systemTitle = systemTitleService.getById(systemTitleId).orElse(null);
         return systemTitle.getDeviceTitles();

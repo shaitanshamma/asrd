@@ -6,7 +6,6 @@ import com.kropotov.asrd.services.TitleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +15,14 @@ public class TopicService implements TitleService<Topic, Long> {
 
     private final TopicRepository topicRepository;
 
+
     @Override
-    public List<Topic> getAll() {
-        List<Topic> list = new ArrayList<>();
-        topicRepository.findAll().forEach(list::add);
-        return list;
+    public Optional<List<Topic>> getAll() {
+        if (topicRepository.findAll() == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(topicRepository.findAll());
+        }
     }
 
     public Optional<Topic> getById(Long id) {

@@ -1,6 +1,6 @@
 package com.kropotov.asrd.controllers.admin;
 
-import com.kropotov.asrd.entities.SystemUser;
+import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
 import com.kropotov.asrd.services.springdatajpa.security.RoleServiceImpl;
@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -35,7 +38,7 @@ public class AdminUserController {
     @GetMapping("/users")
     public String usersPage(Model model) {
         model.addAttribute("activePage", "Users");
-        model.addAttribute("users", userService.getAll());
+        model.addAttribute("users", userService.getAll().orElse(Collections.emptyList()));
         return "admin/users";
     }
 
@@ -44,8 +47,8 @@ public class AdminUserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("create", true);
         model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleServiceImpl.getAll());
-        model.addAttribute("allStatusUser", statusUserService.getAll());
+        model.addAttribute("allRoles", roleServiceImpl.getAll().orElse(Collections.emptyList()));
+        model.addAttribute("allStatusUser", statusUserService.getAll().orElse(Collections.emptyList()));
         return "admin/user_form";
     }
 
@@ -54,15 +57,15 @@ public class AdminUserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("update", true);
         model.addAttribute("user", userService.getById(id).orElse(new User()));
-        model.addAttribute("allRoles", roleServiceImpl.getAll());
-        model.addAttribute("allStatusUser", statusUserService.getAll());
+        model.addAttribute("allRoles", roleServiceImpl.getAll().orElse(Collections.emptyList()));
+        model.addAttribute("allStatusUser", statusUserService.getAll().orElse(Collections.emptyList()));
         return "admin/user_form";
     }
 
     @PostMapping("/user")
     public String saveUser(SystemUser user, RedirectAttributes redirectAttributes) {
         try {
-            userService.save(user);
+            userService.saveDto(user);
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("error", true);
             log.error("Failed to save the 'user' object with the username '{}'", user.getUserName());
@@ -87,8 +90,10 @@ public class AdminUserController {
 
     @GetMapping("/usersNew")
     public String newUsersPage(Model model) {
+        List<User> users = new ArrayList<>();
+        userService.getAll().ifPresent(users::addAll);
         model.addAttribute("activePage", "NewUsers");
-        model.addAttribute("users", userService.getAll().stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).collect(Collectors.toList()));
+        model.addAttribute("users", users.stream().filter((u) -> u.getStatusUser().getName().contains("confirmed")).collect(Collectors.toList()));
         return "admin/users";
     }
 
