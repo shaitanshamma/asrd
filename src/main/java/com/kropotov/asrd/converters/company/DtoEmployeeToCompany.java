@@ -23,6 +23,17 @@ public class DtoEmployeeToCompany implements Converter<EmployeeDto, Employee> {
         if (employeeDto == null) {
             return null;
         }
+        if (employeeDto.getId() == null) {
+            final Employee employee = new Employee();
+            employee.setName(employeeDto.getName());
+            employee.setLastName(employeeDto.getLastName());
+            employee.setPatronymic(employeeDto.getPatronymic());
+            employee.setWorkPhone(employeeDto.getWorkPhone());
+            employee.setMobilPhone(employeeDto.getMobilPhone());
+            employee.setPosition(employeeDto.getPosition());
+            employee.setEmail(employeeDto.getEmail());
+            return employee;
+        }
         Optional<Employee> employee = employeeService.getById(employeeDto.getId());
         employee.get().setName(employeeDto.getName());
         employee.get().setLastName(employeeDto.getLastName());

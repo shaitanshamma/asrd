@@ -17,22 +17,25 @@
             Добавить
         </a>
     </div>
-    <span th:if="${page.items.size() == 0}" th:text="'Компаний нет'"></span>
+<!--    <span th:if="${page.items.size() == 0}" th:text="'Компаний нет'"></span>-->
 
-    <table th:unless="${page.items.size() == 0}" class="table table-hover">
+<!--    <table th:unless="${page.items.size() == 0}" class="table table-hover">-->
+        <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
             <th>
                 Название
-                <span th:replace="~{layouts :: sortButtons(title)}"></span>
+<!--                <span th:replace="~{layouts :: sortButtons(title)}"></span>-->
             </th>
             <th>Доп. информация</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="company, iterator : ${page.content}" th:attr="sys_id=${company.id}">
-            <td th:text="${(page.number - 1) * page.size + iterator.count}"></td>
+        <tr th:each="company, iterator : ${company}" th:attr="sys_id=${company.id}">
+<!--        <tr th:each="company, iterator : ${page.content}" th:attr="sys_id=${company.id}">-->
+<!--            <td th:text="${(page.number - 1) * page.size + iterator.count}"></td>-->
+            <td th:text="${iterator.count}"></td>
             <td th:text="${company.title}"></td>
             <td>
                 <a th:href="@{'/companies/' + ${company.id} + '/show'}">"Информация"</a>
@@ -42,7 +45,7 @@
     </table>
 
     <div class="d-flex justify-content-end">
-        <nav th:replace="layouts :: pagination"></nav>
+<!--        <nav th:replace="layouts :: pagination"></nav>-->
     </div>
 </div>
 <div th:replace="layouts :: footer"></div>
