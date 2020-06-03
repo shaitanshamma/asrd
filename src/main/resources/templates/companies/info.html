@@ -35,8 +35,7 @@
             <td th:text="${company.fax}"></td>
             <td th:text="${company.militaryRepresentation}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/'+${company.id}+'/update/'}"
-                   class="btn btn-primary btn-sm mb-3">Изменить</a>
+                <a th:href="@{'/companies/edit/'+${company.id}}">Edit</a>
             </td>
         </tr>
         </tbody>
@@ -44,12 +43,6 @@
 
     <h1>Телефоны</h1>
     <hr>
-    <div >
-        <a th:href="@{'/companies/' +${company.id}+'/phone/create/'}"
-           class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
-            Добавить
-        </a>
-    </div>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -60,27 +53,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${company.id}">
+        <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${phon.id}">
 <!--            th:onclick="'window.location.href=\'companies/' + ${phon.id} + '\'; return false'">-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${phon.phone}"></td>
             <td th:text="${phon.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}+'/update/'}"
-                   class="btn btn-primary btn-sm mb-3">Изменить</a>
+                <a th:href="@{'/companies/edit/phone/'+${phon.id}}">Edit</a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <h1>Адреса</h1>
+    <h1>Адресс</h1>
     <hr>
-    <div >
-        <a th:href="@{'/companies/' +${company.id}+'/address/create/'}"
-           class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
-            Добавить
-        </a>
-    </div>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -94,7 +80,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${company.id}">
+        <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${address.id}">
 <!--            th:onclick="'window.location.href=\'companies/' + ${address.id} + '\'; return false'"-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${address.zipCode}"></td>
@@ -103,8 +89,7 @@
             <td th:text="${address.place}"></td>
             <td th:text="${address.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/update/'}"
-                   class="btn btn-primary btn-sm mb-3">Изменить</a>
+                <a th:href="@{'/companies/edit/address/'+${address.id}}">Edit</a>
             </td>
         </tr>
         </tbody>
@@ -112,13 +97,6 @@
 
 
     <h1>Информация о сотрудниках</h1>
-    <hr>
-    <div >
-        <a th:href="@{'/companies/' +${company.id}+'/employee/create/'}"
-           class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
-            Добавить
-        </a>
-    </div>
     <table  class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -134,7 +112,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="emp, iterator : ${employees}" th:attr="sys_id=${company.id}">
+        <tr th:each="emp, iterator : ${employees}" th:attr="sys_id=${emp.id}">
             <td th:text="${iterator.count}"></td>
             <td th:text="${emp.name}"></td>
             <td th:text="${emp.lastName}"></td>
@@ -144,8 +122,7 @@
             <td th:text="${emp.workPhone}"></td>
             <td th:text="${emp.mobilPhone}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}+'/update/'}"
-                   class="btn btn-primary btn-sm mb-3">Изменить</a>
+                <a th:href="@{'/companies/edit/employee/'+${emp.id}}">Edit</a>
             </td>
         </tr>
         </tbody>

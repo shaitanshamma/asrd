@@ -38,6 +38,9 @@ public class DtoAddressToCompany implements Converter<AddressDto, Address> {
         address.get().setPlace(addressDto.getPlace());
         address.get().setZipCode(addressDto.getZipCode());
         address.get().setStreet(addressDto.getStreet());
+
+
+
         return address.get();
     }
 }
