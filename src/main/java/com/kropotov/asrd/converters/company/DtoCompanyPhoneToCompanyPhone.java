@@ -23,6 +23,12 @@ public class DtoCompanyPhoneToCompanyPhone implements Converter<CompanyPhoneDto,
         if (phoneDto == null) {
             return null;
         }
+        if (phoneDto.getId() == null) {
+            final CompanyPhone companyPhone = new CompanyPhone();
+            companyPhone.setPhone(phoneDto.getPhone());
+            companyPhone.setDescription(phoneDto.getDescription());
+            return companyPhone;
+        }
         Optional<CompanyPhone> companyPhone = companyPhoneService.getById(phoneDto.getId());
         companyPhone.get().setDescription(phoneDto.getDescription());
         companyPhone.get().setPhone(phoneDto.getPhone());
