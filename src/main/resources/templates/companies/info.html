@@ -43,6 +43,12 @@
 
     <h1>Телефоны</h1>
     <hr>
+    <div >
+        <a th:href="@{'/companies/' +${company.id}+'/phone/create/'}"
+           class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
+            Добавить
+        </a>
+    </div>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -67,6 +73,12 @@
 
     <h1>Адресс</h1>
     <hr>
+    <div >
+        <a th:href="@{'/companies/' +${company.id}+'/address/create/'}"
+           class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
+            Добавить
+        </a>
+    </div>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -97,6 +109,13 @@
 
 
     <h1>Информация о сотрудниках</h1>
+    <hr>
+    <div >
+        <a th:href="@{'/companies/' +${company.id}+'/employee/create/'}"
+           class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
+            Добавить
+        </a>
+    </div>
     <table  class="table table-hover">
         <thead class="thead-dark">
         <tr>
