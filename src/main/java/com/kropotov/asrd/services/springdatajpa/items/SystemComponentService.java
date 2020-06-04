@@ -20,11 +20,7 @@ public class SystemComponentService implements CrudService<SystemComponent, Long
 
     @Override
     public Optional<List<SystemComponent>> getAll() {
-        if (systemComponentRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(systemComponentRepository.findAll());
-        }
+        return Optional.ofNullable(systemComponentRepository.findAll());
     }
 
     @Override

@@ -1,15 +1,15 @@
 package com.kropotov.asrd.controllers;
 
-import com.kropotov.asrd.converters.UserToSimple;
 import com.kropotov.asrd.converters.docs.DtoToActInputControl;
 import com.kropotov.asrd.entities.docs.ActInputControl;
+import com.kropotov.asrd.facades.docs.ActInputControlFacade;
 import com.kropotov.asrd.services.ActInputControlService;
-import com.kropotov.asrd.services.StorageService;
-import com.kropotov.asrd.services.UserService;
+import com.kropotov.asrd.services.springdatajpa.docs.InvoiceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -22,20 +22,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ActInputControlControllerTest {
 
-    @Mock
-    ActInputControlService actService;
+    @Autowired
+    InvoiceService invoiceService;
 
-    @Mock
-    UserService userService;
-
-    @Mock
+    @Autowired
     DtoToActInputControl dtoToActInputControl;
 
     @Mock
-    UserToSimple userToSimple;
+    ActInputControlFacade actInputControlFacade;
 
     @Mock
-    StorageService storageService;
+    ActInputControlService actService;
 
     ActInputControlController actController;
 
@@ -43,7 +40,7 @@ class ActInputControlControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        actController = new ActInputControlController(actService, userService, dtoToActInputControl, userToSimple, storageService);
+        actController = new ActInputControlController(actInputControlFacade);
     }
 
     @Test
@@ -61,6 +58,8 @@ class ActInputControlControllerTest {
                 .andExpect(view().name("acts/show"));
     }
 
+    // Этот тест не проходит потому, что неправильно реализована функциональность в классе. Должна возвращаться ошибка 404.
+    // Переделать на фасад весь тест
     @Test
     void showByIdNotFound() throws Exception {
         ActInputControl act = new ActInputControl();
@@ -72,7 +71,7 @@ class ActInputControlControllerTest {
         when(actService.getById(2L)).thenReturn(actOptional);
 
         mockMvc.perform(get("/acts/100000/show"))
-                .andExpect(status().is3xxRedirection())
+                .andExpect(status().isNotFound())
                 .andExpect(view().name("redirect:/acts"));
     }
 }

@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form th:action="@{'/companies/edit/'+${company.id}}" th:object="${company}" method="post">
+    <form th:action="@{'/companies/'+${company.id}+'/update'}" th:object="${company}" method="post">
         <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
 
         <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>

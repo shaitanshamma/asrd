@@ -18,11 +18,7 @@ public class TopicService implements TitleService<Topic, Long> {
 
     @Override
     public Optional<List<Topic>> getAll() {
-        if (topicRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(topicRepository.findAll());
-        }
+        return Optional.ofNullable(topicRepository.findAll());
     }
 
     public Optional<Topic> getById(Long id) {

@@ -17,6 +17,6 @@ public class StatusUserServiceImpl implements StatusUserService {
 
     @Override
     public Optional<List<StatusUser>> getAll() {
-        return Optional.of(statusUserRepository.findAll());
+        return Optional.ofNullable(statusUserRepository.findAll());
     }
 }

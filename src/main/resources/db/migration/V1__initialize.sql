@@ -818,22 +818,22 @@ CREATE TABLE device_component_letter
 DROP TABLE IF EXISTS file_types;
 
 CREATE TABLE file_types (
-                            `id` int(11) NOT NULL,
+                            `id` int(11) NOT NULL AUTO_INCREMENT,
                             `title` varchar(255) NOT NULL,
                             `directory` varchar(255) NOT NULL,
                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS files;
 
 CREATE TABLE files (
-                       `id` int(11) NOT NULL,
+                       `id` int(11) NOT NULL AUTO_INCREMENT,
                        `title` varchar(255) NOT NULL,
                        `type_id` int(11) DEFAULT NULL,
                        `description` varchar(255) DEFAULT NULL,
                        PRIMARY KEY (`id`),
                        CONSTRAINT `fk_file_type_id` FOREIGN KEY (`type_id`) REFERENCES `file_types` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS system_files;
 
@@ -841,8 +841,10 @@ CREATE TABLE system_files (
                               `system_id` int(11) NOT NULL,
                               `file_id` int(11) NOT NULL,
                               PRIMARY KEY (`system_id`,`file_id`),
-                              CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                              CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`) REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                              CONSTRAINT `fk_system_files_file_id` FOREIGN KEY (`file_id`)
+                               REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                              CONSTRAINT `fk_system_files_system_id` FOREIGN KEY (`system_id`)
+                               REFERENCES `systems` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS device_files;
@@ -851,8 +853,10 @@ CREATE TABLE `device_files` (
                                 `device_id` int(11) NOT NULL,
                                 `file_id` int(11) NOT NULL,
                                 PRIMARY KEY (`device_id`,`file_id`),
-                                CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                                CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                                CONSTRAINT `fk_device_files_device_id` FOREIGN KEY (`device_id`)
+                                 REFERENCES `devices` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                CONSTRAINT `fk_device_files_file_id` FOREIGN KEY (`file_id`)
+                                 REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO roles (name)
@@ -1033,6 +1037,15 @@ VALUES  (1, 666148838500, 'Testing', 'not to crash', 1, '2000-1-2', 14, '2000-1-
         (7, 666148838522, 'Testing', 'not to crash', 1, '2000-1-2', 14, '2000-1-1', '2000-1-1', 0, 1, '2000-1-1', '2000-1-1', 1);
 
 
+INSERT INTO addresses (zip_code, city, street, place, company_id, description)
+VALUES ('123', 'Moscow', 'Tverskay', '125',1, 'test'),
+        ('222', 'Kaliningrad', 'First', '1',2, 'test');
+
+INSERT INTO company_phones (company_id, phone, description)
+VALUES (1,'22566','test'),
+        (1,'22222566','test2'),
+        (2,'2222566','test3');
+
 INSERT INTO invoices (number, invoice_date, path, from_company_id, destination_id, description, entity_status, user_id)
 VALUES  ('000', '2019-1-12', '/home/intruder/invoice.pdf', '1', '2', 'Прибыл из пункта А в пункт Б', 1, '1'),
         ('001', '2019-1-1', '/home/intruder/invoice1.pdf', '2', '1', 'Прибыл из пункта Б в пункт А', 1, '1'),
@@ -1109,6 +1122,12 @@ VALUES ('Система 1', 'система_1'),
        ('Система 18', 'система_18'),
        ('Система 19', 'система_19'),
        ('Система 20', 'система_20');
+
+INSERT INTO employees (name, last_name, patronymic, position, email, work_phone, mobil_phone, company_id)
+VALUES ('Vasyl', 'Petrov', 'Ivanych', 'boss','123@bb', '123456','2232445',1),
+('Vasyl', 'Petrov', 'Ivanych', 'boss','123@bb', '123456','2232445',1),
+('Oleg', 'Ivanov', 'Evgenyevich', 'small boss','23665@aa', '54664','1233445',1),
+('Veeeasyl', 'Petrowev', 'Ivaneewch', 'beeoss','1wwe23@bb', '1224243456','2232222',2);
 
 
 SET FOREIGN_KEY_CHECKS = 1;

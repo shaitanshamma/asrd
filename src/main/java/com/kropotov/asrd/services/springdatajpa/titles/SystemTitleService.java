@@ -20,11 +20,7 @@ public class SystemTitleService implements TitleService<SystemTitle, Long> {
 
     @Override
     public Optional<List<SystemTitle>> getAll() {
-        if (systemTitleRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(systemTitleRepository.findAll());
-        }
+        return Optional.ofNullable(systemTitleRepository.findAll());
     }
 
     @Override
@@ -42,7 +38,7 @@ public class SystemTitleService implements TitleService<SystemTitle, Long> {
         return systemTitleRepository.findByTitle(title);
     }
 
-    public List<SystemTitle> getAllByTopic(Topic topic){
+    public List<SystemTitle> getAllByTopic(Topic topic) {
         ArrayList<Topic> topicList = new ArrayList<>();
         topicList.add(topic);
         return (List<SystemTitle>) systemTitleRepository.findAllByTopicsId(topic.getId());

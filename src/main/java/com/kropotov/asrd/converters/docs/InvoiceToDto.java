@@ -1,6 +1,6 @@
 package com.kropotov.asrd.converters.docs;
 
-import com.kropotov.asrd.converters.CompanyToDto;
+import com.kropotov.asrd.converters.company.CompanyToDto;
 import com.kropotov.asrd.converters.simples.items.ControlSystemToSimple;
 import com.kropotov.asrd.converters.simples.items.DeviceToSimple;
 import com.kropotov.asrd.dto.docs.InvoiceDto;

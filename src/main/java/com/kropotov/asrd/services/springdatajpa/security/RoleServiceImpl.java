@@ -25,11 +25,7 @@ public class RoleServiceImpl implements RoleService<Role, Long> {
 
     @Override
     public Optional<List<Role>> getAll() {
-        if (roleRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(roleRepository.findAll());
-        }
+            return Optional.ofNullable(roleRepository.findAll());
     }
 
     @Override

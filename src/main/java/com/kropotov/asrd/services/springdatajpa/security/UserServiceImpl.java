@@ -1,7 +1,7 @@
 package com.kropotov.asrd.services.springdatajpa.security;
 
-import com.kropotov.asrd.entities.Role;
 import com.kropotov.asrd.dto.SystemUser;
+import com.kropotov.asrd.entities.Role;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.repositories.RoleRepository;
 import com.kropotov.asrd.repositories.StatusUserRepository;
@@ -21,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
@@ -120,5 +119,4 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
-
 }

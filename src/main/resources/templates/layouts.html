@@ -46,6 +46,9 @@
             <li class="nav-item" th:classappend="${activeTab == 'Acts' ? 'active' : ''}">
                 <a class="nav-link" th:href="@{/acts}">Вх. контроль<span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item" th:if="${activeTab == 'Error'}" th:classappend="${activeTab == 'Error' ? 'active' : ''}">
+                <a class="nav-link" href=#>Ошибка<span class="sr-only">(current)</span></a>
+            </li>
             <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')"
                 th:classappend="${activeTab == 'Admin' ? 'active' : ''}">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
