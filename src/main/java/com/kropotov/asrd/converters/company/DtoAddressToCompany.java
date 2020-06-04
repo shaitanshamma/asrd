@@ -23,6 +23,15 @@ public class DtoAddressToCompany implements Converter<AddressDto, Address> {
         if (addressDto == null) {
             return null;
         }
+        if (addressDto.getId() == null) {
+            final Address address = new Address();
+            address.setCity(addressDto.getCity());
+            address.setDescription(addressDto.getDescription());
+            address.setPlace(addressDto.getPlace());
+            address.setZipCode(addressDto.getZipCode());
+            address.setStreet(addressDto.getStreet());
+            return address;
+        }
         Optional<Address> address = addressService.getById(addressDto.getId());
         address.get().setCity(addressDto.getCity());
         address.get().setDescription(addressDto.getDescription());

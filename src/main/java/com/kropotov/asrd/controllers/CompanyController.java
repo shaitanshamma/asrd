@@ -3,6 +3,7 @@ package com.kropotov.asrd.controllers;
 import com.kropotov.asrd.dto.company.AddressDto;
 import com.kropotov.asrd.dto.company.CompanyPhoneDto;
 import com.kropotov.asrd.dto.company.EmployeeDto;
+import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.facades.CompanyFacade;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class CompanyController {
 
     @GetMapping("")
     public String showCompanies(Model model, Pageable pageable) {
-        companyFacade.fillPage(model, pageable);
+        model.addAttribute("company",companyFacade.fillPage(model, pageable));
         return "companies/list-companies";
     }
 
@@ -48,10 +49,43 @@ public class CompanyController {
         return "companies/add-company";
     }
 
-    @PostMapping("/create")
-    public String addCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model) {
-        if (companyFacade.saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
-        return "redirect:/companies/";
+    @GetMapping("/{companyId}/address/create")
+    public String addAddressPage(Model model, @PathVariable("companyId") Long companyId ) {
+        model.addAttribute("address", companyFacade.addAddress());
+        model.addAttribute("company", companyFacade.getCompanyDTOById(companyId));
+        return "companies/add-address";
+    }
+
+    @PostMapping("/{companyId}/address/create")
+    public String addCompany(@Valid @ModelAttribute("address") AddressDto address, BindingResult bindingResult, Model model,
+                             @PathVariable("companyId") Long companyId) {
+        return companyFacade.saveAddress(address,companyId);
+    }
+
+    @GetMapping("/{companyId}/phone/create")
+    public String addCompanyPhonePage(Model model, @PathVariable("companyId") Long companyId ) {
+        model.addAttribute("phone", companyFacade.addCompanyPhone());
+        model.addAttribute("company", companyFacade.getCompanyDTOById(companyId));
+        return "companies/add-company-phone";
+    }
+
+    @PostMapping("/{companyId}/phone/create")
+    public String addCompanyPhonePage(@Valid @ModelAttribute("phone") CompanyPhoneDto companyPhoneDto, BindingResult bindingResult, Model model,
+                             @PathVariable("companyId") Long companyId) {
+        return companyFacade.savePhone(companyPhoneDto,companyId);
+    }
+
+    @GetMapping("/{companyId}/employee/create")
+    public String addCompanyEmployeePage(Model model, @PathVariable("companyId") Long companyId ) {
+        model.addAttribute("employee", companyFacade.addEmployee());
+        model.addAttribute("company", companyFacade.getCompanyDTOById(companyId));
+        return "companies/add-company-employee";
+    }
+
+    @PostMapping("/{companyId}/employee/create")
+    public String addCompanyEmployeePage(@Valid @ModelAttribute("phone") EmployeeDto employeeDto, BindingResult bindingResult, Model model,
+                                      @PathVariable("companyId") Long companyId) {
+        return companyFacade.saveEmployee(employeeDto,companyId);
     }
 
     @GetMapping("/{id}/show")

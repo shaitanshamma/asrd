@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head th:replace="layouts :: header"></head>
+
+<body>
+
+<nav th:replace="layouts :: navbar(Companies)"></nav>
+
+<div class="container">
+    <div class="form-group">
+        <div class="col-xs-15">
+<!--            <div th:if="${companyCreationError != null}">-->
+<!--                <div class="alert alert-danger col-xs-offset-1 col-xs-10">-->
+<!--                    <span th:text="${companyCreationError}" ></span>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+
+    <form th:action="@{'/companies/' +${company.id}+'/address/create/'}" th:object="${address}" method="post">
+<!--        <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">-->
+
+<!--        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" ></div>-->
+
+        <div class="form-group">
+            <label for="zipCode">Индекс</label>
+            <input type="text" th:field="*{zipCode}" class="form-control" id="zipCode" placeholder="Введите индекс">
+            <label for="city">Город</label>
+            <input type="text" th:field="*{city}" class="form-control" id="city" placeholder="Введите название города">
+            <label for="street">Улица</label>
+            <input type="text" th:field="*{street}" class="form-control" id="street" placeholder="Введите название улицы">
+            <label for="place">Дом/офис</label>
+            <input type="text" th:field="*{place}" class="form-control" id="place" placeholder="Введите номер дома">
+            <label for="description">Описание</label>
+            <input type="text" th:field="*{description}" class="form-control" id="description" placeholder="Описание">
+            <input hidden type="text" th:field="*{company}" th:value="${company.id}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

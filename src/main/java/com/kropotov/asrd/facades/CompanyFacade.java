@@ -44,14 +44,20 @@ public class CompanyFacade {
     private List<AddressDto> addressDtos;
     private List<CompanyPhoneDto> companyPhoneDtos;
 
-    // Тут нужно переделать на dto, Я сделал просто чтобы работало
+//    // Тут нужно переделать на dto, Я сделал просто чтобы работало
+//    public List<CompanyDto> fillPage(Model model, Pageable pageable) {
+//        //companyDtos = companyService.getAll().get().stream().map(company -> companyToDto.convert(company)).collect(Collectors.toList());
+//        pageable = PageValues.getPageableOrDefault(pageable);
+//        PageWrapper<Company> page = new PageWrapper<>(companyService.getAll(pageable.previousOrFirst()), "/companies");
+//        PageValues.addContentToModel(model,page);
+//        return companyDtos;
+//    }
+
     public List<CompanyDto> fillPage(Model model, Pageable pageable) {
-        //companyDtos = companyService.getAll().get().stream().map(company -> companyToDto.convert(company)).collect(Collectors.toList());
-        pageable = PageValues.getPageableOrDefault(pageable);
-        PageWrapper<Company> page = new PageWrapper<>(companyService.getAll(pageable.previousOrFirst()), "/companies");
-        PageValues.addContentToModel(model, page);
+        companyDtos = companyService.getAll().get().stream().map(company -> companyToDto.convert(company)).collect(Collectors.toList());
         return companyDtos;
     }
+
 
     public List<EmployeeDto> showEmployeesByCompanyId(Long id) {
 
@@ -82,6 +88,17 @@ public class CompanyFacade {
     public Company addCompany() {
         return new Company();
     }
+    public Address addAddress() {
+        return new Address();
+    }
+
+    public CompanyPhoneDto addCompanyPhone() {
+        return new CompanyPhoneDto();
+    }
+
+    public EmployeeDto addEmployee() {
+        return new EmployeeDto();
+    }
 //
 //    @PostMapping("/add/")
 //    public String addCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model) {
@@ -106,8 +123,9 @@ public class CompanyFacade {
     //
     public String saveAddress(AddressDto addressDto, Long companyId) {
         Address address = dtoAddressToCompany.convert(addressDto);
+        address.setCompany(companyService.getById(companyId).get());
         addressService.save(address);
-        String url = String.format("redirect:/companies/company/%s/show",companyId);
+        String url = String.format("redirect:/companies/%s/show",companyId);
         return url;
     }
 //
@@ -119,8 +137,9 @@ public class CompanyFacade {
     //
     public String savePhone(CompanyPhoneDto phoneDto, Long companyId) {
         CompanyPhone companyPhone = dtoCompanyPhoneToCompanyPhone.convert(phoneDto);
+        companyPhone.setCompany(companyService.getById(companyId).get());
         companyPhoneService.save(companyPhone);
-        String url = String.format("redirect:/companies/company/%s/show", companyId);
+        String url = String.format("redirect:/companies/%s/show", companyId);
         return url;
     }
 
@@ -132,8 +151,9 @@ public class CompanyFacade {
 
     public String saveEmployee(EmployeeDto employeeDto,Long companyId) {
         Employee employee = dtoEmployeeToCompany.convert(employeeDto);
+        employee.setCompany(companyService.getById(companyId).get());
         employeeService.save(employee);
-        String url = String.format("redirect:/companies/company/%s/show", companyId);
+        String url = String.format("redirect:/companies/%s/show", companyId);
         return url;
     }
 
@@ -150,6 +170,15 @@ public class CompanyFacade {
             return true;
         }
         companyService.save(company);
+        return false;
+    }
+
+    public boolean saveOrEditAddress(Address address, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("companyCreationError", "BindingResult error!");
+            return true;
+        }
+        addressService.save(address);
         return false;
     }
 
