@@ -57,6 +57,7 @@
             <th>Телефон</th>
             <th>Описание</th>
             <th sec:authorize="hasRole('ADMIN')">Изменить</th>
+            <th sec:authorize="hasRole('ADMIN')">Удалить</th>
         </tr>
         </thead>
         <tbody>
@@ -68,6 +69,10 @@
             <td sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}+'/update/'}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
+            </td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}+'/delete/'}"
+                   class="btn btn-danger btn-sm mb-3" >Удалить</a>
             </td>
         </tr>
         </tbody>
@@ -91,6 +96,7 @@
             <th>Дом</th>
             <th>Описание</th>
             <th sec:authorize="hasRole('ADMIN')">Изменить</th>
+            <th sec:authorize="hasRole('ADMIN')">Удалить</th>
         </tr>
         </thead>
         <tbody>
@@ -105,6 +111,10 @@
             <td sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/update/'}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
+            </td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/delete/'}"
+                   class="btn btn-danger btn-sm mb-3" >Удалить</a>
             </td>
         </tr>
         </tbody>
@@ -131,6 +141,7 @@
             <th>Рабочий телефон</th>
             <th>Мобильный телефон</th>
             <th sec:authorize="hasRole('ADMIN')">Изменить</th>
+            <th sec:authorize="hasRole('ADMIN')">Удалить</th>
         </tr>
         </thead>
         <tbody>
@@ -146,6 +157,10 @@
             <td sec:authorize="hasRole('ADMIN')">
                 <a th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}+'/update/'}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
+            </td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}+'/delete/'}"
+                   class="btn btn-danger btn-sm mb-3" >Удалить</a>
             </td>
         </tr>
         </tbody>
