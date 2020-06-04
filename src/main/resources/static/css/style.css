@@ -11,3 +11,8 @@
     .container, .container-lg, .container-md, .container-sm, .container-xl {
         max-width: 1340px;
     }}
+
+.error{
+    color: red;
+    font-weight: bold;
+}
