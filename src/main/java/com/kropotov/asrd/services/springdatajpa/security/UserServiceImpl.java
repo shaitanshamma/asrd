@@ -69,11 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<List<User>> getAll() {
-        if (userRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(userRepository.findAll());
-        }
+        return Optional.ofNullable(userRepository.findAll());
     }
 
     @Override
