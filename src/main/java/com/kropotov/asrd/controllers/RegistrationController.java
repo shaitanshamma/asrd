@@ -33,21 +33,19 @@ public class RegistrationController {
 
     @PostMapping("/processRegistrationForm")
     public String processRegistrationForm(@Valid @ModelAttribute("systemUser") SystemUser theSystemUser, BindingResult theBindingResult, Model theModel) {
-        String userName = theSystemUser.getUserName();
-        log.info("Processing registration form for: " + userName);
+        log.info("Processing registration form for: " + theSystemUser.getUserName());
         if (theBindingResult.hasErrors()) {
+            theModel.addAttribute("systemUser", theSystemUser);
             return "registration-form";
         }
-        User existing = userService.findByUserName(userName);
-        if (existing != null) {
-            // theSystemUser.setUserName(null);
+        if (userService.findByUserName(theSystemUser.getUserName()) != null) {
             theModel.addAttribute("systemUser", theSystemUser);
-            theModel.addAttribute("registrationError", "User name already exists");
+            theModel.addAttribute("registrationError", "Такое имя пользователя уже существует!");
             log.info("User name already exists.");
             return "registration-form";
         }
         userService.saveDto(theSystemUser);
-        log.info("Successfully created user: " + userName);
+        log.info("Successfully created user: " + theSystemUser.getUserName());
         return "registration-confirmation";
     }
 }

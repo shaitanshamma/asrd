@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -83,7 +84,7 @@ public class UserServiceImpl implements UserService {
     // TODO Алексей Токарев
     @Override
     public User save(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
@@ -92,6 +93,9 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findOneByUserName(userName);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        else if(user.getStatusUser().getName().equals("not confirmed")) {
+            throw new UsernameNotFoundException("User not activated");
         }
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));

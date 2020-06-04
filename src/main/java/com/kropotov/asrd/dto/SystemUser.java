@@ -15,20 +15,19 @@ import java.util.Collection;
 
 @Data
 @NoArgsConstructor
-@FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
+@FieldMatch(first = "password", second = "matchingPassword", message = "Поля пароля должны совпадать")
 public class SystemUser {
 
     private Long id;
 
     @NotNull(message = "not null check")
     @Size(min = 3, message = "username length must be greater than 2 symbols")
-//    @Pattern(regexp = "^[a-zA-Z0-9]{5}", message = "only 5 letters/digits")
     private String userName;
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String password;
-//
+
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String matchingPassword;
