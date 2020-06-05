@@ -3,12 +3,14 @@ package com.kropotov.asrd.services.email;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
-public class Message {
+public abstract class Message {
 
     private String messageFrom; // от кого (адрес почтового ящика)
     private String messageContent;  // содержание письма
-    private String messageTo;   // кому (адрес почтового ящика)
+    private Set<String> recipients;   // кому (адрес почтового ящика)
 
 }
