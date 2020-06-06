@@ -44,7 +44,7 @@
 
     <h1>Телефоны</h1>
     <hr>
-    <div >
+    <div>
         <a th:href="@{'/companies/' +${company.id}+'/phone/create/'}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
@@ -62,7 +62,7 @@
         </thead>
         <tbody>
         <tr th:each="phon, iterator : ${phones}" th:attr="sys_id=${company.id}">
-<!--            th:onclick="'window.location.href=\'companies/' + ${phon.id} + '\'; return false'">-->
+            <!--            th:onclick="'window.location.href=\'companies/' + ${phon.id} + '\'; return false'">-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${phon.phone}"></td>
             <td th:text="${phon.description}"></td>
@@ -71,8 +71,45 @@
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}+'/delete/'}"
-                   class="btn btn-danger btn-sm mb-3" >Удалить</a>
+                <button type="button" class="btn btn-danger btn-sm mb-3" data-toggle="modal"
+                        th:attr="data-target='#recordDeleteModalPhone'+${phon.id}">Удалить
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='recordDeleteModalPhone'+${phon.id}" tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="recordDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recordDeleteModalPhone">Удаление телефона</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Вы уверены, что хотите удалить этот телефон?
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <th>Телефон</th>
+                                        <th>Описание</th>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${phon.phone}"></td>
+                                        <td th:text="${phon.description}"></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                                <a href="newRecordForm.html" class="btn btn-primary"
+                                   th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}+'/delete/'}">Да</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal end -->
             </td>
         </tr>
         </tbody>
@@ -80,7 +117,7 @@
 
     <h1>Адреса</h1>
     <hr>
-    <div >
+    <div>
         <a th:href="@{'/companies/' +${company.id}+'/address/create/'}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
@@ -101,7 +138,7 @@
         </thead>
         <tbody>
         <tr th:each="address, iterator : ${addresses}" th:attr="sys_id=${company.id}">
-<!--            th:onclick="'window.location.href=\'companies/' + ${address.id} + '\'; return false'"-->
+            <!--            th:onclick="'window.location.href=\'companies/' + ${address.id} + '\'; return false'"-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${address.zipCode}"></td>
             <td th:text="${address.city}"></td>
@@ -113,8 +150,47 @@
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/delete/'}"
-                   class="btn btn-danger btn-sm mb-3" >Удалить</a>
+                <button type="button" class="btn btn-danger btn-sm mb-3" data-toggle="modal"
+                        th:attr="data-target='#recordDeleteModalAddress'+${address.id}">Удалить
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='recordDeleteModalAddress'+${address.id}" tabindex="-1"
+                     role="dialog"
+                     aria-labelledby="recordDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recordDeleteModalLabelAddress">Удаление адреса</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Вы уверены, что хотите удалить этот адрес?
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <th>Город</th>
+                                        <th>Улица</th>
+                                        <th>Дом</th>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${address.city}"></td>
+                                        <td th:text="${address.street}"></td>
+                                        <td th:text="${address.place}"></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                                <a href="newRecordForm.html" class="btn btn-primary"
+                                   th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/delete/'}">Да</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal end -->
             </td>
         </tr>
         </tbody>
@@ -123,13 +199,13 @@
 
     <h1>Информация о сотрудниках</h1>
     <hr>
-    <div >
+    <div>
         <a th:href="@{'/companies/' +${company.id}+'/employee/create/'}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
         </a>
     </div>
-    <table  class="table table-hover">
+    <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>№ п/п</th>
@@ -159,8 +235,46 @@
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}+'/delete/'}"
-                   class="btn btn-danger btn-sm mb-3" >Удалить</a>
+                <button type="button" class="btn btn-danger btn-sm mb-3" data-toggle="modal"
+                        th:attr="data-target='#recordDeleteModalEmployee'+${emp.id}">Удалить
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='recordDeleteModalEmployee'+${emp.id}" tabindex="-1" role="dialog"
+                     aria-labelledby="recordDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recordDeleteModalEmployee">Удаление сотрудника</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Вы уверены, что хотите удалить этого сотрудника?
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Фамилия</th>
+                                        <th>Отчество</th>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${emp.name}"></td>
+                                        <td th:text="${emp.lastName}"></td>
+                                        <td th:text="${emp.patronymic}"></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                                <a href="newRecordForm.html" class="btn btn-primary"
+                                   th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}+'/delete/'}">Да</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal end -->
             </td>
         </tr>
         </tbody>

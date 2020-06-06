@@ -182,4 +182,27 @@ public class CompanyFacade {
         return false;
     }
 
+    public String deleteAddress(AddressDto addressDto, Long companyId) {
+        Address address = dtoAddressToCompany.convert(addressDto);
+        address.setCompany(companyService.getById(companyId).get());
+        addressService.deleteById(address.getId());
+        String url = String.format("redirect:/companies/%s/show",companyId);
+        return url;
+    }
+
+    public String deletePhone(CompanyPhoneDto phoneDto, Long companyId) {
+        CompanyPhone companyPhone = dtoCompanyPhoneToCompanyPhone.convert(phoneDto);
+        companyPhone.setCompany(companyService.getById(companyId).get());
+        companyPhoneService.deleteById(companyPhone.getId());
+        String url = String.format("redirect:/companies/%s/show", companyId);
+        return url;
+    }
+
+    public String deleteEmployee(EmployeeDto employeeDto, Long companyId) {
+        Employee employee = dtoEmployeeToCompany.convert(employeeDto);
+        employee.setCompany(companyService.getById(companyId).get());
+        employeeService.deleteById(employee.getId());
+        String url = String.format("redirect:/companies/%s/show", companyId);
+        return url;
+    }
 }
