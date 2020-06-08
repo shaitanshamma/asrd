@@ -1,8 +1,12 @@
 package com.kropotov.asrd.services.email;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 
 @Getter
@@ -19,5 +23,7 @@ public class EmailMessage extends Message {
 
     public EmailMessage() {
         contentType = "text/plain";
+        setRecipients(new HashSet<>());
     }
+
 }
