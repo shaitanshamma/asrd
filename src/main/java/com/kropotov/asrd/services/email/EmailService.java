@@ -26,12 +26,12 @@ public class EmailService implements MessageService<EmailMessage> {
         for (String recipient : emailMessage.getRecipients()) {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             try {
-                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
                 mimeMessageHelper.setSubject(emailMessage.getMailSubject());
                 mimeMessageHelper.setFrom(emailMessage.getMessageFrom());
                 mimeMessageHelper.setTo(recipient);
                 mimeMessageHelper.setText(emailMessage.getMessageContent());
-                List<File> listAttachments = emailMessage.getAttachments();
+//                List<File> listAttachments = emailMessage.getAttachments();
                 if (emailMessage.getAttachments() != null) {
                     emailMessage.getAttachments().stream().forEach(f -> {
                         try {

@@ -12,5 +12,4 @@ public abstract class Message {
     private String messageFrom; // от кого (адрес почтового ящика)
     private String messageContent;  // содержание письма
     private Set<String> recipients;   // кому (адрес почтового ящика)
-
 }

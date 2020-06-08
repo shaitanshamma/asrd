@@ -122,6 +122,13 @@
             <version>${org.mapstruct.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.icegreen</groupId>
+            <artifactId>greenmail</artifactId>
+            <version>1.5.5</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Лучше использовать что-то более точечное а не такое общее TODO если потребуется микросервисная -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-consul-all -->
 <!--		<dependency>
