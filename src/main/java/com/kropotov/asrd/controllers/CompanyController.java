@@ -110,6 +110,12 @@ public class CompanyController {
         return companyFacade.saveAddress(addressDto, companyId);
     }
 
+    @GetMapping("/{companyId}/address/{id}/delete")
+    public String deleteCompanyAddressPage(@Valid @ModelAttribute("address") AddressDto addressDto, BindingResult bindingResult, Model model,
+                                         @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
+        return companyFacade.deleteAddress(addressDto, companyId);
+    }
+
     @GetMapping("/{companyId}/phone/{id}/update")
     public String editCompanyPhonePage(Model model, @PathVariable("id") Long id,@PathVariable("companyId") Long companyId) {
         model.addAttribute("phone", companyFacade.getPhoneById(id));
@@ -123,6 +129,13 @@ public class CompanyController {
         return companyFacade.savePhone(phoneDto,companyId);
     }
 
+
+    @GetMapping("/{companyId}/phone/{id}/delete")
+    public String deleteCompanyPhonePage(@Valid @ModelAttribute("phone") CompanyPhoneDto phoneDto, BindingResult bindingResult, Model model,
+                                       @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
+        return companyFacade.deletePhone(phoneDto,companyId);
+    }
+
     @GetMapping("/{companyId}/employee/{id}/update")
     public String editCompanyEmployeePage(Model model, @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
         model.addAttribute("employee", companyFacade.getEmployeeById(id));
@@ -134,6 +147,12 @@ public class CompanyController {
     public String editCompanyEmployeePage(@Valid @ModelAttribute("employee") EmployeeDto employeeDto,
                                           @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
         return companyFacade.saveEmployee(employeeDto, companyId);
+    }
+
+    @GetMapping("/{companyId}/employee/{id}/delete")
+    public String deleteCompanyEmployeePage(@Valid @ModelAttribute("employee") EmployeeDto employeeDto,
+                                          @PathVariable("id") Long id, @PathVariable("companyId") Long companyId) {
+        return companyFacade.deleteEmployee(employeeDto, companyId);
     }
 
 }
