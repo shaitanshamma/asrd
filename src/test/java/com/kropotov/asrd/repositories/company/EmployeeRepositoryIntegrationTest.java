@@ -2,7 +2,7 @@ package com.kropotov.asrd.repositories.company;
 
 import com.kropotov.asrd.entities.company.Company;
 import com.kropotov.asrd.entities.company.Employee;
-import org.checkerframework.checker.units.qual.C;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,45 +19,49 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class EmployeeRepositoryIntegrationTest {
 
+    private List<Employee> employees = new ArrayList<>();
+    private Company company = new Company();
+
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Test
-    public void whenFindByMobilPhone_thenReturnEmployee() {
+    @Before
+    public void setUp() {
 
-        Employee employee = new Employee();
-        employee.setMobilPhone("12345");
-        entityManager.persist(employee);
-        entityManager.flush();
-
-        Employee found = employeeRepository.findByMobilPhone(employee.getMobilPhone());
-
-        assertThat(found.getMobilPhone()).isEqualTo(employee.getMobilPhone());
-    }
-    @Test
-    public void whenFindByEmail_thenReturnEmployee() {
-
-        Employee employee = new Employee();
-        employee.setEmail("123@mail.ru");
-        entityManager.persist(employee);
-        entityManager.flush();
-
-        Employee found = employeeRepository.findOneByEmail(employee.getEmail());
-
-        assertThat(found.getEmail()).isEqualTo(employee.getEmail());
-    }
-    @Test
-    public void whenFindAll_thenReturnListEmployee() {
-        List<Employee> employees = new ArrayList<>();
-        for (int i = 0; i <5 ; i++) {
+        for (int i = 0; i < 5; i++) {
             Employee employee_i = new Employee();
+            employee_i.setEmail("123@mail.ru_"+ i);
+            employee_i.setMobilPhone("12345_" + i);
+            employee_i.setCompany(company);
             employees.add(employee_i);
             entityManager.persist(employee_i);
+            entityManager.persist(company);
         }
         entityManager.flush();
+    }
+
+    @Test
+    public void whenFindByMobilPhone_thenReturnEmployee() {
+        String mobilPhone = "12345_1";
+
+        Employee found = employeeRepository.findByMobilPhone(mobilPhone);
+
+        assertThat(found.getMobilPhone()).isEqualTo(mobilPhone);
+    }
+
+    @Test
+    public void whenFindByEmail_thenReturnEmployee() {
+        String email="123@mail.ru_1";
+        Employee found = employeeRepository.findOneByEmail(email);
+
+        assertThat(found.getEmail()).isEqualTo(email);
+    }
+
+    @Test
+    public void whenFindAll_thenReturnListEmployee() {
 
         List<Employee> found = employeeRepository.findAll();
 
@@ -66,16 +70,6 @@ public class EmployeeRepositoryIntegrationTest {
 
     @Test
     public void whenFindAllByCompany_thenReturnListEmployee() {
-        List<Employee> employees = new ArrayList<>();
-        Company company = new Company();
-        for (int i = 0; i <5 ; i++) {
-            Employee employee_i = new Employee();
-            employee_i.setCompany(company);
-            employees.add(employee_i);
-            entityManager.persist(employee_i);
-            entityManager.persist(company);
-        }
-        entityManager.flush();
 
         List<Employee> found = employeeRepository.findAllByCompany(company);
 
