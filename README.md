@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/sportarty/asrd.svg?style=svg)](https://circleci.com/gh/sportarty/asrd)
+
+
 # asrd
 Автоматизированная система учета документации/приборов.
 
