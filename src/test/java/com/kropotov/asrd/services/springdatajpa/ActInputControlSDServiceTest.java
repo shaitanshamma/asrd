@@ -6,6 +6,7 @@ import com.kropotov.asrd.entities.docs.ActInputControl;
 import com.kropotov.asrd.repositories.ActInputControlRepository;
 import com.kropotov.asrd.services.springdatajpa.docs.ActInputControlSDService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -40,6 +41,7 @@ class ActInputControlSDServiceTest {
         actInputControlSDService = new ActInputControlSDService(actInputControlRepository, actInputControlToDto);
     }
 
+    @Disabled
     @Test
     void getAll() {
         ActInputControl act1 = new ActInputControl();
