@@ -10,6 +10,8 @@ import com.kropotov.asrd.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -84,13 +85,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userName) throws AuthenticationException {
         User user = userRepository.findOneByUserName(userName);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         else if(user.getStatusUser().getName().equals("not confirmed")) {
-            throw new UsernameNotFoundException("User not activated");
+            throw new BadCredentialsException("User \"" + user.getUserName() + "\"  not confirmed");
+        }
+        else if(user.getStatusUser().getName().equals("inactive")) {
+            throw new BadCredentialsException("User \"" + user.getUserName() + "\"  not activated");
         }
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));

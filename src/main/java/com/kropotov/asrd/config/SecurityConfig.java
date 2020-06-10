@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource; // для работы с БД (аутентификация через БД)
     private UserService userService;
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler; // собственный обработчик для успешной аутентификации
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -36,6 +37,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void setCustomAuthenticationSuccessHandler(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+    }
+
+    @Autowired
+    public void setCustomAuthenticationFailureHandler(CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
     @Override
@@ -60,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
 //                    .loginProcessingUrl("/authenticateTheUser")
                 .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
                 .permitAll()
                 .and()
                 .logout()
