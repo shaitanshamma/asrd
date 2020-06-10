@@ -4,8 +4,7 @@ package com.kropotov.asrd.controllers;
 import com.kropotov.asrd.dto.SystemUser;
 import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
+@Slf4j
 @RequestMapping("/register")
 public class RegistrationController {
     private final UserService userService;
@@ -24,14 +24,6 @@ public class RegistrationController {
     public RegistrationController(UserService userService) {
         this.userService = userService;
     }
-
-    private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-//
-//    @InitBinder
-//    public void initBinder(WebDataBinder dataBinder) {
-//        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-//        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-//    }
 
     @GetMapping
     public String displayForm(Model theModel) {
@@ -41,21 +33,19 @@ public class RegistrationController {
 
     @PostMapping("/processRegistrationForm")
     public String processRegistrationForm(@Valid @ModelAttribute("systemUser") SystemUser theSystemUser, BindingResult theBindingResult, Model theModel) {
-        String userName = theSystemUser.getUserName();
-        logger.debug("Processing registration form for: " + userName);
+        log.info("Processing registration form for: " + theSystemUser.getUserName());
         if (theBindingResult.hasErrors()) {
+            theModel.addAttribute("systemUser", theSystemUser);
             return "registration-form";
         }
-        User existing = userService.findByUserName(userName);
-        if (existing != null) {
-            // theSystemUser.setUserName(null);
+        if (userService.findByUserName(theSystemUser.getUserName()) != null) {
             theModel.addAttribute("systemUser", theSystemUser);
-            theModel.addAttribute("registrationError", "User name already exists");
-            logger.debug("User name already exists.");
+            theModel.addAttribute("registrationError", "Такое имя пользователя уже существует!");
+            log.info("User name already exists.");
             return "registration-form";
         }
         userService.saveDto(theSystemUser);
-        logger.debug("Successfully created user: " + userName);
+        log.info("Successfully created user: " + theSystemUser.getUserName());
         return "registration-confirmation";
     }
 }

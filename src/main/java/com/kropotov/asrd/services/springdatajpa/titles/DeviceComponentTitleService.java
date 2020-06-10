@@ -18,11 +18,7 @@ public class DeviceComponentTitleService implements TitleService<DeviceComponent
 
     @Override
     public Optional<List<DeviceComponentTitle>> getAll() {
-        if (deviceComponentTitleRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(deviceComponentTitleRepository.findAll());
-        }
+        return Optional.ofNullable(deviceComponentTitleRepository.findAll());
     }
 
     @Override

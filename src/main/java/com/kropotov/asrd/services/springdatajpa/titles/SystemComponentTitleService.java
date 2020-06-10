@@ -23,11 +23,7 @@ public class SystemComponentTitleService implements TitleService<SystemComponent
 
     @Override
     public Optional<List<SystemComponentTitle>> getAll() {
-        if (systemComponentTitleRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(systemComponentTitleRepository.findAll());
-        }
+        return Optional.ofNullable(systemComponentTitleRepository.findAll());
     }
 
     @Override

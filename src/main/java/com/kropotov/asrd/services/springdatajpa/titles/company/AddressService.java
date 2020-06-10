@@ -19,18 +19,13 @@ public class AddressService implements CrudService<Address, Long> {
 
     @Override
     public Optional<List<Address>> getAll() {
-        if (addressRepository.findAll() == null) {
-            return Optional.empty();
-        } else {
-            return Optional.of(addressRepository.findAll());
-        }
+        return Optional.ofNullable(addressRepository.findAll());
     }
 
     @Override
     public Optional<Address> getById(Long id) {
         return addressRepository.findById(id);
     }
-
 
 
     @Transactional
