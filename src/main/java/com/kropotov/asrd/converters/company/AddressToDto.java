@@ -15,10 +15,8 @@ public class AddressToDto implements Converter<Address, AddressDto> {
     @Nullable
     @Override
     public AddressDto convert(@NonNull Address address) {
-        if (address == null) {
-            return null;
-        }
-        final AddressDto addressDto = AddressDto.builder()
+
+        return AddressDto.builder()
                 .id(address.getId())
                 .city(address.getCity())
                 .street(address.getStreet())
@@ -26,6 +24,5 @@ public class AddressToDto implements Converter<Address, AddressDto> {
                 .zipCode(address.getZipCode())
                 .description(address.getDescription())
                 .build();
-        return addressDto;
     }
 }

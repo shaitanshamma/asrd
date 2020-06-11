@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,7 @@ public class CompanyFacade {
     private final CompanyPhoneService companyPhoneService;
     private final EmployeeService employeeService;
     private final CompanyToDto companyToDto;
+    private final DtoToCompany dtoToCompany;
     private final EmployeeToDto employeeToDto;
     private final AddressToDto addressToDto;
     private final CompanyPhoneToDto companyPhoneToDto;
@@ -158,7 +160,7 @@ public class CompanyFacade {
     }
 
     //
-    public boolean saveOrEditCompany(Company company, BindingResult bindingResult, Model model) {
+    public boolean saveOrEditCompany(CompanyDto company, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return true;
@@ -169,7 +171,7 @@ public class CompanyFacade {
             model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
             return true;
         }
-        companyService.save(company);
+        companyService.save(dtoToCompany.convert(company));
         return false;
     }
 
@@ -204,5 +206,10 @@ public class CompanyFacade {
         employeeService.deleteById(employee.getId());
         String url = String.format("redirect:/companies/%s/show", companyId);
         return url;
+    }
+
+    public void deleteCompany(Long companyId) {
+        companyService.deleteById(companyId);
+
     }
 }

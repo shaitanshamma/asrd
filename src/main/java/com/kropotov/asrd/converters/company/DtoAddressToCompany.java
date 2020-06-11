@@ -20,9 +20,7 @@ public class DtoAddressToCompany implements Converter<AddressDto, Address> {
     @Nullable
     @Override
     public Address convert(@NonNull AddressDto addressDto) {
-        if (addressDto == null) {
-            return null;
-        }
+
         if (addressDto.getId() == null) {
             final Address address = new Address();
             address.setCity(addressDto.getCity());

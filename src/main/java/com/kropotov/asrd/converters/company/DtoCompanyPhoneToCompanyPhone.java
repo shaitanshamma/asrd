@@ -20,9 +20,7 @@ public class DtoCompanyPhoneToCompanyPhone implements Converter<CompanyPhoneDto,
     @Nullable
     @Override
     public CompanyPhone convert(@NonNull CompanyPhoneDto phoneDto) {
-        if (phoneDto == null) {
-            return null;
-        }
+
         if (phoneDto.getId() == null) {
             final CompanyPhone companyPhone = new CompanyPhone();
             companyPhone.setPhone(phoneDto.getPhone());

@@ -15,10 +15,8 @@ public class EmployeeToDto implements Converter<Employee, EmployeeDto> {
     @Nullable
     @Override
     public EmployeeDto convert(@NonNull Employee employee) {
-        if (employee == null) {
-            return null;
-        }
-        final EmployeeDto employeeDto = EmployeeDto.builder()
+
+        return EmployeeDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
                 .lastName(employee.getLastName())
@@ -28,6 +26,5 @@ public class EmployeeToDto implements Converter<Employee, EmployeeDto> {
                 .mobilPhone(employee.getMobilPhone())
                 .workPhone(employee.getWorkPhone())
                 .build();
-        return employeeDto;
     }
 }

@@ -235,9 +235,9 @@
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
-                <button type="button" class="btn btn-danger btn-sm mb-3" data-toggle="modal"
-                        th:attr="data-target='#recordDeleteModalEmployee'+${emp.id}">Удалить
-                </button>
+            <button type="button" class="btn btn-danger btn-sm mb-3" data-toggle="modal"
+                    th:attr="data-target='#recordDeleteModalEmployee'+${emp.id}">Удалить
+            </button>
 
                 <!-- Modal -->
                 <div class="modal fade" th:attr="id='recordDeleteModalEmployee'+${emp.id}" tabindex="-1" role="dialog"

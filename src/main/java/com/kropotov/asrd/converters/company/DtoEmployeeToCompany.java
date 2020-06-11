@@ -20,9 +20,7 @@ public class DtoEmployeeToCompany implements Converter<EmployeeDto, Employee> {
     @Nullable
     @Override
     public Employee convert(@NonNull EmployeeDto employeeDto) {
-        if (employeeDto == null) {
-            return null;
-        }
+
         if (employeeDto.getId() == null) {
             final Employee employee = new Employee();
             employee.setName(employeeDto.getName());

@@ -13,24 +13,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CompanyToDto implements Converter<Company, CompanyDto> {
 
-//    private final CompanyService companyService;
-
-    @Synchronized
     @Nullable
     @Override
     public CompanyDto convert(@NonNull Company source) {
-        if (source == null) {
-            return null;
-        }
 
-        final CompanyDto companyDto = CompanyDto.builder()
+        return CompanyDto.builder()
                 .id(source.getId())
                 .title(source.getTitle())
                 .email(source.getEmail())
                 .fax(source.getFax())
                 .militaryRepresentation(source.getMilitaryRepresentation())
-            .build();
-
-        return companyDto;
+                .build();
     }
 }
