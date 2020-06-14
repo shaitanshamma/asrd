@@ -101,28 +101,11 @@ public class CompanyFacade {
     public EmployeeDto addEmployee() {
         return new EmployeeDto();
     }
-//
-//    @PostMapping("/add/")
-//    public String addCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model) {
-//        if (saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
-//        return "redirect:/companies/";
-//    }
-//
-//    // @Valid проверяет в соответствии с аннотациями сущности
-//    // результаты проверки приходят в BindingResult
-//    @PostMapping("/edit/{id}")
-//    public String editCompany(@Valid @ModelAttribute("company") Company company, BindingResult bindingResult, Model model, @PathVariable("id") Long id) {
-//        if (saveOrEditCompany(company, bindingResult, model)) return "companies/edit-company";
-//        return "redirect:/companies/info/{id}";
-//    }
-//
-//
 
     public AddressDto getAddressById(Long id) {
         return addressDtos.stream().filter(addressDto -> addressDto.getId() == id).findFirst().get();
     }
 
-    //
     public String saveAddress(AddressDto addressDto, Long companyId) {
         Address address = dtoAddressToCompany.convert(addressDto);
         address.setCompany(companyService.getById(companyId).get());
@@ -130,13 +113,11 @@ public class CompanyFacade {
         String url = String.format("redirect:/companies/%s/show",companyId);
         return url;
     }
-//
 
     public CompanyPhoneDto getPhoneById(Long id) {
         return companyPhoneDtos.stream().filter(phoneDto ->phoneDto.getId() == id).findFirst().get();
     }
 
-    //
     public String savePhone(CompanyPhoneDto phoneDto, Long companyId) {
         CompanyPhone companyPhone = dtoCompanyPhoneToCompanyPhone.convert(phoneDto);
         companyPhone.setCompany(companyService.getById(companyId).get());
@@ -145,11 +126,9 @@ public class CompanyFacade {
         return url;
     }
 
-    //
     public Employee getEmployeeById(Long id) {
         return employeeService.getById(id).get();
     }
-//
 
     public String saveEmployee(EmployeeDto employeeDto,Long companyId) {
         Employee employee = dtoEmployeeToCompany.convert(employeeDto);
@@ -158,8 +137,7 @@ public class CompanyFacade {
         String url = String.format("redirect:/companies/%s/show", companyId);
         return url;
     }
-
-    //
+    
     public boolean saveOrEditCompany(CompanyDto company, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("companyCreationError", "BindingResult error!");

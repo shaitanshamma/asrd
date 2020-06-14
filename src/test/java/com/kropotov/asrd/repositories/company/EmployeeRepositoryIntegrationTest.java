@@ -47,7 +47,7 @@ public class EmployeeRepositoryIntegrationTest {
     public void whenFindByMobilPhone_thenReturnEmployee() {
         String mobilPhone = "12345_1";
 
-        Employee found = employeeRepository.findByMobilPhone(mobilPhone);
+        Employee found = employeeRepository.findByMobilPhone(mobilPhone).get();
 
         assertThat(found.getMobilPhone()).isEqualTo(mobilPhone);
     }
@@ -55,7 +55,7 @@ public class EmployeeRepositoryIntegrationTest {
     @Test
     public void whenFindByEmail_thenReturnEmployee() {
         String email="123@mail.ru_1";
-        Employee found = employeeRepository.findOneByEmail(email);
+        Employee found = employeeRepository.findOneByEmail(email).get();
 
         assertThat(found.getEmail()).isEqualTo(email);
     }

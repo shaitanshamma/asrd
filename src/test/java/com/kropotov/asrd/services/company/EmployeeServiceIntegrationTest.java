@@ -10,14 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
@@ -45,8 +41,8 @@ public class EmployeeServiceIntegrationTest {
 
         employees.add(employee);
 
-        when(employeeRepository.findOneByEmail(employee.getEmail())).thenReturn(employee);
-        when(employeeRepository.findByMobilPhone(employee.getMobilPhone())).thenReturn(employee);
+        when(employeeRepository.findOneByEmail(employee.getEmail())).thenReturn(Optional.ofNullable(employee));
+        when(employeeRepository.findByMobilPhone(employee.getMobilPhone())).thenReturn(Optional.ofNullable(employee));
         when(employeeRepository.findAllByCompany(employee.getCompany())).thenReturn(employees);
         when(employeeRepository.save(employee)).thenReturn(employee);
     }

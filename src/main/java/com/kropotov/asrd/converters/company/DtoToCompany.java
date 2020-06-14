@@ -11,6 +11,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -23,6 +24,8 @@ public class DtoToCompany implements Converter<CompanyDto, Company> {
     @Nullable
     @Override
     public Company convert(@NonNull CompanyDto companyDto) {
+
+        Assert.notNull(companyDto, "Объект companyDto не может быть пустым");
 
         if (companyDto.getId() == null) {
             Company company = new Company();

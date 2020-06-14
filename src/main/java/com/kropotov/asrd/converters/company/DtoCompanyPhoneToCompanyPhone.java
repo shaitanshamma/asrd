@@ -8,6 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -20,6 +21,8 @@ public class DtoCompanyPhoneToCompanyPhone implements Converter<CompanyPhoneDto,
     @Nullable
     @Override
     public CompanyPhone convert(@NonNull CompanyPhoneDto phoneDto) {
+
+        Assert.notNull(phoneDto, "Объект phoneDto не может быть пустым");
 
         if (phoneDto.getId() == null) {
             final CompanyPhone companyPhone = new CompanyPhone();
