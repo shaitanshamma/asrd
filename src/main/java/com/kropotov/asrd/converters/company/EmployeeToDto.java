@@ -7,6 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 @Component
 @RequiredArgsConstructor
@@ -15,10 +16,10 @@ public class EmployeeToDto implements Converter<Employee, EmployeeDto> {
     @Nullable
     @Override
     public EmployeeDto convert(@NonNull Employee employee) {
-        if (employee == null) {
-            return null;
-        }
-        final EmployeeDto employeeDto = EmployeeDto.builder()
+
+        Assert.notNull(employee, "Объект employee не может быть пустым");
+
+        return EmployeeDto.builder()
                 .id(employee.getId())
                 .name(employee.getName())
                 .lastName(employee.getLastName())
@@ -28,6 +29,5 @@ public class EmployeeToDto implements Converter<Employee, EmployeeDto> {
                 .mobilPhone(employee.getMobilPhone())
                 .workPhone(employee.getWorkPhone())
                 .build();
-        return employeeDto;
     }
 }

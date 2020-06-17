@@ -45,7 +45,7 @@ public class CompanyRepositoryIntegrationTest {
 
         String title = "test_1";
 
-        Company found = companyRepository.findOneByTitle(title);
+        Company found = companyRepository.findOneByTitle(title).get();
 
         assertThat(found.getTitle()).isEqualTo(title);
     }

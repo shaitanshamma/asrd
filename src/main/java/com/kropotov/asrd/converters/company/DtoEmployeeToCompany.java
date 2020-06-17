@@ -8,6 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -20,9 +21,9 @@ public class DtoEmployeeToCompany implements Converter<EmployeeDto, Employee> {
     @Nullable
     @Override
     public Employee convert(@NonNull EmployeeDto employeeDto) {
-        if (employeeDto == null) {
-            return null;
-        }
+
+        Assert.notNull(employeeDto, "Объект employeeDto не может быть пустым");
+
         if (employeeDto.getId() == null) {
             final Employee employee = new Employee();
             employee.setName(employeeDto.getName());

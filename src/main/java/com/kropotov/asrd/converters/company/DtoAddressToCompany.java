@@ -8,6 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.Optional;
 
@@ -20,9 +21,9 @@ public class DtoAddressToCompany implements Converter<AddressDto, Address> {
     @Nullable
     @Override
     public Address convert(@NonNull AddressDto addressDto) {
-        if (addressDto == null) {
-            return null;
-        }
+
+        Assert.notNull(addressDto, "Объект addressDto не может быть пустым");
+
         if (addressDto.getId() == null) {
             final Address address = new Address();
             address.setCity(addressDto.getCity());

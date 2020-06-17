@@ -29,16 +29,59 @@
 <!--                <span th:replace="~{layouts :: sortButtons(title)}"></span>-->
             </th>
             <th>Доп. информация</th>
+            <th sec:authorize="hasRole('ADMIN')">Удалить</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="company, iterator : ${company}" th:attr="sys_id=${company.id}">
+        <tr th:each="company, iterator : ${companies}" th:attr="sys_id=${company.id}">
 <!--        <tr th:each="company, iterator : ${page.content}" th:attr="sys_id=${company.id}">-->
 <!--            <td th:text="${(page.number - 1) * page.size + iterator.count}"></td>-->
             <td th:text="${iterator.count}"></td>
             <td th:text="${company.title}"></td>
             <td>
                 <a th:href="@{'/companies/' + ${company.id} + '/show'}">"Информация"</a>
+            </td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <button type="button" class="btn btn-danger btn-sm mb-3" data-toggle="modal"
+                        th:attr="data-target='#recordDeleteModalCompany'+${company.id}">Удалить
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:attr="id='recordDeleteModalCompany'+${company.id}" tabindex="-1" role="dialog"
+                     aria-labelledby="recordDeleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recordDeleteModalCompany">Удаление компании</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Вы уверены, что хотите удалить эту компанию?
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>Факс</th>
+                                        <th>Email</th>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${company.title}"></td>
+                                        <td th:text="${company.fax}"></td>
+                                        <td th:text="${company.email}"></td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+                                <a href="newRecordForm.html" class="btn btn-primary"
+                                   th:href="@{'/companies/' +${company.id}+'/delete/'}">Да</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal end -->
             </td>
         </tr>
         </tbody>

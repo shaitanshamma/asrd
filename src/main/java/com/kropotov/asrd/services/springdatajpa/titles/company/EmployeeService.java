@@ -28,7 +28,7 @@ public class EmployeeService implements CrudService<Employee, Long> {
 
 
     public Employee getOneByEmail(String email) {
-        return employeeRepository.findOneByEmail(email);
+        return employeeRepository.findOneByEmail(email).get();
     }
 
     @Transactional
@@ -46,6 +46,6 @@ public class EmployeeService implements CrudService<Employee, Long> {
     }
 
     public Employee findOneByMobilPhone(String mobilPhone) {
-        return employeeRepository.findByMobilPhone(mobilPhone);
+        return employeeRepository.findByMobilPhone(mobilPhone).get();
     }
 }

@@ -35,7 +35,7 @@ public class CompanyService implements CrudService<Company, Long> {
     }
 
     public Company getOneByTitle(String title) {
-        return companyRepository.findOneByTitle(title);
+        return companyRepository.findOneByTitle(title).get();
     }
 
     @Transactional

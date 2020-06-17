@@ -37,7 +37,7 @@ public class CompanyServiceIntegrationTest {
         companies.add(company);
 
         when(companyRepository.findAll()).thenReturn(companies);
-        when(companyRepository.findOneByTitle(company.getTitle())).thenReturn(company);
+        when(companyRepository.findOneByTitle(company.getTitle())).thenReturn(java.util.Optional.ofNullable(company));
         when(companyRepository.findByMilitaryRepresentation(company.getMilitaryRepresentation())).thenReturn(companies);
         when(companyRepository.save(company)).thenReturn(company);
     }
