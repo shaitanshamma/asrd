@@ -21,7 +21,7 @@ public class EmailService implements MessageService<EmailMessage> {
     private final JavaMailSender mailSender;
 
     @Override
-    public void sendMessage(final @NonNull EmailMessage emailMessage) {
+    public MessageStatus sendMessage(final @NonNull EmailMessage emailMessage) {
         //emailMessage.getRecipients().add("email@mail.ru");
         for (String recipient : emailMessage.getRecipients()) {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -45,9 +45,10 @@ public class EmailService implements MessageService<EmailMessage> {
                 mailSender.send(mimeMessageHelper.getMimeMessage());
             } catch (MessagingException ex) {
                 log.error("Ошибка при формировании пакета сообщения для передачи получателю.");
-                throw new EmailException("Ошибка при формировании пакета сообщения для передачи получателю.", ex);
+                return MessageStatus.FAILED;
             }
         }
+        return MessageStatus.OK;
     }
 
 }

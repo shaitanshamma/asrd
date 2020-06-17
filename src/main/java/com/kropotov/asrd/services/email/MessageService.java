@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MessageService<T extends Message> {
 
-    void sendMessage(T message);
+    MessageStatus sendMessage(T message);
 }
