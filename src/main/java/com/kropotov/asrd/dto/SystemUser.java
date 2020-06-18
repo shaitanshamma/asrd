@@ -46,7 +46,7 @@ public class SystemUser {
 
     private Collection<Role> roles;
 
-    @ValidEmail
+//    @ValidEmail
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String email;

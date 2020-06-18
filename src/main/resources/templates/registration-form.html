@@ -59,7 +59,7 @@
                     </div>
 
 <!--                    Patronymic-->
-                    <div class="error" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{firstName}"></div>
+                    <div class="error" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                             <input th:field="*{patronymic}" type="text" pattern="[а-яёА-ЯЁ]{1,}" maxlength="255" placeholder="Отчество (*)" title="Введите отчество на русском языке" class="form-control" required/>
@@ -76,7 +76,7 @@
                     <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input th:field="*{email}" type="email" placeholder="email (*)" title="" class="form-control" required/>
+                            <input th:field="*{email}" type="email" readonly placeholder="email (*)" title="" class="form-control"/>
                     </div>
 
                     <!-- Work phone -->

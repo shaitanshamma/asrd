@@ -2,6 +2,7 @@ package com.kropotov.asrd.config;
 
 
 import com.kropotov.asrd.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,30 +19,16 @@ import javax.sql.DataSource;
 @Configuration // файл настроек
 @EnableWebSecurity // включение безопасности
 @EnableGlobalMethodSecurity(securedEnabled = true) // защита на отдельные методы
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private DataSource dataSource; // для работы с БД (аутентификация через БД)
-    private UserService userService;
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler; // собственный обработчик для успешной аутентификации
-    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    private UserService userService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler; // собственный обработчик для успешной аутентификации
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setCustomAuthenticationSuccessHandler(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
-        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
-    }
-
-    @Autowired
-    public void setCustomAuthenticationFailureHandler(CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
-        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
     @Override
