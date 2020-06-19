@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -44,7 +46,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void saveUserTest() {
+    void saveUserTest() throws NoSuchProviderException, NoSuchAlgorithmException {
         SystemUser systemUser = new SystemUser(Objects.requireNonNull(userService.getById(1L).orElse(null)));
         systemUser.setFirstName("test");
         userService.saveDto(systemUser);

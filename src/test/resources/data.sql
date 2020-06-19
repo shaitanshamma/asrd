@@ -6,8 +6,7 @@ VALUES ('ROLE_USER'),
 INSERT INTO status_user (name)
 VALUES ('active'),
        ('inactive'),
-       ('confirmed'),
-       ('not confirmed');
+       ('confirmed');
 
 
 INSERT INTO users (username, password, first_name, last_name, patronymic, email, work_phone, mobile_phone, status_user_id)

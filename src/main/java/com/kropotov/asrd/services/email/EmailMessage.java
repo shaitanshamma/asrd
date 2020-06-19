@@ -1,9 +1,6 @@
 package com.kropotov.asrd.services.email;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.File;
 import java.util.HashSet;
@@ -15,8 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 public class EmailMessage extends Message {
 
+    @NonNull
     private String mailSubject;  // тема письма
 
+    @NonNull
     private String contentType;  // тип контента
 
     private List<File> attachments;  // список вложений

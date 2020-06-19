@@ -25,7 +25,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         log.info("Exception name: {}", e.getMessage());
 
         //Переадресация в зависимости от статуса пользователя
-        if(e.getMessage().contains("not confirmed")) {
+        if(e.getMessage().contains("confirmed")) {
             response.sendRedirect(request.getContextPath() + "/login?error2");
         }
         else if(e.getMessage().contains("not activated")) {

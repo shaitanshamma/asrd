@@ -2,28 +2,24 @@ package com.kropotov.asrd.controllers;
 
 
 import com.kropotov.asrd.dto.SystemUser;
-import com.kropotov.asrd.entities.User;
 import com.kropotov.asrd.services.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 @Controller
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/register")
 public class RegistrationController {
     private final UserService userService;
-
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public String displayForm(Model theModel) {
@@ -32,8 +28,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/processRegistrationForm")
-    public String processRegistrationForm(@Valid @ModelAttribute("systemUser") SystemUser theSystemUser, BindingResult theBindingResult, Model theModel) {
+    public String processRegistrationForm(@Valid @ModelAttribute("systemUser") SystemUser theSystemUser, BindingResult theBindingResult, Model theModel) throws NoSuchProviderException, NoSuchAlgorithmException {
         log.info("Processing registration form for: " + theSystemUser.getUserName());
+        log.info("email user = {}", theSystemUser.getEmail());
         if (theBindingResult.hasErrors()) {
             theModel.addAttribute("systemUser", theSystemUser);
             return "registration-form";
