@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -143,8 +144,8 @@ public class CompanyFacade {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return true;
         }
-        Company existing = companyService.getOneByTitle(company.getTitle());
-        if (existing != null && !existing.getId().equals(company.getId())) {
+        Optional<Company> existing = companyService.getOneByTitle(company.getTitle());
+        if (existing.isPresent()&&existing.get().getId().equals(company.getId())) {
             model.addAttribute("company", company);
             model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
             return true;

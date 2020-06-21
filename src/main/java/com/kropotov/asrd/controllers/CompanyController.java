@@ -42,13 +42,13 @@ public class CompanyController {
         return String.format("redirect:/companies/%s/show", id);
     }
 
-    @GetMapping("/create")
+    @GetMapping("/company")
     public String addCompanyPage(Model model) {
         model.addAttribute("company", companyFacade.addCompany());
         return "companies/add-company";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/company")
     public String saveCompanyPage(CompanyDto company, BindingResult bindingResult, Model model) {
         companyFacade.saveOrEditCompany(company, bindingResult,model);
         return "redirect:/companies/";
