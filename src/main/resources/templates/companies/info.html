@@ -35,7 +35,7 @@
             <td th:text="${company.fax}"></td>
             <td th:text="${company.militaryRepresentation}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/'+${company.id}+'/update/'}"
+                <a th:href="@{'/companies/company/'+${company.id}}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
         </tr>
@@ -45,7 +45,7 @@
     <h1>Телефоны</h1>
     <hr>
     <div>
-        <a th:href="@{'/companies/' +${company.id}+'/phone/create/'}"
+        <a th:href="@{'/companies/company/' +${company.id}+'/phone/'}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
         </a>
@@ -67,7 +67,7 @@
             <td th:text="${phon.phone}"></td>
             <td th:text="${phon.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}+'/update/'}"
+                <a th:href="@{'/companies/company/' +${company.id}+'/phone/'+${phon.id}}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
@@ -104,7 +104,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
                                 <a href="newRecordForm.html" class="btn btn-primary"
-                                   th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}+'/delete/'}">Да</a>
+                                   th:href="@{'/companies/' +${company.id}+'/phone/'+${phon.id}}">Да</a>
                             </div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
     <h1>Адреса</h1>
     <hr>
     <div>
-        <a th:href="@{'/companies/' +${company.id}+'/address/create/'}"
+        <a th:href="@{'/companies/company/' +${company.id}+'/address/'}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
         </a>
@@ -146,7 +146,7 @@
             <td th:text="${address.place}"></td>
             <td th:text="${address.description}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/update/'}"
+                <a th:href="@{'/companies/company/' +${company.id}+'/address/'+${address.id}}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
@@ -185,7 +185,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
                                 <a href="newRecordForm.html" class="btn btn-primary"
-                                   th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/delete/'}">Да</a>
+                                   th:href="@{'/companies/' +${company.id}+'/address/'+${address.id}}">Да</a>
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
     <h1>Информация о сотрудниках</h1>
     <hr>
     <div>
-        <a th:href="@{'/companies/' +${company.id}+'/employee/create/'}"
+        <a th:href="@{'/companies/company/' +${company.id}+'/employee/'}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
         </a>
@@ -231,7 +231,7 @@
             <td th:text="${emp.workPhone}"></td>
             <td th:text="${emp.mobilPhone}"></td>
             <td sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}+'/update/'}"
+                <a th:href="@{'/companies/company/' +${company.id}+'/employee/'+${emp.id}}"
                    class="btn btn-primary btn-sm mb-3">Изменить</a>
             </td>
             <td sec:authorize="hasRole('ADMIN')">
@@ -269,7 +269,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
                                 <a href="newRecordForm.html" class="btn btn-primary"
-                                   th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}+'/delete/'}">Да</a>
+                                   th:href="@{'/companies/' +${company.id}+'/employee/'+${emp.id}}">Да</a>
                             </div>
                         </div>
                     </div>

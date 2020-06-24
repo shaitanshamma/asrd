@@ -91,6 +91,7 @@ public class CompanyFacade {
     public Company addCompany() {
         return new Company();
     }
+
     public Address addAddress() {
         return new Address();
     }
@@ -111,12 +112,12 @@ public class CompanyFacade {
         Address address = dtoAddressToCompany.convert(addressDto);
         address.setCompany(companyService.getById(companyId).get());
         addressService.save(address);
-        String url = String.format("redirect:/companies/%s/show",companyId);
+        String url = String.format("redirect:/companies/%s/show", companyId);
         return url;
     }
 
     public CompanyPhoneDto getPhoneById(Long id) {
-        return companyPhoneDtos.stream().filter(phoneDto ->phoneDto.getId() == id).findFirst().get();
+        return companyPhoneDtos.stream().filter(phoneDto -> phoneDto.getId() == id).findFirst().get();
     }
 
     public String savePhone(CompanyPhoneDto phoneDto, Long companyId) {
@@ -131,21 +132,21 @@ public class CompanyFacade {
         return employeeService.getById(id).get();
     }
 
-    public String saveEmployee(EmployeeDto employeeDto,Long companyId) {
+    public String saveEmployee(EmployeeDto employeeDto, Long companyId) {
         Employee employee = dtoEmployeeToCompany.convert(employeeDto);
         employee.setCompany(companyService.getById(companyId).get());
         employeeService.save(employee);
         String url = String.format("redirect:/companies/%s/show", companyId);
         return url;
     }
-    
+
     public boolean saveOrEditCompany(CompanyDto company, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return true;
         }
         Optional<Company> existing = companyService.getOneByTitle(company.getTitle());
-        if (existing.isPresent()&&existing.get().getId().equals(company.getId())) {
+        if (checkBindignResult(existing,company)) {
             model.addAttribute("company", company);
             model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
             return true;
@@ -167,7 +168,7 @@ public class CompanyFacade {
         Address address = dtoAddressToCompany.convert(addressDto);
         address.setCompany(companyService.getById(companyId).get());
         addressService.deleteById(address.getId());
-        String url = String.format("redirect:/companies/%s/show",companyId);
+        String url = String.format("redirect:/companies/%s/show", companyId);
         return url;
     }
 
@@ -189,6 +190,17 @@ public class CompanyFacade {
 
     public void deleteCompany(Long companyId) {
         companyService.deleteById(companyId);
+    }
 
+    private boolean checkBindignResult(Optional<Company> existing, CompanyDto companyDto) {
+        if (existing.isPresent() && existing.get().getId().equals(companyDto.getId()) &&
+                existing.get().getEmail().equals(companyDto.getEmail()) &&
+                existing.get().getFax().equals(companyDto.getFax()) &&
+                existing.get().getMilitaryRepresentation().equals(companyDto.getMilitaryRepresentation()) &&
+                existing.get().getTitle().equals(companyDto.getTitle())) {
+
+            return true;
+        }
+        return false;
     }
 }

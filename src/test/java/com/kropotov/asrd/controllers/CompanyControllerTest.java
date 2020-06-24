@@ -111,7 +111,7 @@ public class CompanyControllerTest {
 
     }
 
-    @WithMockUser(username = "admin", password = "100")
+    @WithMockUser(username = "admin", password = "100", roles = {"ADMIN"})
     @Test
     void whenGetCompanyCreatePageWithUserAndPass_thenStatus200() throws Exception {
 
