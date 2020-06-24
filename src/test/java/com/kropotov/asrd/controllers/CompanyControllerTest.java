@@ -5,7 +5,10 @@ import com.kropotov.asrd.dto.company.AddressDto;
 import com.kropotov.asrd.dto.company.CompanyDto;
 import com.kropotov.asrd.dto.company.CompanyPhoneDto;
 import com.kropotov.asrd.dto.company.EmployeeDto;
+import com.kropotov.asrd.entities.company.Address;
 import com.kropotov.asrd.entities.company.Company;
+import com.kropotov.asrd.entities.company.CompanyPhone;
+import com.kropotov.asrd.entities.company.Employee;
 import com.kropotov.asrd.facades.CompanyFacade;
 import com.kropotov.asrd.services.springdatajpa.items.DeviceService;
 import com.kropotov.asrd.services.springdatajpa.titles.company.AddressService;
@@ -103,7 +106,7 @@ public class CompanyControllerTest {
         companies.add(company);
         given(companyService.getAll()).willReturn(Optional.of(companies));
         mvc.perform(get("/companies")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.TEXT_HTML))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(view().name("companies/list-companies"))
@@ -116,10 +119,29 @@ public class CompanyControllerTest {
     void whenGetCompanyCreatePageWithUserAndPass_thenStatus200() throws Exception {
 
         mvc.perform(get("/companies/company")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.TEXT_HTML))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(view().name("companies/add-company"));
+
+    }
+
+    @WithMockUser(username = "admin", password = "100", roles = {"ADMIN"})
+    @Test
+    void whenGetCompanyEmployeeEditPageWithUserAndPass_thenStatus200() throws Exception {
+        Optional<Company> company = Optional.of(new Company(1L, "1", "1", "1", "1", new ArrayList<CompanyPhone>(),
+                new ArrayList<Address>(), new ArrayList<Employee>()));
+        Optional<Employee> employee = Optional.of(new Employee(1L, "1", "1", "1", "1", "1", "1", "1", company.get(),
+                new ArrayList<>()));
+//        CompanyDto companyDto = companyToDto.convert(company.get());
+        given(companyService.getById(1L)).willReturn(company);
+        given(employeeService.getById(1L)).willReturn(employee);
+        mvc.perform(get("companies/company/{companyId}/employee/{id}", 1L, 1L)
+                .contentType(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("employee",employee))
+                .andExpect(content().contentType("text/html;charset=UTF-8"))
+                .andExpect(view().name("companies/edit-company-employee"));
 
     }
 }
