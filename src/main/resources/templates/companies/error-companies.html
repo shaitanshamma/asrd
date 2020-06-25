@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
+<head th:replace="layouts :: header"></head>
+<meta charset="utf-8">
+<body>
+
+<nav th:replace="layouts :: navbar(Companies)"></nav>
+
+<div class="container">
+    <br>
+    <div class="form-group">
+        <div class="col-xs-15">
+            <div th:if="${companyDeletingError != null}">
+                <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                    <span th:text="${companyDeletingError}" ></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1>Каталог предприятий</h1>
+    <hr>
+    <div >
+        <a th:href="@{'/companies'}"
+           class="btn btn-primary btn-sm mb-3">Назад</a>
+    </div>
+
+    <div class="d-flex justify-content-end">
+<!--        <nav th:replace="layouts :: pagination"></nav>-->
+    </div>
+</div>
+<div th:replace="layouts :: footer"></div>
+</body>
+</html>

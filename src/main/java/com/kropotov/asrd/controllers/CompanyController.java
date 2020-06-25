@@ -55,8 +55,10 @@ public class CompanyController {
     }
 
     @GetMapping("/{companyId}/delete")
-    public String deleteCompany(@PathVariable("companyId") Long companyId) {
-        companyFacade.deleteCompany(companyId);
+    public String deleteCompany(@PathVariable("companyId") Long companyId, Model model) {
+        if (companyFacade.deleteCompany(companyId, model)) {
+            return "companies/error-companies";
+        }
         return "redirect:/companies";
     }
 
