@@ -22,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -146,12 +145,13 @@ public class CompanyFacade {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return true;
         }
-        Optional<Company> existing = Optional.ofNullable(companyService.getOneByTitle(company.getTitle()));
+        Optional<Company> existing = companyService.getOneByTitle(company.getTitle());
         if (checkBindignResult(existing, company)) {
-            model.addAttribute("company", company);
-            model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
-            return true;
-        }
+                model.addAttribute("company", company);
+                model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
+                return true;
+            }
+
         companyService.save(dtoToCompany.convert(company));
         return false;
     }
@@ -189,14 +189,8 @@ public class CompanyFacade {
         return url;
     }
 
-    public boolean deleteCompany(Long companyId, Model model) {
-        try {
-            companyService.deleteById(companyId);
-        } catch (Exception e) {
-            model.addAttribute("companyDeletingError", "Нельзя удалить компанию, у которой есть документы!");
-            return true;
-        }
-        return false;
+    public void deleteCompany(Long companyId) {
+        companyService.deleteById(companyId);
     }
 
     private boolean checkBindignResult(Optional<Company> existing, CompanyDto companyDto) {
