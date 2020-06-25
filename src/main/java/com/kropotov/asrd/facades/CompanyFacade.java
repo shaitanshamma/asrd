@@ -196,7 +196,8 @@ public class CompanyFacade {
         if (existing.isPresent() && existing.get().getId().equals(companyDto.getId()) &&
                 existing.get().getEmail().equals(companyDto.getEmail()) &&
                 existing.get().getFax().equals(companyDto.getFax()) &&
-                existing.get().getTitle().equals(companyDto.getTitle())) {
+                existing.get().getTitle().equals(companyDto.getTitle()) &&
+                existing.get().getMilitaryRepresentation().equals(companyDto.getMilitaryRepresentation())) {
             return true;
         }
         return false;
