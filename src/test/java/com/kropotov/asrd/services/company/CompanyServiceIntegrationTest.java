@@ -62,7 +62,7 @@ public class CompanyServiceIntegrationTest {
     @Test
     public void whenFindByTitle_thenCompanyShouldBeSave() {
         String title = "1";
-        Company found = companyService.getOneByTitle(title);
+        Company found = companyService.getOneByTitle(title).get();
 
         assertThat(found).isEqualTo(company);
     }

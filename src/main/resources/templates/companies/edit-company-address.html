@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form th:action="@{'/companies/' +${company.id}+'/address/'+${address.id}+'/update/'}"
+    <form th:action="@{'/companies/company/' +${company.id}+'/address/'+${address.id}}"
           th:object="${address}" method="post">
         <input hidden type="text" th:field="*{id}" class="form-control" id="systemId">
 

@@ -21,7 +21,7 @@
     <h1>Каталог предприятий</h1>
     <hr>
     <div >
-        <a th:href="@{companies/create/}"
+        <a th:href="@{companies/company/}"
            class="btn btn-primary btn-sm mb-3" sec:authorize="hasRole('ADMIN')">
             Добавить
         </a>
@@ -85,7 +85,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
                                 <a href="newRecordForm.html" class="btn btn-primary"
-                                   th:href="@{'/companies/' +${company.id}+'/delete/'}">Да</a>
+                                   th:href="@{'/companies/' +${company.id}+'/company/'}" >Да</a>
                             </div>
                         </div>
                     </div>
