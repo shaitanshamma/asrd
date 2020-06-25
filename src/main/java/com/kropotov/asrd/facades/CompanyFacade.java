@@ -189,8 +189,14 @@ public class CompanyFacade {
         return url;
     }
 
-    public void deleteCompany(Long companyId) {
-        companyService.deleteById(companyId);
+    public boolean deleteCompany(Long companyId, Model model) {
+        try {
+            companyService.deleteById(companyId);
+        } catch (Exception e) {
+            model.addAttribute("companyDeletingError", "Нельзя удалить компанию, у которой есть документы!");
+            return true;
+        }
+        return false;
     }
 
     private boolean checkBindignResult(Optional<Company> existing, CompanyDto companyDto) {
