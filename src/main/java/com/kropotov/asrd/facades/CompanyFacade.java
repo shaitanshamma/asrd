@@ -145,12 +145,13 @@ public class CompanyFacade {
             model.addAttribute("companyCreationError", "BindingResult error!");
             return true;
         }
-        Optional<Company> existing = Optional.ofNullable(companyService.getOneByTitle(company.getTitle()));
-        if (checkBindignResult(existing,company)) {
-            model.addAttribute("company", company);
-            model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
-            return true;
-        }
+        Optional<Company> existing = companyService.getOneByTitle(company.getTitle());
+        if (checkBindignResult(existing, company)) {
+                model.addAttribute("company", company);
+                model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
+                return true;
+            }
+
         companyService.save(dtoToCompany.convert(company));
         return false;
     }

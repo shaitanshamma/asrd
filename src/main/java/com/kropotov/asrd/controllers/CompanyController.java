@@ -51,13 +51,13 @@ public class CompanyController {
     @PostMapping("/create")
     public String saveCompanyPage(CompanyDto company, BindingResult bindingResult, Model model) {
         companyFacade.saveOrEditCompany(company, bindingResult,model);
-        return "redirect:/companies/";
+        return "redirect:/companies";
     }
 
     @GetMapping("/{companyId}/delete")
     public String deleteCompany(@PathVariable("companyId") Long companyId) {
         companyFacade.deleteCompany(companyId);
-        return "redirect:/companies/";
+        return "redirect:/companies";
     }
 
     @GetMapping("/{companyId}/address/create")
