@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -146,7 +147,7 @@ public class CompanyFacade {
             return true;
         }
         Optional<Company> existing = Optional.ofNullable(companyService.getOneByTitle(company.getTitle()));
-        if (checkBindignResult(existing,company)) {
+        if (checkBindignResult(existing, company)) {
             model.addAttribute("company", company);
             model.addAttribute("companyCreationError", "Компания с таким названием уже существует!");
             return true;
@@ -188,15 +189,22 @@ public class CompanyFacade {
         return url;
     }
 
-    public void deleteCompany(Long companyId) {
-        companyService.deleteById(companyId);
+    public boolean deleteCompany(Long companyId, Model model) {
+        try {
+            companyService.deleteById(companyId);
+        } catch (Exception e) {
+            model.addAttribute("companyDeletingError", "Нельзя удалить компанию, у которой есть документы!");
+            return true;
+        }
+        return false;
     }
 
     private boolean checkBindignResult(Optional<Company> existing, CompanyDto companyDto) {
         if (existing.isPresent() && existing.get().getId().equals(companyDto.getId()) &&
                 existing.get().getEmail().equals(companyDto.getEmail()) &&
                 existing.get().getFax().equals(companyDto.getFax()) &&
-                existing.get().getTitle().equals(companyDto.getTitle())) {
+                existing.get().getTitle().equals(companyDto.getTitle()) &&
+                existing.get().getMilitaryRepresentation().equals(companyDto.getMilitaryRepresentation())) {
             return true;
         }
         return false;
